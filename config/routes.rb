@@ -1,5 +1,13 @@
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  namespace :api do
+    namespace :v1 do
+      get '/login', to: "auth#spotify_request"
+      get '/user', to: "users#create"
+      patch '/user', to: "users#update"
+    end
+  end
+  get 'sessions/:id', to: "sessions#create"
   resources :sessions, only: [:create]
   resources :registrations, only: [:create]
   delete :logout, to: "sessions#logout"

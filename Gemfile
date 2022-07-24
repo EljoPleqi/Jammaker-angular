@@ -43,7 +43,8 @@ gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
 gem "bootsnap", require: false
 gem "bcrypt", "~>  3.1", ">= 3.1.18"
 gem "rack-cors", :require => 'rack/cors'
-
+gem 'dotenv-rails'
+gem 'rest-client'
 # Use Sass to process CSS
 # gem "sassc-rails"
 

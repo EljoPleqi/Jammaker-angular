@@ -1,11 +1,12 @@
 class SessionsController < ApplicationController
   include CurrentUserConcern
 
+
   def create
-    user = User.find_by(email: params["user"]["email"])
-               .try(:authenticate, params["user"]["password"])
-    if user
-      session[:user_id] = user.id
+    if params[:id]
+      user = User.find(params[:id])
+      user = user.as_json(except: [:access_token,:refresh_token])
+      session[:id] = params[:id]
       render json: {
         status: 'created',
         logged_in: true,
