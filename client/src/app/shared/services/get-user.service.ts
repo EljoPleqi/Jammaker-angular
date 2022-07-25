@@ -12,7 +12,7 @@ export class GetUserService {
   }
 
   fetchUser(id:string | null) {
-    return this.http.get<User>(`http://localhost:3000/sessions/${id}`)
+    return this.http.get<User>(`http://localhost:3000/sessions/${id}`,{ withCredentials: true})
   }
 
 
