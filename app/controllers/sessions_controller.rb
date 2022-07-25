@@ -7,6 +7,8 @@ class SessionsController < ApplicationController
       user = User.find(params[:id])
       user = user.as_json(except: [:access_token,:refresh_token])
       session[:id] = params[:id]
+      puts session.inspect
+      puts "sessions controller"
       render json: {
         status: 'created',
         logged_in: true,

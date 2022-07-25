@@ -2,14 +2,16 @@ class Recipe < ApplicationRecord
   require "open-uri"
   belongs_to :user
   has_many :instructions
-  has_many :playlists
+  has_one :playlist
   scope :favorited, -> { where(favorite: true) }
   validates :genre, inclusion: ["pop", 'punk', 'rock', 'hiphop', 'chill', "indie_alt"]
 
   def self.scraper(recipe)
     # 1. We get the HTML page content
     @recipe = recipe
+
     html_content = URI.open(@recipe.url).read
+
     # 2. We build a Nokogiri document from this file
     doc = Nokogiri::HTML(html_content)
     @preptime = doc.search('.recipe-meta-item')[2].text.strip

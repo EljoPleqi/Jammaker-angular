@@ -9,7 +9,7 @@ import { GetUserService } from '../shared/services/get-user.service';
 export class CookbookComponent implements OnInit {
   userId: string | null = ''
 
-  constructor(private loggedUser: GetUserService) {
+  constructor( private loggedUser: GetUserService) {
     this.userId = location.pathname.split('/')[2]
 
   }

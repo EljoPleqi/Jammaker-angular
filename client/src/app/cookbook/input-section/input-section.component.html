@@ -1,0 +1,11 @@
+<div>
+  <form (ngSubmit)="onSubmit(form)" #form="ngForm">
+      <select name="genre" id="" ngModel>
+        <option value="rock">rock</option>
+        <option value="pop">pop</option>
+        <option value="classical">classical</option>
+      </select>
+      <input type="text" name="url" id="" ngModel>
+      <button type="submit">submit</button>
+  </form>
+</div>
