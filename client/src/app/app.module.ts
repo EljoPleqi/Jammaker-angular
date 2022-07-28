@@ -1,14 +1,20 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms'
-import { HttpClient, HttpClientModule } from '@angular/common/http'
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { CookbookComponent } from './cookbook/cookbook.component';
 import { InputSectionComponent } from './cookbook/input-section/input-section.component';
-import { RecipeComponent } from './cookbook/recipe/recipe.component';
+import { RecipeComponent } from './recipe/recipe.component';
+import { SidebarComponent } from './cookbook/sidebar/sidebar.component';
+import { RecipesComponent } from './cookbook/recipes/recipes.component';
+import { RecipeCardComponent } from './cookbook/recipes/recipe-card/recipe-card.component';
+import { InstructionCardComponent } from './recipe/instruction-card/instruction-card.component';
+import { IngredientsPanelComponent } from './recipe/ingredients-panel/ingredients-panel.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -16,15 +22,21 @@ import { RecipeComponent } from './cookbook/recipe/recipe.component';
     HomeComponent,
     CookbookComponent,
     InputSectionComponent,
-    RecipeComponent
+    RecipeComponent,
+    SidebarComponent,
+    RecipesComponent,
+    RecipeCardComponent,
+    InstructionCardComponent,
+    IngredientsPanelComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    FontAwesomeModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
