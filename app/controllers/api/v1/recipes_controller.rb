@@ -16,9 +16,10 @@ class Api::V1::RecipesController < ApplicationController
     @recipe = Recipe.scraper(@recipe)
     @recipe.user = @current_user
     @recipe.save
-
+    puts @current_user
     @instructions = Instruction.parse(@recipe.steps)
     @instructions.shift
+    puts @instructions
     @instructions.each do |instruction|
       instruction.gsub!(/\A\s\d*\s*/, "")
       Instruction.create(content: instruction, recipe: @recipe)

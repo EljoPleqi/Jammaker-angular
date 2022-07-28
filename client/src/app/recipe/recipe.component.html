@@ -1,0 +1,41 @@
+<div
+  *ngIf="!loading"
+  class="grid grid-cols-recipes h-full w-full p-8 grid-rows-recipes"
+>
+  <!-- left column -->
+  <div class="left">
+    <div
+      class="flex items-center justify-center gap-2 w-[41rem] h-[7rem] bg-white"
+    >
+      <h3>{{ recipe.title }}</h3>
+      <p>{{ recipe.preptime }}</p>
+      <button class="bg-[#febc2b] px-4 py-2">add to favourites</button>
+    </div>
+    <div
+      class="overflow-x-auto overflow-y-visible flex flex-col items-center justify-start p-[1.2rem] gap-4 rounded-md border-dashed border-2 border-[#4a4230] w-full"
+    >
+      <app-instruction-card
+        *ngFor="let instruction of recipe.instructions"
+        [instruction]="instruction"
+      ></app-instruction-card>
+    </div>
+  </div>
+  <!-- center column -->
+  <div class="center">
+    <div class="timer-bar">
+      <div
+        class="timer-bar color"
+        data-timer-target="color"
+        style="height: 100%"
+      ></div>
+    </div>
+  </div>
+  <!-- right column -->
+  <div class="">
+    <app-ingredients-panel
+      [ingredients]="recipe.ingredients"
+    ></app-ingredients-panel>
+  </div>
+</div>
+
+<div *ngIf="loading"><p>loading....</p></div>

@@ -1,9 +1,9 @@
 export interface User {
-  name: String,
-  image: String,
-  country: String,
-  spotify_url: String,
-  href: String,
-  uri: String,
-  spotify_id: String
+  name: string;
+  image: string;
+  country: string;
+  spotify_url: string;
+  href: string;
+  uri: string;
+  spotify_id: string;
 }

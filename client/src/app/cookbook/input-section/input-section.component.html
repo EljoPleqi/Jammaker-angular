@@ -1,11 +1,17 @@
 <div>
   <form (ngSubmit)="onSubmit(form)" #form="ngForm">
-      <select name="genre" id="" ngModel>
-        <option value="rock">rock</option>
-        <option value="pop">pop</option>
-        <option value="classical">classical</option>
-      </select>
-      <input type="text" name="url" id="" ngModel>
-      <button type="submit">submit</button>
+    <select name="genre" id="" class="bg-[#febc2b] h-12 cursor-pointer" ngModel>
+      <option selected disabled>Choose a genre</option>
+      <option value="rock">rock</option>
+      <option value="pop">pop</option>
+      <option value="classical">classical</option>
+    </select>
+    <input type="text" name="url" id="" ngModel class="w-[40rem] h-12" />
+    <button
+      type="submit"
+      class="bg-[#60b158] px-8 text-white h-12 text-semibold"
+    >
+      Create Recipe
+    </button>
   </form>
 </div>

@@ -1,0 +1,21 @@
+<div class="h-[90%] flex flex-col items-center justify-between pt-8">
+  <div><h1 class="text-4xl font-bold">Jammaker</h1></div>
+  <ul class="cursor-pointer flex flex-col gap-2 hover:text-white">
+    <li class="flex gap-2 py-2 px-6 hover:bg-violet-500">
+      <fa-icon [icon]="faBookmark"></fa-icon>
+      <p>All Recipies</p>
+    </li>
+    <li class="flex gap-2 py-2 px-6 hover:bg-violet-500">
+      <fa-icon [icon]="faHeart"></fa-icon>
+      <p>Favorities</p>
+    </li>
+    <li class="flex gap-2 py-2 px-6 hover:bg-violet-500">
+      <fa-icon [icon]="faSquarePlus"></fa-icon>
+      <p class="">Create Your Recipe</p>
+    </li>
+  </ul>
+  <div class="flex gap-2 items-center">
+    <img [src]="user.image" alt="" class="rounded-full h-12 w-12" />
+    <p>{{ user.name }}</p>
+  </div>
+</div>
