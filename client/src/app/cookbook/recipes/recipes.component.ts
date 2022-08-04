@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Recipe } from 'src/app/shared/interfaces/recipe';
 import { User } from 'src/app/shared/interfaces/user';
+import { GetUserService } from 'src/app/shared/services/get-user.service';
 
 @Component({
   selector: 'app-recipes',
@@ -8,9 +9,9 @@ import { User } from 'src/app/shared/interfaces/user';
   styleUrls: ['./recipes.component.css'],
 })
 export class RecipesComponent implements OnInit {
-  @Input() user!: User;
-  @Input() recipes!: Recipe[];
-  constructor() {}
+  user: User = this.userData.user;
+  recipes: Recipe[] = this.userData.recipes;
+  constructor(private userData: GetUserService) {}
 
   ngOnInit(): void {}
 }

@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Recipe } from 'src/app/shared/interfaces/recipe';
 import { GetRecipeService } from 'src/app/shared/services/get-recipe.service';
+import { GetPlaylistService } from '../shared/services/get-playlist.service';
 
 @Component({
   selector: 'app-recipe',
@@ -15,7 +16,8 @@ export class RecipeComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private recipeService: GetRecipeService
+    private recipeService: GetRecipeService,
+    private playlistService: GetPlaylistService
   ) {}
 
   ngOnInit(): void {
@@ -23,6 +25,10 @@ export class RecipeComponent implements OnInit {
     this.recipeService.fetchRecipe(this.id).subscribe((data) => {
       this.recipe = data;
       this.loading = false;
+      window.open(
+        `https://open.spotify.com/playlist/${this.playlistService.playlistId}`,
+        '_blank'
+      );
     });
   }
 

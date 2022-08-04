@@ -11,7 +11,7 @@ export class RecipeCardComponent implements OnInit {
   @Input() recipe!: Recipe;
   constructor(private route: Router) {}
   onOpenRecipe() {
-    this.route.navigate([`recipe/${this.recipe.id}`]);
+    this.route.navigate([`recipe/${this.recipe.id}`, `${this.recipe}`]);
   }
   ngOnInit(): void {}
 }

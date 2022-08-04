@@ -5,13 +5,16 @@ class SessionsController < ApplicationController
   def create
     if params[:id]
       @user = User.find(params[:id])
-      user = user.as_json(except: [:access_token,:refresh_token])
+      user = @user.as_json(except: [:access_token,:refresh_token])
       session[:id] = params[:id]
       @recipes = Recipe.where(user_id: @user["id"])
+      puts user
+      puts "---------------- 12-------------------"
+      response.headers['access_token'] = "#{@user[:access_token]}"
       render json: {
         status: 'created',
         logged_in: true,
-        user: @user,
+        user: user,
         recipes: @recipes.reverse
       }
     else

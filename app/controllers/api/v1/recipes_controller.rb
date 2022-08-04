@@ -16,23 +16,23 @@ class Api::V1::RecipesController < ApplicationController
     @recipe = Recipe.scraper(@recipe)
     @recipe.user = @current_user
     @recipe.save
-    puts @current_user
     @instructions = Instruction.parse(@recipe.steps)
     @instructions.shift
-    puts @instructions
     @instructions.each do |instruction|
       instruction.gsub!(/\A\s\d*\s*/, "")
       Instruction.create(content: instruction, recipe: @recipe)
     end
-
+    @ingredients = Ingridient.parse(@recipe.ingredients)
+    @ingredients.each do |ingredient|
+      Ingridient.create(content: ingredient, recipe: @recipe)
+    end
     @recipe.playlist = Playlist.new({
       spotify_playlist_id: create_playlist(@recipe.preptime.to_i, @recipe.title),
       recipe_id: @recipe.id })
     @recipe.save
-
    render json:  {
     id: @recipe.id,
-    playlistId: @recipe.playlist
+    playlistId: @recipe.playlist["spotify_playlist_id"]
   }
    end
 
@@ -97,6 +97,7 @@ class Api::V1::RecipesController < ApplicationController
       end
 
     playlist["id"]
+
   end
 
   def fetch_genre_url
