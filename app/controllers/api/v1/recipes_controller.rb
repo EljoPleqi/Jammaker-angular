@@ -39,19 +39,23 @@ class Api::V1::RecipesController < ApplicationController
 
 
   def show
-    render json: Recipe.find(params[:id]) # * send the recipe data sa json to the frontend
-  end
-
-  def update
     @recipe = Recipe.find(params[:id])
-    @recipe.update(favorite: true)
-    redirect_to recipe_path(@recipe)
+    render json: {
+      recipe: @recipe,
+      playlist: @recipe.playlist["spotify_playlist_id"]
+    } # * send the recipe data sa json to the frontend
   end
 
-  def destroy
-    @recipes.destroy
-    redirect_to recipes_path
-  end
+  # def update
+  #   @recipe = Recipe.find(params[:id])
+  #   @recipe.update(favorite: true)
+  #   redirect_to recipe_path(@recipe)
+  # end
+
+  # def destroy
+  #   @recipes.destroy
+  #   redirect_to recipes_path
+  # end
 
   private
 
