@@ -22,10 +22,10 @@ class Api::V1::RecipesController < ApplicationController
       instruction.gsub!(/\A\s\d*\s*/, "")
       Instruction.create(content: instruction, recipe: @recipe)
     end
-    @ingredients = Ingridient.parse(@recipe.ingredients)
-    @ingredients.each do |ingredient|
-      Ingridient.create(content: ingredient, recipe: @recipe)
-    end
+    # @ingredients = Ingredient.parse(@recipe.ingredients)
+    # @ingredients.each do |ingredient|
+    #   Ingredient.create(content: ingredient, recipe: @recipe)
+    # end
     @recipe.playlist = Playlist.new({
       spotify_playlist_id: create_playlist(@recipe.preptime.to_i, @recipe.title),
       recipe_id: @recipe.id })
