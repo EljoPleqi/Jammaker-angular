@@ -1,12 +1,13 @@
-import { Instruction } from "./instruction";
+import { Instruction } from './instruction';
 export interface Recipe {
-  id: Number,
+  id: Number;
   title: string;
   preptime: string;
   instructions: Instruction[];
+  url: string;
   tags?: any;
   ingredients: string;
-  url: string;
+  ingredientsArray?: string[];
   steps: string;
   user_id: number;
   created_at: Date;
@@ -14,5 +15,4 @@ export interface Recipe {
   favorite: boolean;
   category: string;
   genre: string;
-
 }

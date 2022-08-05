@@ -14,7 +14,11 @@ class Recipe < ApplicationRecord
 
     # 2. We build a Nokogiri document from this file
     doc = Nokogiri::HTML(html_content)
-    @preptime = doc.search('.recipe-meta-item')[2].text.strip
+    @items = doc.search('.recipe-meta-item')
+    @preptime = ""
+    @items.each do |item|
+       @preptime = item.text.strip if item.children.text.include?('total')
+    end
     hour = @preptime.match(/(\d+) hr/)
     hour = hour[1].to_i * 60 if hour.present?
     min = @preptime.match(/(\d+) mins/)

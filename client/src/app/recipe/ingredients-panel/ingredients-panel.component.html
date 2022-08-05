@@ -1,5 +1,3 @@
-<div
-  class="w-full rounded-lg h-[50rem] bg-[#fff] border-dashed border-2 border-[#4a4230] p-4"
->
-  <p>{{ ingredients }}</p>
+<div class="w-full rounded-lg h-[15rem] bg-[#fff] p-4">
+  <p *ngFor="let ingredient of ingredients">{{ ingredient }}</p>
 </div>
