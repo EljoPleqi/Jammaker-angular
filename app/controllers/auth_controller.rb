@@ -15,7 +15,7 @@ class Api::V1::AuthController < ApplicationController
       user-read-recently-played
       user-read-playback-state
       user-read-currently-playing",
-     show_dialog: true
+      show_dialog: true
     }
     redirect_to "#{url}?#{query_params.to_query}"
   end
