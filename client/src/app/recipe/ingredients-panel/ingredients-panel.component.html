@@ -1,3 +1,7 @@
 <div class="w-full min-h-[15rem] bg-[#F7F6F3] p-4">
-  <p *ngFor="let ingredient of ingredients" class="text-sm">{{ ingredient }}</p>
+  <h2 class="text-lg mb-4">Ingredients</h2>
+  <p *ngFor="let ingredient of ingredients" class="text-sm mb-1">
+    {{ ingredient }}
+  </p>
+  <!-- <p class="text-sm">{{ ingredients }}</p> -->
 </div>

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
 import { Recipe } from 'src/app/shared/interfaces/recipe';
 import { GetRecipeService } from 'src/app/shared/services/get-recipe.service';
-import {  faHeart, faClock } from '@fortawesome/free-regular-svg-icons';
+import { faHeart, faClock } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-recipe',
@@ -12,14 +12,14 @@ import {  faHeart, faClock } from '@fortawesome/free-regular-svg-icons';
 })
 export class RecipeComponent implements OnInit {
   // * icons
-  faHeart = faHeart
-  faClock = faClock
+  faHeart = faHeart;
+  faClock = faClock;
   // * variables
   id: number = 0;
   recipe!: Recipe;
   loading: Boolean = true;
   playlist: string = '';
-  regex = new RegExp(/\b\d\s/);
+  regex = new RegExp(/\b\s(\d)+/);
 
   constructor(
     private route: ActivatedRoute,
@@ -36,10 +36,12 @@ export class RecipeComponent implements OnInit {
       .fetchRecipe(this.id)
       .pipe(
         map((data) => {
-          data.recipe.ingredientsArray = data.recipe.ingredients.split(
-            this.regex
-          );
-          console.log(data.recipe.ingredientsArray);
+          const regex = new RegExp(/ [0-9\u00BC-\u00BE\u2150-\u215E\u2189]+/g);
+          data.recipe.ingredientsArray = data.recipe.ingredients
+            .replace(regex, (match) => `$$divider$$${match}`)
+            .split('$$divider$$')
+            .map((sentence) => sentence.trim());
+
           return data;
         })
       )
