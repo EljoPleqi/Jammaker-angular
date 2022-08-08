@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
       @recipes = Recipe.where(user_id: @user["id"])
       puts user
       puts "---------------- 12-------------------"
-      response.headers['access_token'] = @user[:access_token].to_S
+      response.headers['access_token'] = @user[:access_token].to_s
       render json: {
         status: 'created',
         logged_in: true,

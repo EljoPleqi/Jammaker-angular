@@ -39,6 +39,6 @@ class Recipe < ApplicationRecord
     @recipe.steps = @steps
     @recipe.url = @image
     @recipe.category = @category
-    return @recipe
+    @recipe
   end
 end
