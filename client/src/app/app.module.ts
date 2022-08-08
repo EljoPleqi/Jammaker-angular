@@ -15,6 +15,7 @@ import { RecipeCardComponent } from './cookbook/recipes/recipe-card/recipe-card.
 import { InstructionCardComponent } from './recipe/instruction-card/instruction-card.component';
 import { IngredientsPanelComponent } from './recipe/ingredients-panel/ingredients-panel.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { RecipeFormComponent } from './cookbook/recipe-form/recipe-form.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     RecipeCardComponent,
     InstructionCardComponent,
     IngredientsPanelComponent,
+    RecipeFormComponent,
   ],
   imports: [
     BrowserModule,

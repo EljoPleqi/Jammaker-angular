@@ -1,17 +1,19 @@
 class SessionsController < ApplicationController
   include CurrentUserConcern
 
-
   def create
     if params[:id]
       @user = User.find(params[:id])
-      user = user.as_json(except: [:access_token,:refresh_token])
+      user = @user.as_json(except: %i[access_token refresh_token])
       session[:id] = params[:id]
       @recipes = Recipe.where(user_id: @user["id"])
+      puts user
+      puts "---------------- 12-------------------"
+      response.headers['access_token'] = @user[:access_token].to_s
       render json: {
         status: 'created',
         logged_in: true,
-        user: @user,
+        user:,
         recipes: @recipes.reverse
       }
     else
@@ -23,12 +25,12 @@ class SessionsController < ApplicationController
 
   def logged_in
     if @current_user
-      render json:{
+      render json: {
         logged_in: true,
         user: @current_user
       }
     else
-      render json:{
+      render json: {
         logged_in: false
       }
     end
@@ -36,8 +38,6 @@ class SessionsController < ApplicationController
 
   def logout
     reset_session
-    render json:{ status: 200, logged_out: true }
+    render json: { status: 200, logged_out: true }
   end
-
-
 end

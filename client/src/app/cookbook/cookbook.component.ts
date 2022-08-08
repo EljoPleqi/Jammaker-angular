@@ -9,6 +9,7 @@ import { GetUserService } from '../shared/services/get-user.service';
   styleUrls: ['./cookbook.component.css'],
 })
 export class CookbookComponent implements OnInit {
+  spinner: boolean = false;
   userId: string | null = '';
   user!: User;
   recipes!: Recipe[];
@@ -19,10 +20,13 @@ export class CookbookComponent implements OnInit {
 
   ngOnInit(): void {
     this.loggedUser.fetchUser(this.userId).subscribe((data) => {
-      console.log(data);
-      this.user = data.user;
-      this.recipes = data.recipes;
+      this.loggedUser.user = data.user;
+      this.loggedUser.recipes = data.recipes;
       this.loading = false;
     });
+  }
+
+  loadSpinner(event: boolean) {
+    this.spinner = event;
   }
 }

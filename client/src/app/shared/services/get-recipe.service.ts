@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Recipe } from '../interfaces/recipe';
+import { RecipeResponse } from '../interfaces/recipe_response';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GetRecipeService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-
-  fetchRecipe(id:number) {
-    return this.http.get<Recipe>(`http://localhost:3000/api/v1/recipes/${id}`,{withCredentials: true})
+  fetchRecipe(id: number) {
+    return this.http.get<RecipeResponse>(
+      `http://localhost:3000/api/v1/recipes/${id}`,
+      {
+        withCredentials: true,
+      }
+    );
   }
 }

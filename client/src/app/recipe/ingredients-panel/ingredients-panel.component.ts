@@ -6,7 +6,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./ingredients-panel.component.css'],
 })
 export class IngredientsPanelComponent implements OnInit {
-  @Input() ingredients: string = '';
+  @Input() ingredients: string[] | any = [];
   constructor() {}
 
   ngOnInit(): void {}

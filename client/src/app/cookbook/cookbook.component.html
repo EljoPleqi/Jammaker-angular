@@ -1,11 +1,10 @@
+<div *ngIf="spinner && !loading">Spinner</div>
 <div *ngIf="!loading">
   <div class="h-screen grid grid-cols-cookbook grid-rows-cookbook bg-[#EFECE6]">
-    <app-sidebar class="row-span-3 bg-[#f7f6f3]" [user]="user"></app-sidebar>
-    <app-recipes
-      class="row-span-2 overflow-auto flex flex-col items-center"
-      [user]="user"
-      [recipes]="recipes"
-    ></app-recipes>
+    <app-sidebar class="row-span-3 bg-[#f7f6f3]" [id]="userId"></app-sidebar>
+    <div class="row-span-2 overflow-auto flex flex-col items-center">
+      <router-outlet></router-outlet>
+    </div>
     <div class="flex flex-col gap-8 items-center justify-center bg-[#252118]">
       <div class="flex flex-col items-center">
         <h2 class="text-white font-bold text-[2.5rem]">
@@ -15,7 +14,7 @@
           Paste your recipe link below and lets start cooking
         </p>
       </div>
-      <app-input-section></app-input-section>
+      <app-input-section (spinner)="loadSpinner($event)"></app-input-section>
     </div>
   </div>
 </div>
