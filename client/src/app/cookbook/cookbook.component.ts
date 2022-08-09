@@ -14,6 +14,7 @@ export class CookbookComponent implements OnInit {
   user!: User;
   recipes!: Recipe[];
   loading: boolean = true;
+
   constructor(private loggedUser: GetUserService) {
     this.userId = location.pathname.split('/')[2];
   }

@@ -9,6 +9,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./recipe-form.component.css'],
 })
 export class RecipeFormComponent implements OnInit {
+  ingredientsArray: string[] = [];
+  instructionsArray: string[] = [];
   constructor() {}
 
   ngOnInit(): void {}
