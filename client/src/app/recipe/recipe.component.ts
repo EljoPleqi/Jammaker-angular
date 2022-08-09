@@ -40,7 +40,7 @@ export class RecipeComponent implements OnInit {
           data.recipe.ingredientsArray = data.recipe.ingredients
             .replace(regex, (match) => `$$divider$$${match}`)
             .split('$$divider$$')
-            .map((sentence) => sentence.trim());
+            .map((sentence: string) => sentence.trim());
 
           return data;
         })
