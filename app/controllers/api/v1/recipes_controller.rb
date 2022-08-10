@@ -36,9 +36,15 @@ class Api::V1::RecipesController < ApplicationController
 
   def typed_recipe
     @current_user = User.find_by(id: session[:id]) if session[:id]
-    @recipe = Recipe.new(title: recipes_params[:title], preptime: recipes_params[:prep_time], genre: recipes_params[:genre])
+    @recipe = Recipe.new(title: recipes_params[:title], preptime: recipes_params[:preptime], genre: recipes_params[:genre])
     @recipe.user = @current_user
+    @recipe.ingredients = recipes_params[:ingredients]
     @recipe.save
+    puts "=------------------------="
+    @instructions = recipes_params[:instructionsString].split('-')
+    @instructions.each do |instruction|
+      Instruction.create(content: instruction, recipe: @recipe)
+    end
     @recipe.playlist = Playlist.new({
                                       spotify_playlist_id: create_playlist(@recipe.preptime.to_i, @recipe.title),
                                       recipe_id: @recipe.id
