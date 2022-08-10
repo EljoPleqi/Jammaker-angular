@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Recipe } from 'src/app/shared/interfaces/recipe';
 import { PostUserTypedRecipeService } from 'src/app/shared/services/post-user-typed-recipe.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-recipe-form',
@@ -17,18 +18,22 @@ export class RecipeFormComponent implements OnInit {
 
   @ViewChild('ingredient', { static: true }) ingredient!: ElementRef;
   @ViewChild('instruction', { static: true }) instruction!: ElementRef;
-  constructor(private postUserRecipe: PostUserTypedRecipeService) {}
+  constructor(
+    private postUserRecipe: PostUserTypedRecipeService,
+    private route: Router
+  ) {}
 
   ngOnInit(): void {}
 
   onSubmit(formData: NgForm) {
     const recipe: Recipe = formData.form.value;
-    recipe.ingredientsArray = this.ingredientsArray;
-    recipe.instructionsArray = this.instructionsArray;
+    recipe.ingredients = this.ingredientsArray.join('-');
+    recipe.instructionsString = this.instructionsArray.join('-');
     this.postUserRecipe
       .PostUserRecipe(recipe)
-      .subscribe((data) => console.log(data));
-    return recipe;
+      .subscribe((data) =>
+        this.route.navigate([`recipe/${data.recipe.id}`, `${data.playlist}`])
+      );
   }
 
   _addToArray(array: string[], element: string) {

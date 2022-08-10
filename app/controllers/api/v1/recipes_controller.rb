@@ -34,6 +34,22 @@ class Api::V1::RecipesController < ApplicationController
     }
   end
 
+  def typed_recipe
+    @current_user = User.find_by(id: session[:id]) if session[:id]
+    @recipe = Recipe.new(title: recipes_params[:title], preptime: recipes_params[:prep_time], genre: recipes_params[:genre])
+    @recipe.user = @current_user
+    @recipe.save
+    @recipe.playlist = Playlist.new({
+                                      spotify_playlist_id: create_playlist(@recipe.preptime.to_i, @recipe.title),
+                                      recipe_id: @recipe.id
+                                    })
+    @recipe.save
+    render json: {
+      id: @recipe.id,
+      playlistId: @recipe.playlist["spotify_playlist_id"]
+    }
+  end
+
   def show
     @recipe = Recipe.find(params[:id])
     render json: {
@@ -133,10 +149,16 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def recipes_params
-    params.require(:recipeData).permit(:url, :genre)
+    params.require(:recipeData).permit(:url,
+                                       :genre,
+                                       :ingredients,
+                                       :instructionsString,
+                                       :preptime,
+                                       :title)
   end
 
   def return_header
+
     enc_credentials = "Bearer #{@current_user.access_token}"
     { "Accept" => "application/json",
       "Content-Type" => "application/json",

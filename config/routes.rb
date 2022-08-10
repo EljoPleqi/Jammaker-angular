@@ -11,14 +11,14 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :recipes, only: [ :show, :index, :create, :destroy, :update ] do
-        resources :instructions, only: [ :new, :create ]
+      resources :recipes, only: %i[show index create destroy update] do
+        resources :instructions, only: %i[new create]
       end
+      post '/typed-recipe', to: "recipes#typed_recipe"
     end
   end
   resources :sessions, only: [:create]
   resources :registrations, only: [:create]
-
 
   delete :logout, to: "sessions#logout"
   get :logged_in, to: "sessions#logged_in"
