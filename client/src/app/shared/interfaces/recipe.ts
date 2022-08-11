@@ -8,6 +8,7 @@ export interface Recipe {
   tags?: any;
   ingredients: string;
   ingredientsArray?: string[];
+  instructionsString?: string;
   steps: string;
   user_id: number;
   created_at: Date;

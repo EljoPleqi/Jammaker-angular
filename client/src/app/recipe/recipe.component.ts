@@ -38,9 +38,9 @@ export class RecipeComponent implements OnInit {
         map((data) => {
           const regex = new RegExp(/ [0-9\u00BC-\u00BE\u2150-\u215E\u2189]+/g);
           data.recipe.ingredientsArray = data.recipe.ingredients
-            .replace(regex, (match) => `$$divider$$${match}`)
-            .split('$$divider$$')
-            .map((sentence) => sentence.trim());
+            .replace(regex, (match) => `-${match}`)
+            .split('-')
+            .map((sentence: string) => sentence.trim());
 
           return data;
         })

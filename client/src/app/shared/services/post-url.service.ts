@@ -7,9 +7,6 @@ import { RecipeData } from '../interfaces/recipe_data';
   providedIn: 'root',
 })
 export class PostUrlService {
-  // recipeEmitter = new EventEmitter<Recipe>()
-  // recipeSubject = new Subject<Recipe>()
-
   constructor(private http: HttpClient) {}
 
   postUrl(recipeData: RecipeScrapped) {
