@@ -33,7 +33,14 @@ class Api::V1::RecipesController < ApplicationController
 
   def typed_recipe
     @current_user = User.find_by(id: session[:id]) if session[:id]
-    @recipe = Recipe.new(recipe_params)
+    recipe_data = {
+      genre: recipes_params[:genre],
+      title: recipes_params[:title],
+      preptime: recipes_params[:preptime],
+      category: recipes_params[:category],
+      ingredients: recipes_params[:ingredients]
+    }
+    @recipe = Recipe.new(recipe_data)
     @recipe.user = @current_user
     # @recipe.ingredients = recipes_params[:ingredients]
     @recipe.save
@@ -43,7 +50,6 @@ class Api::V1::RecipesController < ApplicationController
       Instruction.create(content: instruction, recipe: @recipe)
     end
     create_playlist(@recipe)
-
     render json: {
       id: @recipe.id,
       playlistId: @recipe.playlist["spotify_playlist_id"]
@@ -124,15 +130,6 @@ class Api::V1::RecipesController < ApplicationController
     [song_response['items'].first['track']['uri'], song_response['items'].first['track']['duration_ms']] # * <---- return song
   end
 
-  def recipes_params
-    params.require(:recipeData).permit(:url,
-                                       :genre,
-                                       :ingredients,
-                                       :instructionsString,
-                                       :preptime,
-                                       :title)
-  end
-
   def curate_playlist(prep_time)
     # * currate the songs array, it must hold either tracks or a collection of strings that is a valid spotify track uri
     songs = []
@@ -162,5 +159,15 @@ class Api::V1::RecipesController < ApplicationController
     { "Accept" => "application/json",
       "Content-Type" => "application/json",
       "Authorization" => enc_credentials }
+  end
+
+  def recipes_params
+    params.require(:recipeData).permit(:url,
+                                       :genre,
+                                       :ingredients,
+                                       :instructionsString,
+                                       :preptime,
+                                       :title,
+                                       :category)
   end
 end

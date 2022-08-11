@@ -29,11 +29,10 @@ export class RecipeFormComponent implements OnInit {
     const recipe: Recipe = formData.form.value;
     recipe.ingredients = this.ingredientsArray.join('-');
     recipe.instructionsString = this.instructionsArray.join('-');
-    this.postUserRecipe
-      .PostUserRecipe(recipe)
-      .subscribe((data) =>
-        this.route.navigate([`recipe/${data.recipe.id}`, `${data.playlist}`])
-      );
+    this.postUserRecipe.PostUserRecipe(recipe).subscribe((data) => {
+      console.log(data);
+      this.route.navigate([`recipe/${data.id}`, `${data.playlistId}`]);
+    });
   }
 
   _addToArray(array: string[], element: string) {
