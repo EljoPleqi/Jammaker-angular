@@ -23,11 +23,8 @@ class Api::V1::RecipesController < ApplicationController
     # @ingredients.each do |ingredient|
     #   Ingredient.create(content: ingredient, recipe: @recipe)
     # end
-    @recipe.playlist = Playlist.new({
-                                      spotify_playlist_id: create_playlist(@recipe.preptime.to_i, @recipe.title),
-                                      recipe_id: @recipe.id
-                                    })
-    @recipe.save
+    create_playlist(@recipe)
+
     render json: {
       id: @recipe.id,
       playlistId: @recipe.playlist["spotify_playlist_id"]
@@ -36,20 +33,17 @@ class Api::V1::RecipesController < ApplicationController
 
   def typed_recipe
     @current_user = User.find_by(id: session[:id]) if session[:id]
-    @recipe = Recipe.new(title: recipes_params[:title], preptime: recipes_params[:preptime], genre: recipes_params[:genre])
+    @recipe = Recipe.new(recipe_params)
     @recipe.user = @current_user
-    @recipe.ingredients = recipes_params[:ingredients]
+    # @recipe.ingredients = recipes_params[:ingredients]
     @recipe.save
-    puts "=------------------------="
     @instructions = recipes_params[:instructionsString].split('-')
+    @instructions.shift
     @instructions.each do |instruction|
       Instruction.create(content: instruction, recipe: @recipe)
     end
-    @recipe.playlist = Playlist.new({
-                                      spotify_playlist_id: create_playlist(@recipe.preptime.to_i, @recipe.title),
-                                      recipe_id: @recipe.id
-                                    })
-    @recipe.save
+    create_playlist(@recipe)
+
     render json: {
       id: @recipe.id,
       playlistId: @recipe.playlist["spotify_playlist_id"]
@@ -77,9 +71,15 @@ class Api::V1::RecipesController < ApplicationController
 
   private
 
-  # * the #create_playlist takes two paraments the spotify user and the prep_time from the scrapper
-  # * the #create_playlist generates and populates the user recipe
-  def create_playlist(prep_time, playlist_name)
+  def create_playlist(recipe)
+    recipe.playlist = Playlist.create({
+                                        spotify_playlist_id: create_spotify_playlist(@recipe.preptime.to_i, @recipe.title),
+                                        recipe_id: @recipe.id
+                                      })
+  end
+  # * the #create_spotify_playlist takes two paraments the spotify user and the prep_time from the scrapper
+  # * the #create_spotify_playlist generates and populates the user recipe
+  def create_spotify_playlist(prep_time, playlist_name)
     hdrs = return_header
     # * currate the songs array, it must hold either tracks or a collection of strings that is a valid spotify track uri
     songs = []
@@ -128,7 +128,7 @@ class Api::V1::RecipesController < ApplicationController
     "https://api.spotify.com/v1/browse/categories/#{recipes_params[:genre]}"
   end
 
-  def fetch_song
+  def fetch_playlist_response
     hdrs = return_header
     # * get the playlist url from the category
     playlist_response = fetch_genre_url
@@ -141,14 +141,18 @@ class Api::V1::RecipesController < ApplicationController
       playlist_response = fetch_genre_url
     end
 
-    playlist_response = JSON.parse(RestClient.get("#{playlist_response}/playlists", hdrs))
+    JSON.parse(RestClient.get("#{playlist_response}/playlists", hdrs))
+  end
+
+  def fetch_song
+    hdrs = return_header
+    playlist_response = fetch_playlist_response
 
     playlist_url = playlist_response['playlists']['items'][rand(playlist_response.length) - 1]['href']
 
     # * get the song url from the playlist
 
     total_songs = JSON.parse(RestClient.get("#{playlist_url}/tracks?", hdrs))
-    puts total_songs["total"]
     song_response = JSON.parse(RestClient.get("#{playlist_url}/tracks?&limit=1&offset=#{rand(total_songs['total'])}", hdrs))
 
     [song_response['items'].first['track']['uri'], song_response['items'].first['track']['duration_ms']] # * <---- return song
@@ -164,7 +168,6 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def return_header
-
     enc_credentials = "Bearer #{@current_user.access_token}"
     { "Accept" => "application/json",
       "Content-Type" => "application/json",
