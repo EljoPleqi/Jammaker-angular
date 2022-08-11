@@ -77,26 +77,14 @@ class Api::V1::RecipesController < ApplicationController
                                         recipe_id: @recipe.id
                                       })
   end
+
   # * the #create_spotify_playlist takes two paraments the spotify user and the prep_time from the scrapper
   # * the #create_spotify_playlist generates and populates the user recipe
+
   def create_spotify_playlist(prep_time, playlist_name)
     hdrs = return_header
     # * currate the songs array, it must hold either tracks or a collection of strings that is a valid spotify track uri
-    songs = []
-    # TODO: calculate the total duration of all the songs inside the songs array
-    playlist_time = 0
-    # * looping until the total playlist time reaches the total preptime
-    until playlist_time >= prep_time
-      # TODO: loop logic
-      song = fetch_song
-      puts "playlist time: #{playlist_time} prep time: #{prep_time}"
-
-      next if songs.include?(song[0])
-
-      songs.push(song[0])
-      playlist_time += song[1] / 60_000
-      puts "line 62 songs array length -> #{songs.size}"
-    end
+    songs = curate_playlist(prep_time)
     # * CREATE THE PLAYLIST
     payload = {
       name: "Jammaker #{playlist_name}",
@@ -104,23 +92,7 @@ class Api::V1::RecipesController < ApplicationController
       public: false
     }
     playlist = JSON.parse(RestClient.post("https://api.spotify.com/v1/users/#{@current_user.spotify_id}/playlists", payload.to_json, hdrs))
-
-    RestClient::Request.new({
-                              method: :post,
-                              url: "https://api.spotify.com/v1/playlists/#{playlist['id']}/tracks?uris=#{songs.join(',')}",
-                              headers: hdrs
-                            }).execute do |response, _request, _result|
-      case response.code
-      when 400
-        [:error, JSON.parse(response.to_str)]
-      when 200
-        [:success, JSON.parse(response.to_str)]
-      else
-        [JSON.parse(response.to_str)]
-      end
-    end
-
-    playlist["id"]
+    send_playlist(playlist, songs)
   end
 
   def fetch_genre_url
@@ -132,7 +104,6 @@ class Api::V1::RecipesController < ApplicationController
     hdrs = return_header
     # * get the playlist url from the category
     playlist_response = fetch_genre_url
-
     if RestClient::Request.new({
                                  url: "#{playlist_response}/playlists",
                                  method: "GET",
@@ -140,21 +111,16 @@ class Api::V1::RecipesController < ApplicationController
                                }).execute.code == 404
       playlist_response = fetch_genre_url
     end
-
     JSON.parse(RestClient.get("#{playlist_response}/playlists", hdrs))
   end
 
   def fetch_song
     hdrs = return_header
     playlist_response = fetch_playlist_response
-
     playlist_url = playlist_response['playlists']['items'][rand(playlist_response.length) - 1]['href']
-
     # * get the song url from the playlist
-
     total_songs = JSON.parse(RestClient.get("#{playlist_url}/tracks?", hdrs))
     song_response = JSON.parse(RestClient.get("#{playlist_url}/tracks?&limit=1&offset=#{rand(total_songs['total'])}", hdrs))
-
     [song_response['items'].first['track']['uri'], song_response['items'].first['track']['duration_ms']] # * <---- return song
   end
 
@@ -165,6 +131,30 @@ class Api::V1::RecipesController < ApplicationController
                                        :instructionsString,
                                        :preptime,
                                        :title)
+  end
+
+  def curate_playlist(prep_time)
+    # * currate the songs array, it must hold either tracks or a collection of strings that is a valid spotify track uri
+    songs = []
+    # TODO: calculate the total duration of all the songs inside the songs array
+    playlist_time = 0
+    # * looping until the total playlist time reaches the total preptime
+    until playlist_time >= prep_time
+      song = fetch_song
+      puts "playlist time: #{playlist_time} prep time: #{prep_time}"
+
+      next if songs.include?(song[0])
+
+      songs.push(song[0])
+      playlist_time += song[1] / 60_000
+    end
+    songs
+  end
+
+  def send_playlist(playlist, songs)
+    hdrs = return_header
+    RestClient.post("https://api.spotify.com/v1/playlists/#{playlist['id']}/tracks?uris=#{songs.join(',')}", {}, hdrs)
+    playlist["id"]
   end
 
   def return_header
