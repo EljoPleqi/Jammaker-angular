@@ -9,15 +9,20 @@ import { Router } from '@angular/router';
   styleUrls: ['./input-section.component.css'],
 })
 export class InputSectionComponent implements OnInit {
-  constructor(private route: Router, private recipeService: PostUrlService) {}
   @Output() spinner = new EventEmitter<boolean>();
   playlist: string = '';
-  ngOnInit(): void {}
+
+  constructor(private route: Router, private recipeService: PostUrlService) {}
+
   onSubmit(formData: NgForm) {
     this.recipeService.postUrl(formData.form.value).subscribe((recipeData) => {
-      this.playlist = recipeData.playlistId;
-      this.route.navigate([`recipe/${recipeData.id}`, `${this.playlist}`]);
+      this.route.navigate([
+        `recipe/${recipeData.id}`,
+        `${recipeData.playlistId}`,
+      ]);
       this.spinner.emit(true);
     });
   }
+
+  ngOnInit(): void {}
 }

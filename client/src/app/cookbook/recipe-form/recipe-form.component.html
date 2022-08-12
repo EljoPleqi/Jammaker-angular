@@ -40,7 +40,8 @@
         </span>
         <label for="ingredient">Ingredients</label>
         <input type="text" name="ingredient" class="h-12" #ingredient />
-        <button (click)="onAddIngredient()" class="border-2 border-solid">
+        <button (click)="onAddIngredient()" class="bg-[#60b158] text-white">
+          <fa-icon [icon]="faPlus"></fa-icon>
           Add Ingredient
         </button>
       </form>
@@ -50,7 +51,8 @@
         </span>
         <label for="genre">Instructions</label>
         <input type="text" name="instruction" class="h-12" #instruction />
-        <button (click)="onAddInstruction()" class="border-2 border-solid">
+        <button (click)="onAddInstruction()" class="bg-[#60b158] text-white">
+          <fa-icon [icon]="faPlus" class="text-white"></fa-icon>
           Add Instruction
         </button>
       </form>
