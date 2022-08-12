@@ -1,9 +1,16 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Recipe } from 'src/app/shared/interfaces/recipe';
 import { PostUserTypedRecipeService } from 'src/app/shared/services/post-user-typed-recipe.service';
 import { Router } from '@angular/router';
-
+import { DisplayService } from 'src/app/shared/services/display.service';
 @Component({
   selector: 'app-recipe-form',
   host: {
@@ -13,18 +20,21 @@ import { Router } from '@angular/router';
   styleUrls: ['./recipe-form.component.css'],
 })
 export class RecipeFormComponent implements OnInit {
+  constructor(
+    private postUserRecipe: PostUserTypedRecipeService,
+    private displayService: DisplayService,
+    private route: Router
+  ) {}
+
   ingredientsArray: string[] = [];
   instructionsArray: string[] = [];
 
   @ViewChild('ingredient', { static: true }) ingredient!: ElementRef;
   @ViewChild('instruction', { static: true }) instruction!: ElementRef;
-  constructor(
-    private postUserRecipe: PostUserTypedRecipeService,
-    private route: Router
-  ) {}
 
-  ngOnInit(): void {}
-
+  ngOnInit(): void {
+    this.displayService.typed$.next(true);
+  }
   onSubmit(formData: NgForm) {
     const recipe: Recipe = formData.form.value;
     recipe.ingredients = this.ingredientsArray.join('-');
@@ -50,5 +60,8 @@ export class RecipeFormComponent implements OnInit {
       this.instructionsArray,
       this.instruction.nativeElement.value
     );
+  }
+  ngOnDestroy(): void {
+    this.displayService.typed$.next(false);
   }
 }

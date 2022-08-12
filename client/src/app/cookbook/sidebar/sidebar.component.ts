@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   faBookmark,
   faSquarePlus,
@@ -18,7 +18,6 @@ export class SidebarComponent implements OnInit {
     private route: Router,
     private activeRoute: ActivatedRoute
   ) {}
-
   id!: string;
   user: User = this.userData.user;
   faBookmark = faBookmark;
