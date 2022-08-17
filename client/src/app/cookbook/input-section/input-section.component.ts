@@ -14,6 +14,8 @@ export class InputSectionComponent implements OnInit {
 
   constructor(private route: Router, private recipeService: PostUrlService) {}
 
+  options: string[] = ['rock', 'pop'];
+
   onSubmit(formData: NgForm) {
     this.recipeService.postUrl(formData.form.value).subscribe((recipeData) => {
       this.route.navigate([

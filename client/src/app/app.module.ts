@@ -2,8 +2,12 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
 import { AppRoutingModule } from './app-routing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { CookbookComponent } from './cookbook/cookbook.component';
@@ -14,7 +18,6 @@ import { RecipesComponent } from './cookbook/recipes/recipes.component';
 import { RecipeCardComponent } from './cookbook/recipes/recipe-card/recipe-card.component';
 import { InstructionCardComponent } from './recipe/instruction-card/instruction-card.component';
 import { IngredientsPanelComponent } from './recipe/ingredients-panel/ingredients-panel.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RecipeFormComponent } from './cookbook/recipe-form/recipe-form.component';
 
 @NgModule({
@@ -37,6 +40,9 @@ import { RecipeFormComponent } from './cookbook/recipe-form/recipe-form.componen
     HttpClientModule,
     FormsModule,
     FontAwesomeModule,
+    BrowserAnimationsModule,
+    MatInputModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

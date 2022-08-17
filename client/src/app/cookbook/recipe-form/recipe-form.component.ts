@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormControl } from '@angular/forms';
 import { Recipe } from 'src/app/shared/interfaces/recipe';
 import { PostUserTypedRecipeService } from 'src/app/shared/services/post-user-typed-recipe.service';
 import { Router } from '@angular/router';
@@ -23,6 +23,7 @@ import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 export class RecipeFormComponent implements OnInit, OnDestroy {
   ingredientsArray: string[] = [];
   instructionsArray: string[] = [];
+  options: string[] = ['rock', 'pop'];
   faPlus = faPlusCircle;
 
   @ViewChild('ingredient', { static: true }) ingredient!: ElementRef;
