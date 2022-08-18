@@ -1,14 +1,13 @@
 <div>
-  <form (ngSubmit)="onSubmit(form)" #form="ngForm">
-    <select name="genre" id="" class="bg-[#febc2b] h-12 cursor-pointer" ngModel>
-      <option selected disabled>Choose a genre</option>
-      <option value="rock">rock</option>
-      <option value="pop">pop</option>
-      <option value="classical">classical</option>
+  <form [formGroup]="scrapperData">
+    <select formControlName="genre" class="bg-[#febc2b] h-12 cursor-pointer">
+      <option *ngFor="let option of options" [value]="option" selected>
+        {{ option }}
+      </option>
     </select>
-    <input type="text" name="url" id="" ngModel class="w-[40rem] h-12" />
+    <input type="text" formControlName="url" class="w-[40rem] h-12" />
     <button
-      type="submit"
+      (click)="onSubmit()"
       class="bg-[#60b158] px-8 text-white h-12 text-semibold"
     >
       Create Recipe

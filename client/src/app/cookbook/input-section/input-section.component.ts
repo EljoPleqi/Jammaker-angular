@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { PostUrlService } from 'src/app/shared/services/post-url.service';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,20 +11,28 @@ import { Router } from '@angular/router';
 export class InputSectionComponent implements OnInit {
   @Output() spinner = new EventEmitter<boolean>();
   playlist: string = '';
+  options: string[] = ['rock', 'pop'];
+
+  scrapperData!: FormGroup;
 
   constructor(private route: Router, private recipeService: PostUrlService) {}
 
-  options: string[] = ['rock', 'pop'];
-
-  onSubmit(formData: NgForm) {
-    this.recipeService.postUrl(formData.form.value).subscribe((recipeData) => {
-      this.route.navigate([
-        `recipe/${recipeData.id}`,
-        `${recipeData.playlistId}`,
-      ]);
-      this.spinner.emit(true);
+  ngOnInit(): void {
+    this.scrapperData = new FormGroup({
+      url: new FormControl(''),
+      genre: new FormControl('pop'),
     });
   }
 
-  ngOnInit(): void {}
+  onSubmit() {
+    this.recipeService
+      .postUrl(this.scrapperData.value)
+      .subscribe((recipeData) => {
+        this.route.navigate([
+          `recipe/${recipeData.id}`,
+          `${recipeData.playlistId}`,
+        ]);
+        this.spinner.emit(true);
+      });
+  }
 }
