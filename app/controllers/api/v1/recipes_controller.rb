@@ -44,7 +44,7 @@ class Api::V1::RecipesController < ApplicationController
     @recipe.user = @current_user
     # @recipe.ingredients = recipes_params[:ingredients]
     @recipe.save
-    @instructions = recipes_params[:instructionsString].split('-')
+    @instructions = recipes_params[:instructionsString].split('-$')
     @instructions.shift
     @instructions.each do |instruction|
       Instruction.create(content: instruction, recipe: @recipe)

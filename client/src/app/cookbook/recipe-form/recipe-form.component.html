@@ -3,26 +3,27 @@
   <form
     action=""
     class="flex flex-col h-full justify-center items-center gap-2"
+    [formGroup]="recipeForm"
   >
     <div class="flex gap-2 justify-center items-center">
       <div class="flex flex-col">
         <label for="title">Title</label>
-        <input type="text" name="title" class="h-12" ngModel />
+        <input type="text" name="title" class="h-12" formControlName="title" />
       </div>
       <div class="flex flex-col">
         <label for="preptime">Prep-time</label>
-        <input type="number" name="preptime" class="h-12" ngModel />
+        <input type="number" name="preptime" class="h-12" formControlName="preptime" />
       </div>
       <div class="flex flex-col">
         <label for="category">category</label>
-        <input type="text" name="category" class="h-12" ngModel />
+        <input type="text" name="category" class="h-12" formControlName="category" />
       </div>
       <div class="flex flex-col">
         <select
           name="genre"
           id=""
           class="bg-[#febc2b] h-12 cursor-pointer"
-          ngModel
+          formControlName="genre"
         >
           <option *ngFor="let option of options" [value]="option" selected>
             {{ option }}
@@ -39,7 +40,7 @@
         <div class="flex gap-1">
           <input type="text" name="ingredient" class="h-12" #ingredient />
           <button
-            (click)="onAddIngredient()"
+            (click)="onAddIngredient($event)"
             class="bg-[#60b158] text-white px-4"
           >
             <fa-icon [icon]="faPlus"></fa-icon>
@@ -55,7 +56,7 @@
         <div class="flex gap-1">
           <input type="text" name="instruction" class="h-12" #instruction />
           <button
-            (click)="onAddInstruction()"
+            (click)="onAddInstruction($event)"
             class="bg-[#60b158] text-white px-4"
           >
             <fa-icon [icon]="faPlus"></fa-icon>
@@ -67,6 +68,7 @@
     <button
       type="submit"
       class="bg-[#60b158] px-8 text-white h-12 text-semibold"
+      (click)="onSubmit()"
     >
       Create Recipe
     </button>

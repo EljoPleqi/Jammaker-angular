@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { NgForm, FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Recipe } from 'src/app/shared/interfaces/recipe';
 import { PostUserTypedRecipeService } from 'src/app/shared/services/post-user-typed-recipe.service';
 import { Router } from '@angular/router';
@@ -25,6 +25,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
   instructionsArray: string[] = [];
   options: string[] = ['rock', 'pop'];
   faPlus = faPlusCircle;
+  recipeForm!: FormGroup;
 
   @ViewChild('ingredient', { static: true }) ingredient!: ElementRef;
   @ViewChild('instruction', { static: true }) instruction!: ElementRef;
@@ -37,12 +38,20 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.displayService.typed$.next(true);
+    this.recipeForm = new FormGroup({
+      title: new FormControl(''),
+      preptime: new FormControl(''),
+      ingredients: new FormControl(''),
+      instructionsString: new FormControl(''),
+      category: new FormControl(''),
+      genre: new FormControl('pop'),
+    });
   }
 
-  onSubmit(formData: NgForm) {
-    const recipe: Recipe = formData.form.value;
-    recipe.ingredients = this.ingredientsArray.join('-');
-    recipe.instructionsString = this.instructionsArray.join('-');
+  onSubmit() {
+    const recipe: Recipe = this.recipeForm.value;
+    recipe.ingredients = this.ingredientsArray.join('-$');
+    recipe.instructionsString = this.instructionsArray.join('-$');
     this.postUserRecipe.PostUserRecipe(recipe).subscribe((data) => {
       this.route.navigate([`recipe/${data.id}`, `${data.playlistId}`]);
     });
@@ -52,11 +61,13 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     array.push(element);
   }
 
-  onAddIngredient() {
+  onAddIngredient(e: any) {
+    e.preventDefault();
     this.addToArray(this.ingredientsArray, this.ingredient.nativeElement.value);
   }
 
-  onAddInstruction() {
+  onAddInstruction(e: any) {
+    e.preventDefault();
     this.addToArray(
       this.instructionsArray,
       this.instruction.nativeElement.value
