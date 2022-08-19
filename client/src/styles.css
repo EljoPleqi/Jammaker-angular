@@ -5,6 +5,9 @@
 body {
   background-color: #efece6;
 }
-* {
+p {
   color: #263a44;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

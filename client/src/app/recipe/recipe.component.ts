@@ -4,13 +4,14 @@ import { map } from 'rxjs';
 import { Recipe } from 'src/app/shared/interfaces/recipe';
 import { GetRecipeService } from 'src/app/shared/services/get-recipe.service';
 import { faHeart, faClock } from '@fortawesome/free-regular-svg-icons';
+import { RecipeResponse } from '../shared/interfaces/recipe_response';
 
 @Component({
   selector: 'app-recipe',
   templateUrl: './recipe.component.html',
   styleUrls: ['./recipe.component.css'],
 })
-export class RecipeComponent implements OnInit {
+export class RecipeComponent implements OnInit, OnDestroy {
   // * icons
   faHeart = faHeart;
   faClock = faClock;
@@ -19,7 +20,6 @@ export class RecipeComponent implements OnInit {
   recipe!: Recipe;
   loading: Boolean = true;
   playlist: string = '';
-  regex = new RegExp(/\b\s(\d)+/);
 
   constructor(
     private route: ActivatedRoute,
@@ -31,11 +31,10 @@ export class RecipeComponent implements OnInit {
 
     this.id = this.route.snapshot.params['id'];
 
-    // * fetch recipe with recipe id
     this.recipeService
       .fetchRecipe(this.id)
       .pipe(
-        map((data) => {
+        map((data: RecipeResponse) => {
           const regex = new RegExp(/ [0-9\u00BC-\u00BE\u2150-\u215E\u2189]+/g);
           data.recipe.ingredientsArray = data.recipe.ingredients
             .replace(regex, (match) => `-${match}`)
@@ -56,5 +55,7 @@ export class RecipeComponent implements OnInit {
       });
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    // ! unsubscribe here
+  }
 }
