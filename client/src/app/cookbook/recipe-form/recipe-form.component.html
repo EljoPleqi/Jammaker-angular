@@ -2,27 +2,30 @@
   <h2 class="text-2xl font-medium py-8">Enter your own recipe</h2>
   <form
     action=""
-    class="flex flex-col h-full justify-center items-center gap-2 border-dashed border-2 border-[#000] rounded-t-lg rounded px-4 border-b-0"
+    class="flex flex-col h-full justify-center items-center gap-6 border-dashed border-2 border-[#000] bg-white rounded-t-lg  px-4 border-b-0"
     [formGroup]="recipeForm"
   >
-    <div class="flex gap-2 justify-center items-center">
-      <div class="flex flex-col">
+    <div class="flex gap-2 justify-center items-center w-full">
+      <div class="flex flex-col w-[50%] h-12">
         <label for="title">Title</label>
-        <input type="text" name="title" class="h-12" formControlName="title" />
+        <input type="text" name="title"  formControlName="title" class="py-2 bg-gray-100" />
       </div>
-      <div class="flex flex-col">
+      <div class="flex flex-col w-[50%] h-12">
         <label for="preptime">Prep-time</label>
-        <input type="number" name="preptime" class="h-12" formControlName="preptime" />
+        <input type="number" name="preptime"  formControlName="preptime" class="py-2 bg-gray-100" />
       </div>
-      <div class="flex flex-col">
+    </div>
+     <div class="flex gap-2 justify-center items-center w-full">
+      <div class="flex flex-col w-[50%]">
         <label for="category">category</label>
-        <input type="text" name="category" class="h-12" formControlName="category" />
+        <input type="text" name="category"  formControlName="category" class="py-2 bg-gray-100" />
       </div>
-      <div class="flex flex-col">
+      <div class="flex flex-col w-[50%]">
+        <label for="genre">genre</label>
         <select
           name="genre"
           id=""
-          class="bg-[#febc2b] h-12 cursor-pointer"
+          class="bg-[#febc2b] py-2 cursor-pointer"
           formControlName="genre"
         >
           <option *ngFor="let option of options" [value]="option" selected>
@@ -38,7 +41,7 @@
         </span>
         <label for="ingredient">Ingredients</label>
         <div class="flex gap-1">
-          <input type="text" name="ingredient" class="h-12" #ingredient />
+          <input type="text" name="ingredient" class="h-12" #ingredient class="py-2 bg-gray-100" />
           <button
             (click)="onAddIngredient($event)"
             class="bg-[#60b158] text-white px-4"
@@ -54,7 +57,7 @@
         </span>
         <label for="genre">Instructions</label>
         <div class="flex gap-1">
-          <input type="text" name="instruction" class="h-12" #instruction />
+          <input type="text" name="instruction" class="h-12" #instruction class="py-2 bg-gray-100" />
           <button
             (click)="onAddInstruction($event)"
             class="bg-[#60b158] text-white px-4"
@@ -67,7 +70,7 @@
     </div>
     <button
       type="submit"
-      class="bg-[#60b158] px-8 text-white h-12 text-semibold"
+      class="bg-[#60b158] px-8 text-white h-12 text-semibold place-self-end"
       (click)="onSubmit()"
     >
       Create Recipe
