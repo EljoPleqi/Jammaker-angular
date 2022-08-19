@@ -64,6 +64,8 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
   onAddIngredient(e: any) {
     e.preventDefault();
     this.addToArray(this.ingredientsArray, this.ingredient.nativeElement.value);
+    this.ingredient.nativeElement.value = ""
+
   }
 
   onAddInstruction(e: any) {
@@ -72,6 +74,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
       this.instructionsArray,
       this.instruction.nativeElement.value
     );
+    this.instruction.nativeElement.value = ""
   }
 
   ngOnDestroy(): void {

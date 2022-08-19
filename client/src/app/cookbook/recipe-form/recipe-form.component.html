@@ -35,7 +35,7 @@
       </div>
     </div>
     <div class="flex gap-2">
-      <form class="flex flex-col">
+      <div class="flex flex-col">
         <span *ngIf="ingredientsArray.length > 0">
           <p *ngFor="let ingredient of ingredientsArray">{{ ingredient }}</p>
         </span>
@@ -43,6 +43,7 @@
         <div class="flex gap-1">
           <input type="text" name="ingredient" class="h-12" #ingredient class="py-2 bg-gray-100" />
           <button
+            type="button"
             (click)="onAddIngredient($event)"
             class="bg-[#60b158] text-white px-4"
           >
@@ -50,8 +51,8 @@
             Add
           </button>
         </div>
-      </form>
-      <form class="flex flex-col">
+      </div>
+      <div class="flex flex-col">
         <span *ngIf="instructionsArray.length > 0">
           <p *ngFor="let instruction of instructionsArray">{{ instruction }}</p>
         </span>
@@ -59,6 +60,7 @@
         <div class="flex gap-1">
           <input type="text" name="instruction" class="h-12" #instruction class="py-2 bg-gray-100" />
           <button
+            type="button"
             (click)="onAddInstruction($event)"
             class="bg-[#60b158] text-white px-4"
           >
@@ -66,7 +68,7 @@
             Add
           </button>
         </div>
-      </form>
+      </div>
     </div>
     <button
       type="submit"
