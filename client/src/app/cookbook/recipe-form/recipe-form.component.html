@@ -1,81 +1,90 @@
 <div class="flex flex-col h-full justify-center items-center ">
   <h2 class="text-2xl font-medium py-8">Enter your own recipe</h2>
-  <form
-    action=""
-    class="flex flex-col h-full justify-center items-center gap-6 border-dashed border-2 border-[#000] bg-white rounded-t-lg  px-4 border-b-0"
-    [formGroup]="recipeForm"
-  >
-    <div class="flex gap-2 justify-center items-center w-full">
-      <div class="flex flex-col w-[50%] h-12">
-        <label for="title">Title</label>
-        <input type="text" name="title"  formControlName="title" class="py-2 bg-gray-100" />
-      </div>
-      <div class="flex flex-col w-[50%] h-12">
-        <label for="preptime">Prep-time</label>
-        <input type="number" name="preptime"  formControlName="preptime" class="py-2 bg-gray-100" />
-      </div>
-    </div>
-     <div class="flex gap-2 justify-center items-center w-full">
-      <div class="flex flex-col w-[50%]">
-        <label for="category">category</label>
-        <input type="text" name="category"  formControlName="category" class="py-2 bg-gray-100" />
-      </div>
-      <div class="flex flex-col w-[50%]">
-        <label for="genre">genre</label>
-        <select
-          name="genre"
-          id=""
-          class="bg-[#febc2b] py-2 cursor-pointer"
-          formControlName="genre"
+  <div class="flex w-full gap-2 mb-4">
+    <span class="px-3 py-1 border-2 border-solid border-[#4a4230] hover:bg-white cursor-pointer" (click)="setScrape(false)">Enter Your own Recipe</span>
+    <span class="px-3 py-1 border-2 border-solid border-[#4a4230] hover:bg-white  cursor-pointer" (click)="setScrape(true)">Enter an online Recipe</span>
+  </div>
+  <div *ngIf="!scrape">
+      <form
+        action=""
+        class="flex flex-col h-full justify-center items-center gap-6 border-dashed border-2  border-[#4a4230] bg-white rounded-t-md  px-4 border-b-0"
+        [formGroup]="recipeForm"
+      >
+        <div class="flex gap-2 justify-center items-center w-full">
+          <div class="flex flex-col w-[50%] h-12">
+            <label for="title">Title</label>
+            <input type="text" name="title"  formControlName="title" class="py-2 bg-gray-100" />
+          </div>
+          <div class="flex flex-col w-[50%] h-12">
+            <label for="preptime">Prep-time</label>
+            <input type="number" name="preptime"  formControlName="preptime" class="py-2 bg-gray-100" />
+          </div>
+        </div>
+        <div class="flex gap-2 justify-center items-center w-full">
+          <div class="flex flex-col w-[50%]">
+            <label for="category">category</label>
+            <input type="text" name="category"  formControlName="category" class="py-2 bg-gray-100" />
+          </div>
+          <div class="flex flex-col w-[50%]">
+            <label for="genre">genre</label>
+            <select
+              name="genre"
+              id=""
+              class="bg-[#febc2b] py-2 cursor-pointer"
+              formControlName="genre"
+            >
+              <option *ngFor="let option of options" [value]="option" selected>
+                {{ option }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="flex gap-2">
+          <div class="flex flex-col">
+            <span *ngIf="ingredientsArray.length > 0">
+              <p *ngFor="let ingredient of ingredientsArray">{{ ingredient }}</p>
+            </span>
+            <label for="ingredient">Ingredients</label>
+            <div class="flex gap-1">
+              <input type="text" name="ingredient" class="h-12" #ingredient class="py-2 bg-gray-100" />
+              <button
+                type="button"
+                (click)="onAddIngredient($event)"
+                class="bg-[#60b158] text-white px-4"
+              >
+                <fa-icon [icon]="faPlus"></fa-icon>
+                Add
+              </button>
+            </div>
+          </div>
+          <div class="flex flex-col">
+            <span *ngIf="instructionsArray.length > 0">
+              <p *ngFor="let instruction of instructionsArray">{{ instruction }}</p>
+            </span>
+            <label for="genre">Instructions</label>
+            <div class="flex gap-1">
+              <input type="text" name="instruction" class="h-12" #instruction class="py-2 bg-gray-100" />
+              <button
+                type="button"
+                (click)="onAddInstruction($event)"
+                class="bg-[#60b158] text-white px-4"
+              >
+                <fa-icon [icon]="faPlus"></fa-icon>
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+        <button
+          type="submit"
+          class="bg-[#60b158] px-8 text-white h-12 text-semibold place-self-end"
+          (click)="onSubmit()"
         >
-          <option *ngFor="let option of options" [value]="option" selected>
-            {{ option }}
-          </option>
-        </select>
-      </div>
-    </div>
-    <div class="flex gap-2">
-      <div class="flex flex-col">
-        <span *ngIf="ingredientsArray.length > 0">
-          <p *ngFor="let ingredient of ingredientsArray">{{ ingredient }}</p>
-        </span>
-        <label for="ingredient">Ingredients</label>
-        <div class="flex gap-1">
-          <input type="text" name="ingredient" class="h-12" #ingredient class="py-2 bg-gray-100" />
-          <button
-            type="button"
-            (click)="onAddIngredient($event)"
-            class="bg-[#60b158] text-white px-4"
-          >
-            <fa-icon [icon]="faPlus"></fa-icon>
-            Add
-          </button>
-        </div>
-      </div>
-      <div class="flex flex-col">
-        <span *ngIf="instructionsArray.length > 0">
-          <p *ngFor="let instruction of instructionsArray">{{ instruction }}</p>
-        </span>
-        <label for="genre">Instructions</label>
-        <div class="flex gap-1">
-          <input type="text" name="instruction" class="h-12" #instruction class="py-2 bg-gray-100" />
-          <button
-            type="button"
-            (click)="onAddInstruction($event)"
-            class="bg-[#60b158] text-white px-4"
-          >
-            <fa-icon [icon]="faPlus"></fa-icon>
-            Add
-          </button>
-        </div>
-      </div>
-    </div>
-    <button
-      type="submit"
-      class="bg-[#60b158] px-8 text-white h-12 text-semibold place-self-end"
-      (click)="onSubmit()"
-    >
-      Create Recipe
-    </button>
-  </form>
+          Create Recipe
+        </button>
+      </form>
+  </div>
+  <div *ngIf="scrape">
+      <app-input-section></app-input-section>
+  </div>
 </div>

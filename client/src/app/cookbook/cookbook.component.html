@@ -1,11 +1,11 @@
 <div *ngIf="spinner && !loading">Spinner</div>
 <div *ngIf="!loading">
-  <div class="h-screen grid grid-cols-cookbook grid-rows-cookbook bg-[#EFECE6]">
+  <div class="h-screen grid grid-cols-cookbook bg-[#EFECE6]">
     <app-sidebar class="row-span-3 bg-[#f7f6f3]" [id]="userId"></app-sidebar>
-    <div class="row-span-2 overflow-auto flex flex-col items-center">
+    <div class="row-span-3 overflow-auto flex flex-col items-center">
       <router-outlet></router-outlet>
     </div>
-    <div
+    <!-- <div
       *ngIf="!userTyped"
       class="flex flex-col gap-8 items-center justify-center bg-[#252118]"
     >
@@ -18,7 +18,7 @@
         </p>
       </div>
       <app-input-section></app-input-section>
-    </div>
+    </div> -->
   </div>
 </div>
 

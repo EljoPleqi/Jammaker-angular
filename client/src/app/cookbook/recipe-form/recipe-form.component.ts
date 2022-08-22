@@ -15,12 +15,13 @@ import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-recipe-form',
   host: {
-    class: 'flex flex-col h-full justify-center items-center',
+    class: 'h-full ',
   },
   templateUrl: './recipe-form.component.html',
   styleUrls: ['./recipe-form.component.css'],
 })
 export class RecipeFormComponent implements OnInit, OnDestroy {
+  scrape!:Boolean
   ingredientsArray: string[] = [];
   instructionsArray: string[] = [];
   options: string[] = ['rock', 'pop'];
@@ -75,6 +76,10 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
       this.instruction.nativeElement.value
     );
     this.instruction.nativeElement.value = ""
+  }
+
+  setScrape(state: boolean) {
+    this.scrape = state
   }
 
   ngOnDestroy(): void {
