@@ -9,4 +9,3 @@ class Instruction < ApplicationRecord
     return @instructions
   end
 end
-#

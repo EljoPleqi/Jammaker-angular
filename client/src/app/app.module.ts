@@ -5,8 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -41,8 +39,6 @@ import { RecipeFormComponent } from './cookbook/recipe-form/recipe-form.componen
     ReactiveFormsModule,
     FontAwesomeModule,
     BrowserAnimationsModule,
-    MatInputModule,
-    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
