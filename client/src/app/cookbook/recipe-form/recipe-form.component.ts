@@ -21,15 +21,15 @@ import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./recipe-form.component.css'],
 })
 export class RecipeFormComponent implements OnInit, OnDestroy {
-  scrape!:Boolean
+  scrape!: Boolean;
   ingredientsArray: string[] = [];
   instructionsArray: string[] = [];
   options: string[] = ['rock', 'pop'];
   faPlus = faPlusCircle;
   recipeForm!: FormGroup;
 
-  @ViewChild('ingredient', { static: true }) ingredient!: ElementRef;
-  @ViewChild('instruction', { static: true }) instruction!: ElementRef;
+  @ViewChild('ingredient') ingredient!: ElementRef;
+  @ViewChild('instruction') instruction!: ElementRef;
 
   constructor(
     private postUserRecipe: PostUserTypedRecipeService,
@@ -46,6 +46,8 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
       instructionsString: new FormControl(''),
       category: new FormControl(''),
       genre: new FormControl('pop'),
+      image: new FormControl(''),
+      servings: new FormControl('4'),
     });
   }
 
@@ -65,8 +67,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
   onAddIngredient(e: any) {
     e.preventDefault();
     this.addToArray(this.ingredientsArray, this.ingredient.nativeElement.value);
-    this.ingredient.nativeElement.value = ""
-
+    this.ingredient.nativeElement.value = '';
   }
 
   onAddInstruction(e: any) {
@@ -75,11 +76,11 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
       this.instructionsArray,
       this.instruction.nativeElement.value
     );
-    this.instruction.nativeElement.value = ""
+    this.instruction.nativeElement.value = '';
   }
 
   setScrape(state: boolean) {
-    this.scrape = state
+    this.scrape = state;
   }
 
   ngOnDestroy(): void {

@@ -1,0 +1,11 @@
+.ingredients_container {
+  width: 100%;
+}
+
+.ingredients_container input {
+  width: 80%;
+}
+
+.ingredients_display {
+  border-bottom: 0.1rem dashed #4a4230;
+}

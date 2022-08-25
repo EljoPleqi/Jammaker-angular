@@ -1,90 +1,160 @@
-<div class="flex flex-col h-full justify-center items-center ">
+<div class="flex flex-col h-full justify-center items-center">
   <h2 class="text-2xl font-medium py-8">Enter your own recipe</h2>
   <div class="flex w-full gap-2 mb-4">
-    <span class="px-3 py-1 border-2 border-solid border-[#4a4230] hover:bg-white cursor-pointer" (click)="setScrape(false)">Enter Your own Recipe</span>
-    <span class="px-3 py-1 border-2 border-solid border-[#4a4230] hover:bg-white  cursor-pointer" (click)="setScrape(true)">Enter an online Recipe</span>
+    <span
+      class="px-3 py-1 border-2 border-solid border-[#4a4230] hover:bg-white cursor-pointer"
+      (click)="setScrape(false)"
+      >Enter your own recipe</span
+    >
+    <span
+      class="px-3 py-1 border-2 border-solid border-[#4a4230] hover:bg-white cursor-pointer"
+      (click)="setScrape(true)"
+      >Enter an online recipe</span
+    >
   </div>
-  <div *ngIf="!scrape">
-      <form
-        action=""
-        class="flex flex-col h-full justify-center items-center gap-6 border-dashed border-2  border-[#4a4230] bg-white rounded-t-md  px-4 border-b-0"
-        [formGroup]="recipeForm"
-      >
-        <div class="flex gap-2 justify-center items-center w-full">
-          <div class="flex flex-col w-[50%] h-12">
-            <label for="title">Title</label>
-            <input type="text" name="title"  formControlName="title" class="py-2 bg-gray-100" />
-          </div>
-          <div class="flex flex-col w-[50%] h-12">
+  <div *ngIf="!scrape" class="max-w-xl">
+    <form
+      action=""
+      class="flex flex-col h-full justify-center items-center gap-12 border-dashed border-2 border-[#4a4230] bg-white rounded-t-md p-8 border-b-0"
+      [formGroup]="recipeForm"
+    >
+      <div class="flex gap-2 justify-center items-center w-full">
+        <div class="flex flex-col w-[50%] h-12">
+          <label for="title">Title</label>
+          <input
+            type="text"
+            name="title"
+            formControlName="title"
+            class="py-2 bg-gray-100"
+          />
+        </div>
+        <div class="flex w-[50%] gap-2 h-12">
+          <div class="flex flex-col w-[50%]">
             <label for="preptime">Prep-time</label>
-            <input type="number" name="preptime"  formControlName="preptime" class="py-2 bg-gray-100" />
+            <input
+              type="number"
+              name="preptime"
+              formControlName="preptime"
+              class="py-2 bg-gray-100"
+            />
+          </div>
+          <div class="flex flex-col w-[50%]">
+            <label for="servings">Servings</label>
+            <input
+              type="number"
+              name="servings"
+              formControlName="servings"
+              class="py-2 bg-gray-100"
+            />
           </div>
         </div>
-        <div class="flex gap-2 justify-center items-center w-full">
-          <div class="flex flex-col w-[50%]">
-            <label for="category">category</label>
-            <input type="text" name="category"  formControlName="category" class="py-2 bg-gray-100" />
-          </div>
-          <div class="flex flex-col w-[50%]">
-            <label for="genre">genre</label>
-            <select
-              name="genre"
-              id=""
-              class="bg-[#febc2b] py-2 cursor-pointer"
-              formControlName="genre"
+      </div>
+      <div class="flex gap-2 justify-center items-center w-full">
+        <div class="flex flex-col w-[50%]">
+          <label for="category">category</label>
+          <input
+            type="text"
+            name="category"
+            formControlName="category"
+            class="py-2 bg-gray-100"
+          />
+        </div>
+        <div class="flex flex-col w-[50%]">
+          <label for="genre">genre</label>
+          <select
+            name="genre"
+            id=""
+            class="bg-[#febc2b] py-2 cursor-pointer"
+            formControlName="genre"
+          >
+            <option *ngFor="let option of options" [value]="option" selected>
+              {{ option }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="w-full">
+        <input type="file" name="" id="" formControlName="image" />
+      </div>
+      <div class="flex flex-col gap-2 w-full">
+        <div class="flex flex-col w-full">
+          <div
+            *ngIf="ingredientsArray.length > 0"
+            class="w-full overflow-scroll"
+          >
+            <div
+              *ngFor="let ingredient of ingredientsArray; let i = index"
+              class="flex gap-2 border-b-2 border-dashed border-[#4a4230] my-8 py-2"
             >
-              <option *ngFor="let option of options" [value]="option" selected>
-                {{ option }}
-              </option>
-            </select>
-          </div>
-        </div>
-        <div class="flex gap-2">
-          <div class="flex flex-col">
-            <span *ngIf="ingredientsArray.length > 0">
-              <p *ngFor="let ingredient of ingredientsArray">{{ ingredient }}</p>
-            </span>
-            <label for="ingredient">Ingredients</label>
-            <div class="flex gap-1">
-              <input type="text" name="ingredient" class="h-12" #ingredient class="py-2 bg-gray-100" />
-              <button
-                type="button"
-                (click)="onAddIngredient($event)"
-                class="bg-[#60b158] text-white px-4"
+              <span
+                class="flex items-center justify-center text-white text-3xl min-w-[3.5rem] h-[3.5rem] bg-[#fc413b]"
+                >{{ i + 1 }}</span
               >
-                <fa-icon [icon]="faPlus"></fa-icon>
-                Add
-              </button>
+              <p>{{ ingredient }}</p>
             </div>
           </div>
-          <div class="flex flex-col">
-            <span *ngIf="instructionsArray.length > 0">
-              <p *ngFor="let instruction of instructionsArray">{{ instruction }}</p>
-            </span>
-            <label for="genre">Instructions</label>
-            <div class="flex gap-1">
-              <input type="text" name="instruction" class="h-12" #instruction class="py-2 bg-gray-100" />
-              <button
-                type="button"
-                (click)="onAddInstruction($event)"
-                class="bg-[#60b158] text-white px-4"
-              >
-                <fa-icon [icon]="faPlus"></fa-icon>
-                Add
-              </button>
-            </div>
+          <label for="ingredient">Ingredients</label>
+          <div class="flex gap-1">
+            <input
+              type="text"
+              name="ingredient"
+              class="h-12 w-[80%]"
+              #ingredient
+              class="py-2 bg-gray-100 w-[80%]"
+            />
+            <button
+              type="button"
+              (click)="onAddIngredient($event)"
+              class="bg-[#60b158] text-white px-4 w-[20%]"
+            >
+              <fa-icon [icon]="faPlus"></fa-icon>
+              Add
+            </button>
           </div>
         </div>
-        <button
-          type="submit"
-          class="bg-[#60b158] px-8 text-white h-12 text-semibold place-self-end"
-          (click)="onSubmit()"
-        >
-          Create Recipe
-        </button>
-      </form>
+        <div class="flex flex-col w-full">
+          <div *ngIf="instructionsArray.length > 0">
+            <div
+              *ngFor="let instruction of instructionsArray; let i = index"
+              class="flex gap-2 border-b-2 border-dashed border-[#4a4230] my-8 py-2"
+            >
+              <span
+                class="flex items-center justify-center text-white text-3xl min-w-[3.5rem] h-[3.5rem] bg-[#fc413b]"
+                >{{ i + 1 }}</span
+              >
+              <p>{{ instruction }}</p>
+            </div>
+          </div>
+          <label for="genre">Instructions</label>
+          <div class="flex gap-1">
+            <input
+              type="textarea"
+              name="instruction"
+              class="h-12"
+              #instruction
+              class="py-2 bg-gray-100 w-[80%]"
+            />
+            <button
+              type="button"
+              (click)="onAddInstruction($event)"
+              class="bg-[#60b158] text-white px-4 w-[20%]"
+            >
+              <fa-icon [icon]="faPlus"></fa-icon>
+              Add
+            </button>
+          </div>
+        </div>
+      </div>
+      <button
+        type="submit"
+        class="bg-[#60b158] px-8 text-white h-12 text-semibold place-self-end"
+        (click)="onSubmit()"
+      >
+        Create Recipe
+      </button>
+    </form>
   </div>
   <div *ngIf="scrape">
-      <app-input-section></app-input-section>
+    <app-input-section></app-input-section>
   </div>
 </div>
