@@ -15,7 +15,7 @@
   <div *ngIf="!scrape" class="max-w-xl">
     <form
       action=""
-      class="flex flex-col h-full justify-center items-center gap-12 border-dashed border-2 border-[#4a4230] bg-white rounded-t-md p-8 border-b-0"
+      class="flex flex-col justify-center items-center gap-12 border-dashed border-2 border-[#4a4230] bg-white rounded-t-md p-8 border-b-0"
       [formGroup]="recipeForm"
     >
       <div class="flex gap-2 justify-center items-center w-full">
@@ -80,17 +80,19 @@
         <div class="flex flex-col w-full">
           <div
             *ngIf="ingredientsArray.length > 0"
-            class="w-full overflow-scroll"
+            class="max-h-[6rem] overflow-y-auto mb-4"
           >
             <div
               *ngFor="let ingredient of ingredientsArray; let i = index"
-              class="flex gap-2 border-b-2 border-dashed border-[#4a4230] my-8 py-2"
+              class="flex gap-2 border-b-2 border-dashed border-[#4a4230] py-1"
             >
               <span
                 class="flex items-center justify-center text-white text-3xl min-w-[3.5rem] h-[3.5rem] bg-[#fc413b]"
                 >{{ i + 1 }}</span
               >
-              <p>{{ ingredient }}</p>
+              <p class="max-h-[3.5rem] overflow-y-auto py-2">
+                {{ ingredient }}
+              </p>
             </div>
           </div>
           <label for="ingredient">Ingredients</label>
@@ -113,16 +115,21 @@
           </div>
         </div>
         <div class="flex flex-col w-full">
-          <div *ngIf="instructionsArray.length > 0">
+          <div
+            *ngIf="instructionsArray.length > 0"
+            class="max-h-[6rem] overflow-y-auto mb-4"
+          >
             <div
               *ngFor="let instruction of instructionsArray; let i = index"
-              class="flex gap-2 border-b-2 border-dashed border-[#4a4230] my-8 py-2"
+              class="flex gap-2 border-b-2 border-dashed border-[#4a4230] py-1"
             >
               <span
                 class="flex items-center justify-center text-white text-3xl min-w-[3.5rem] h-[3.5rem] bg-[#fc413b]"
                 >{{ i + 1 }}</span
               >
-              <p>{{ instruction }}</p>
+              <p class="max-h-[3.5rem] overflow-y-auto py-2">
+                {{ instruction }}
+              </p>
             </div>
           </div>
           <label for="genre">Instructions</label>
