@@ -31,28 +31,16 @@ export class RecipeComponent implements OnInit, OnDestroy {
 
     this.id = this.route.snapshot.params['id'];
 
-    this.recipeService
-      .fetchRecipe(this.id)
-      .pipe(
-        map((data: RecipeResponse) => {
-          const regex = new RegExp(/ [0-9\u00BC-\u00BE\u2150-\u215E\u2189]+/g);
-          data.recipe.ingredientsArray = data.recipe.ingredients
-            .replace(regex, (match) => `-${match}`)
-            .split('-')
-            .map((sentence: string) => sentence.trim());
-
-          return data;
-        })
-      )
-      .subscribe((data) => {
-        this.recipe = data.recipe;
-        this.playlist = data.playlist;
-        this.loading = false;
-        // window.open(
-        //   `https://open.spotify.com/playlist/${this.playlist}`,
-        //   '_blank'
-        // );
-      });
+    this.recipeService.fetchRecipe(this.id).subscribe((data) => {
+      console.log(data);
+      this.recipe = data.recipe;
+      this.playlist = data.playlist;
+      this.loading = false;
+      // window.open(
+      //   `https://open.spotify.com/playlist/${this.playlist}`,
+      //   '_blank'
+      // );
+    });
   }
 
   ngOnDestroy(): void {

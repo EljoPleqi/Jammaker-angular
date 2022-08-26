@@ -2,6 +2,7 @@ class Recipe < ApplicationRecord
   require "open-uri"
   belongs_to :user
   has_many :instructions
+  has_many :ingredients
   has_one :playlist
   scope :favorited, -> { where(favorite: true) }
   validates :genre, inclusion: ["pop", 'punk', 'rock', 'hiphop', 'chill', "indie_alt"]
@@ -35,7 +36,7 @@ class Recipe < ApplicationRecord
     # @image = if @image.present? ? @image : @image
     @recipe.title = @title
     @recipe.preptime = @preptime
-    @recipe.ingredients = @ingredients
+    @recipe.raw_ingredients = @ingredients
     @recipe.steps = @steps
     @recipe.url = @image
     @recipe.category = @category
