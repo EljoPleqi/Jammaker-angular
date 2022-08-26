@@ -26,6 +26,11 @@
             name="title"
             formControlName="title"
             class="py-2 bg-gray-100"
+            [ngClass]="{
+              errorInput:
+                recipeForm.get('title')?.valid &&
+                recipeForm.get('title')?.touched
+            }"
           />
         </div>
         <div class="flex w-[50%] gap-2 h-12">
