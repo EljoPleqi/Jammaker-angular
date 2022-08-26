@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
-import { Recipe } from 'src/app/shared/interfaces/recipe';
+import { Recipe } from 'src/app/shared/interfaces/recipe.model';
 import { GetRecipeService } from 'src/app/shared/services/get-recipe.service';
 import { faHeart, faClock } from '@fortawesome/free-regular-svg-icons';
-import { RecipeResponse } from '../shared/interfaces/recipe_response';
+import { RecipeResponse } from '../shared/interfaces/recipe.model';
 
 @Component({
   selector: 'app-recipe',

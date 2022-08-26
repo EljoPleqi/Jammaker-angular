@@ -5,13 +5,17 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Recipe } from 'src/app/shared/interfaces/recipe';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { Recipe } from 'src/app/shared/interfaces/recipe.model';
 import { PostUserTypedRecipeService } from 'src/app/shared/services/post-user-typed-recipe.service';
 import { Router } from '@angular/router';
 import { DisplayService } from 'src/app/shared/services/display.service';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-recipe-form',
@@ -35,12 +39,12 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
   ];
   faPlus = faPlusCircle;
   recipeForm!: FormGroup;
-  formSub!: Subscription;
 
   @ViewChild('ingredient') ingredient!: ElementRef;
   @ViewChild('instruction') instruction!: ElementRef;
 
   constructor(
+    private fb: FormBuilder,
     private postUserRecipe: PostUserTypedRecipeService,
     private displayService: DisplayService,
     private route: Router
@@ -63,8 +67,6 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    const recipe: Recipe = this.recipeForm.value;
-
     if (this.validateArrays(this.ingredientsArray)) {
       alert("Ingredients can't be empty");
       return;
@@ -74,13 +76,15 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
       return;
     }
 
-    recipe.ingredients = this.ingredientsArray.join('-$');
-    recipe.instructionsString = this.instructionsArray.join('-$');
-    this.formSub = this.postUserRecipe
-      .PostUserRecipe(recipe)
-      .subscribe((data) => {
-        this.route.navigate([`recipe/${data.id}`, `${data.playlistId}`]);
-      });
+    const recipe: Recipe = {
+      ...this.recipeForm.value,
+      ingredients: this.ingredientsArray.join('-$'),
+      instructions: this.instructionsArray.join('-$'),
+      favorite: false,
+    };
+    this.postUserRecipe.PostUserRecipe(recipe).subscribe((data) => {
+      this.route.navigate([`recipe/${data.id}`, `${data.playlistId}`]);
+    });
     console.log(this.recipeForm);
   }
 

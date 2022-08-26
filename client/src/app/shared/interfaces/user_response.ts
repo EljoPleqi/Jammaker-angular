@@ -1,4 +1,4 @@
-import { Recipe } from './recipe';
+import { Recipe } from './recipe.model';
 import { User } from './user';
 
 export interface UserResponse {

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Recipe } from 'src/app/shared/interfaces/recipe';
+import { Recipe } from 'src/app/shared/interfaces/recipe.model';
 import { User } from 'src/app/shared/interfaces/user';
 import { GetUserService } from 'src/app/shared/services/get-user.service';
 

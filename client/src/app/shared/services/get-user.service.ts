@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../interfaces/user';
-import { Recipe } from '../interfaces/recipe';
+import { Recipe } from '../interfaces/recipe.model';
 import { UserResponse } from '../interfaces/user_response';
 
 @Injectable({

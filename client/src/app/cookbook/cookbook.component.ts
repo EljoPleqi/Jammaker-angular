@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../shared/interfaces/user';
-import { Recipe } from '../shared/interfaces/recipe';
+import { Recipe } from '../shared/interfaces/recipe.model';
 import { GetUserService } from '../shared/services/get-user.service';
 import { DisplayService } from '../shared/services/display.service';
 @Component({

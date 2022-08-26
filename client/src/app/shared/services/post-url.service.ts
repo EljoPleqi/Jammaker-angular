@@ -1,7 +1,7 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { RecipeScrapped } from '../interfaces/recipe_scrapped';
-import { RecipeData } from '../interfaces/recipe_data';
+import { RecipeScrapped } from '../interfaces/recipe.model';
+import { RecipeData } from '../interfaces/recipe.model';
 
 @Injectable({
   providedIn: 'root',
