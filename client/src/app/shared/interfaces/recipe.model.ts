@@ -1,3 +1,4 @@
+import { Ingredients } from './ingredients';
 import { Instruction } from './instruction';
 
 export interface Recipe {
@@ -6,7 +7,7 @@ export interface Recipe {
   preptime: string;
   instructions: Instruction[];
   url?: string;
-  ingredients: string;
+  ingredients: Ingredients[];
   ingredientsArray?: string[];
   instructionsArray?: string[];
   favorite: boolean;

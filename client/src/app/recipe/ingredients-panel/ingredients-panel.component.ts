@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Ingredients } from 'src/app/shared/interfaces/ingredients';
 
 @Component({
   selector: 'app-ingredients-panel',
@@ -6,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./ingredients-panel.component.css'],
 })
 export class IngredientsPanelComponent implements OnInit {
-  @Input() ingredients: string[] | any = [];
+  @Input() ingredients!: Ingredients[];
   constructor() {}
 
   ngOnInit(): void {}

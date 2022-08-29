@@ -20,48 +20,71 @@
     >
       <div class="flex gap-2 justify-center items-center w-full">
         <div class="flex flex-col w-[50%] h-12">
-          <label for="title">Title</label>
+          <label for="title">Title*</label>
           <input
             type="text"
             name="title"
             formControlName="title"
             class="py-2 bg-gray-100"
             [ngClass]="{
-              errorInput:
-                recipeForm.get('title')?.valid &&
+              'border-dashed border-2 border-[#fc413b]':
+                !recipeForm.get('title')?.valid &&
                 recipeForm.get('title')?.touched
             }"
           />
+          <span
+            *ngIf="
+              !recipeForm.get('title')?.valid &&
+              recipeForm.get('title')?.touched
+            "
+          >
+            please enter a title</span
+          >
         </div>
         <div class="flex w-[50%] gap-2 h-12">
           <div class="flex flex-col w-[50%]">
-            <label for="preptime">Prep-time</label>
+            <label for="preptime">Prep-time*</label>
             <input
               type="number"
               name="preptime"
               formControlName="preptime"
               class="py-2 bg-gray-100"
+              [ngClass]="{
+              'border-dashed border-2 border-[#fc413b]':
+                !recipeForm.get('preptime')?.valid &&
+                recipeForm.get('preptime')?.touched
+            }"
             />
           </div>
           <div class="flex flex-col w-[50%]">
-            <label for="servings">Servings</label>
+            <label for="servings">Servings*</label>
             <input
               type="number"
               name="servings"
               formControlName="servings"
               class="py-2 bg-gray-100"
+              [ngClass]="{
+              'border-dashed border-2 border-[#fc413b]':
+                !recipeForm.get('servings')?.valid &&
+                recipeForm.get('servings')?.touched
+            }"
             />
           </div>
         </div>
       </div>
       <div class="flex gap-2 justify-center items-center w-full">
         <div class="flex flex-col w-[50%]">
-          <label for="category">category</label>
+          <label for="category">Category*</label>
           <input
             type="text"
             name="category"
             formControlName="category"
             class="py-2 bg-gray-100"
+            [ngClass]="{
+              'border-dashed border-2 border-[#fc413b]':
+                !recipeForm.get('category')?.valid &&
+                recipeForm.get('category')?.touched
+            }"
           />
         </div>
         <div class="flex flex-col w-[50%]">
