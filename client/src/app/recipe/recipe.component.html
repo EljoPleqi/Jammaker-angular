@@ -43,10 +43,11 @@
     <img src="../../assets/burger.png" class="h-10" alt="" />
   </div>
   <!-- right column -->
-  <div class="">
+  <div class="flex flex-col gap-4">
     <app-ingredients-panel
       [ingredients]="recipe.ingredients"
     ></app-ingredients-panel>
+    <app-playlist-button></app-playlist-button>
   </div>
 </div>
 

@@ -13,7 +13,9 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :recipes, only: %i[show index create destroy update] do
         resources :instructions, only: %i[new create]
+        post '/new-playlist', to: "recipes#generate_new_playlist"
       end
+      resources :playlists, only: %i[show index create destroy update]
       post '/typed-recipe', to: "recipes#typed_recipe"
     end
   end
