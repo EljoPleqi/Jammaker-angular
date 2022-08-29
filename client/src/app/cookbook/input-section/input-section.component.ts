@@ -1,17 +1,25 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  OnDestroy,
+  Output,
+} from '@angular/core';
 import { PostUrlService } from 'src/app/shared/services/post-url.service';
 import { NgForm, FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-input-section',
   templateUrl: './input-section.component.html',
   styleUrls: ['./input-section.component.css'],
 })
-export class InputSectionComponent implements OnInit {
+export class InputSectionComponent implements OnInit, OnDestroy {
   @Output() spinner = new EventEmitter<boolean>();
   playlist: string = '';
   options: string[] = ['rock', 'pop'];
+  scrapperSub!: Subscription;
 
   scrapperData!: FormGroup;
 
@@ -25,7 +33,7 @@ export class InputSectionComponent implements OnInit {
   }
 
   onSubmit() {
-    this.recipeService
+    this.scrapperSub = this.recipeService
       .postUrl(this.scrapperData.value)
       .subscribe((recipeData) => {
         this.route.navigate([
@@ -34,5 +42,9 @@ export class InputSectionComponent implements OnInit {
         ]);
         this.spinner.emit(true);
       });
+  }
+
+  ngOnDestroy() {
+    // this.scrapperSub.unsubscribe();
   }
 }

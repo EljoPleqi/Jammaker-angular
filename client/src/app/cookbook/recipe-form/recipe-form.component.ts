@@ -44,7 +44,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
   @ViewChild('instruction') instruction!: ElementRef;
 
   constructor(
-    private fb: FormBuilder,
+    // private fb: FormBuilder,
     private postUserRecipe: PostUserTypedRecipeService,
     private displayService: DisplayService,
     private route: Router
