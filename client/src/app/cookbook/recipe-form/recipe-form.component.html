@@ -54,7 +54,14 @@
                 !recipeForm.get('preptime')?.valid &&
                 recipeForm.get('preptime')?.touched
             }"
-            />
+            /><span
+            *ngIf="
+              !recipeForm.get('title')?.valid &&
+              recipeForm.get('title')?.touched
+            "
+          >
+            please enter a prep-time</span
+          >
           </div>
           <div class="flex flex-col w-[50%]">
             <label for="servings">Servings*</label>
@@ -69,6 +76,14 @@
                 recipeForm.get('servings')?.touched
             }"
             />
+            <span
+            *ngIf="
+              !recipeForm.get('title')?.valid &&
+              recipeForm.get('title')?.touched
+            "
+          >
+            please enter a servings number</span
+          >
           </div>
         </div>
       </div>
@@ -86,6 +101,14 @@
                 recipeForm.get('category')?.touched
             }"
           />
+          <span
+            *ngIf="
+              !recipeForm.get('title')?.valid &&
+              recipeForm.get('title')?.touched
+            "
+          >
+            please enter a category</span
+          >
         </div>
         <div class="flex flex-col w-[50%]">
           <label for="genre">genre</label>
