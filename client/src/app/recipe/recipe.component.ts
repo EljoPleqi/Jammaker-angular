@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
-import { Recipe } from 'src/app/shared/interfaces/recipe.model';
+import { Recipe, RecipeData } from 'src/app/shared/interfaces/recipe.model';
 import { GetRecipeService } from 'src/app/shared/services/get-recipe.service';
 import { faHeart, faClock } from '@fortawesome/free-regular-svg-icons';
 import { RecipeResponse } from '../shared/interfaces/recipe.model';
@@ -19,7 +19,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
   id: number = 0;
   recipe!: Recipe;
   loading: Boolean = true;
-  playlist: string = '';
+  recipeData!:RecipeData;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,9 +32,11 @@ export class RecipeComponent implements OnInit, OnDestroy {
     this.id = this.route.snapshot.params['id'];
 
     this.recipeService.fetchRecipe(this.id).subscribe((data) => {
-      console.log(data);
-      this.recipe = data.recipe;
-      this.playlist = data.playlist;
+      this.recipeData = {
+        id: data.recipe.id,
+        playlistId: data.playlist
+      }
+      this.recipe = data.recipe
       this.loading = false;
       // window.open(
       //   `https://open.spotify.com/playlist/${this.playlist}`,

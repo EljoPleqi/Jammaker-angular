@@ -1,0 +1,31 @@
+<div class="w-full flex justify-between bg-[#3d3829] rounded-md py-2 px-4">
+  <a [href]="'https://open.spotify.com/playlist/'+playlistId" target="_blank"
+      class="bg-[rgb(29,184,84)] py-3 pl-5 text-white rounded-md items-center flex gap-2 w-[14rem] cursor-pointer"
+    >
+      <img
+        src="../../../assets/img/Spotify_Icon_RGB_White.png"
+        alt=""
+        class="h-2[rem] w-[2rem]"
+      />
+      Open Playlist</a
+    >
+    <div class="flex gap-12 items-center">
+      <div >
+      <p class="text-white text-xs">Duration</p>
+      <p class="text-white">{{playlistData.duration}}</p>
+      </div>
+      <div >
+        <p class="text-white text-xs">Number of Tracks</p>
+        <p class="text-white">{{playlistData.numberOfTracks}}</p>
+      </div>
+
+    </div>
+</div>
+<div (click)="generateNewPlaylist()" class="mt-2 flex items-center py-3 pl-5 justify-center bg-[#febc2b] rounded-md hover:border-dashed hover:border-2 hover:border-[#3d3829] cursor-pointer">
+  <button type="button"
+  class=" file:text-[#3d3829] "
+  >
+    <fa-icon [icon]="faArrows"></fa-icon>
+     Generate New playlist
+  </button>
+</div>
