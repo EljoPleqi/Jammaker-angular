@@ -16,7 +16,7 @@ const routes: Routes = [
       { path: 'create', component: RecipeFormComponent },
     ],
   },
-  { path: 'recipe/:id/:playlist_id', component: RecipeComponent },
+  { path: 'recipe/:id', component: RecipeComponent },
 ];
 
 @NgModule({

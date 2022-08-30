@@ -9,7 +9,7 @@ export class NewPlaylistService {
 
   constructor(private http: HttpClient) { }
 
-  generate(recipeData:string) {
+  generate(recipeData:number) {
     return this.http.post<RecipeData>(
       `http://localhost:3000/api/v1/recipes/${recipeData}/new-playlist`,
       { recipeData },

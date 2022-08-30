@@ -1,5 +1,5 @@
 <div class="w-full flex justify-between bg-[#3d3829] rounded-md py-2 px-4">
-  <a
+  <a [href]="'https://open.spotify.com/playlist/'+playlistId" target="_blank"
       class="bg-[rgb(29,184,84)] py-3 pl-5 text-white rounded-md items-center flex gap-2 w-[14rem] cursor-pointer"
     >
       <img
@@ -12,16 +12,13 @@
     <div class="flex gap-12 items-center">
       <div >
       <p class="text-white text-xs">Duration</p>
-      <p class="text-white">xxx</p>
+      <p class="text-white">{{playlistData.duration}}</p>
       </div>
       <div >
-        <p class="text-white text-xs">N' of Tracks</p>
-        <p class="text-white">xxx</p>
+        <p class="text-white text-xs">Number of Tracks</p>
+        <p class="text-white">{{playlistData.numberOfTracks}}</p>
       </div>
-      <div >
-        <p class="text-white text-xs">Genre</p>
-        <p class="text-white">xxx</p>
-      </div>
+
     </div>
 </div>
 <div (click)="generateNewPlaylist()" class="mt-2 flex items-center py-3 pl-5 justify-center bg-[#febc2b] rounded-md hover:border-dashed hover:border-2 hover:border-[#3d3829] cursor-pointer">

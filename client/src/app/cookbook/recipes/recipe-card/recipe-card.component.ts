@@ -11,9 +11,10 @@ import { GetRecipeService } from 'src/app/shared/services/get-recipe.service';
 export class RecipeCardComponent implements OnInit {
   @Input() recipe!: Recipe;
 
-  constructor(private route: Router) {}
+  constructor(private route: Router) { }
+
   onOpenRecipe() {
-    this.route.navigate([`recipe/${this.recipe.id}`, `${this.recipe}`]);
+    this.route.navigate([`recipe/${this.recipe.id}`]);
   }
   ngOnInit(): void {}
 }

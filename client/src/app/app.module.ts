@@ -17,7 +17,7 @@ import { RecipeCardComponent } from './cookbook/recipes/recipe-card/recipe-card.
 import { InstructionCardComponent } from './recipe/instruction-card/instruction-card.component';
 import { IngredientsPanelComponent } from './recipe/ingredients-panel/ingredients-panel.component';
 import { RecipeFormComponent } from './cookbook/recipe-form/recipe-form.component';
-import { PlaylistButtonComponent } from './recipe/playlist-button/playlist-button.component';
+import { PlaylistComponent } from './recipe/playlist/playlist.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +32,7 @@ import { PlaylistButtonComponent } from './recipe/playlist-button/playlist-butto
     InstructionCardComponent,
     IngredientsPanelComponent,
     RecipeFormComponent,
-    PlaylistButtonComponent,
+    PlaylistComponent,
   ],
   imports: [
     BrowserModule,
