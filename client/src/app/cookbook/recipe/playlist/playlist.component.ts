@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
-import { map, switchMap } from 'rxjs';
-import { take } from 'rxjs';
+import { map, switchMap, take } from 'rxjs';
 import { PlaylistData } from 'src/app/shared/interfaces/playlist.model';
 import { RecipeData } from 'src/app/shared/interfaces/recipe.model';
 import { GetPlaylistDataService } from 'src/app/shared/services/get-playlist-data.service';
 import { NewPlaylistService } from 'src/app/shared/services/new-playlist.service';
+import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
+import { faClock } from '@fortawesome/free-regular-svg-icons';
+
 
 @Component({
   selector: 'app-playlist',
@@ -17,6 +18,7 @@ export class PlaylistComponent implements OnInit {
   playlistId: string = ''
   playlistData!: PlaylistData
   faArrows = faArrowsRotate;
+  faClock = faClock
 
 
   constructor(

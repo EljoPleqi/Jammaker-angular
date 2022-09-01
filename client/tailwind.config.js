@@ -8,7 +8,7 @@ module.exports = {
       },
       gridTemplateColumns: {
         cookbook: "0.5fr 2fr",
-        recipes: "2fr 0.5fr 1.5fr",
+        recipes: "1.5fr 1.5fr",
       },
       gridTemplateRows: {
         recipes: "repeat(2, 1fr)",
