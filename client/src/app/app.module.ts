@@ -10,14 +10,14 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { CookbookComponent } from './cookbook/cookbook.component';
 import { InputSectionComponent } from './cookbook/input-section/input-section.component';
-import { RecipeComponent } from './recipe/recipe.component';
+import { RecipeComponent } from './cookbook/recipe/recipe.component'
 import { SidebarComponent } from './cookbook/sidebar/sidebar.component';
 import { RecipesComponent } from './cookbook/recipes/recipes.component';
 import { RecipeCardComponent } from './cookbook/recipes/recipe-card/recipe-card.component';
-import { InstructionCardComponent } from './recipe/instruction-card/instruction-card.component';
-import { IngredientsPanelComponent } from './recipe/ingredients-panel/ingredients-panel.component';
+import { InstructionCardComponent } from './cookbook/recipe/instruction-card/instruction-card.component';
+import { IngredientsPanelComponent } from './cookbook/recipe/ingredients-panel/ingredients-panel.component';
 import { RecipeFormComponent } from './cookbook/recipe-form/recipe-form.component';
-import { PlaylistComponent } from './recipe/playlist/playlist.component';
+import { PlaylistComponent } from './cookbook/recipe/playlist/playlist.component';
 
 @NgModule({
   declarations: [

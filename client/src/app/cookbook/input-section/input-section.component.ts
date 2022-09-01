@@ -18,9 +18,16 @@ import { Subscription } from 'rxjs';
 export class InputSectionComponent implements OnInit, OnDestroy {
   @Output() spinner = new EventEmitter<boolean>();
   playlist: string = '';
-  options: string[] = ['rock', 'pop'];
-  scrapperSub!: Subscription;
+  options: string[] = [
+    'rock',
+    'pop',
+    'uk pop',
+    'modern rock',
+    'elector pop',
+    'indie pop',
+  ];
 
+  scrapperSub!: Subscription;
   scrapperData!: FormGroup;
 
   constructor(private route: Router, private recipeService: PostUrlService) {}

@@ -1,10 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs';
 import { Recipe, RecipeData } from 'src/app/shared/interfaces/recipe.model';
 import { GetRecipeService } from 'src/app/shared/services/get-recipe.service';
-import { faHeart, faClock } from '@fortawesome/free-regular-svg-icons';
-import { RecipeResponse } from '../shared/interfaces/recipe.model';
+import { faClock } from '@fortawesome/free-regular-svg-icons';
+import {
+  faHeart as faHeartSolid,
+  faPenToSquare as faPenToSquareSolid,
+  faTrashCan as faTrashCanSolid,
+  faHomeAlt as faHomeSolid
+} from '@fortawesome/free-solid-svg-icons';
+import { GetUserService } from '../../shared/services/get-user.service';
 
 @Component({
   selector: 'app-recipe',
@@ -13,16 +18,22 @@ import { RecipeResponse } from '../shared/interfaces/recipe.model';
 })
 export class RecipeComponent implements OnInit, OnDestroy {
   // * icons
-  faHeart = faHeart;
   faClock = faClock;
+  faHeartSolid = faHeartSolid;
+  faPenToSquareSolid = faPenToSquareSolid;
+  faTrashCanSolid = faTrashCanSolid;
+  faHomeSolid = faHomeSolid
   // * variables
   id: number = 0;
   recipe!: Recipe;
   loading: Boolean = true;
-  recipeData!:RecipeData;
+  recipeData!: RecipeData;
+
+
 
   constructor(
     private route: ActivatedRoute,
+    private user:GetUserService,
     private recipeService: GetRecipeService
   ) {}
 
@@ -34,9 +45,9 @@ export class RecipeComponent implements OnInit, OnDestroy {
     this.recipeService.fetchRecipe(this.id).subscribe((data) => {
       this.recipeData = {
         id: data.recipe.id,
-        playlistId: data.playlist
-      }
-      this.recipe = data.recipe
+        playlistId: data.playlist,
+      };
+      this.recipe = data.recipe;
       this.loading = false;
       // window.open(
       //   `https://open.spotify.com/playlist/${this.playlist}`,

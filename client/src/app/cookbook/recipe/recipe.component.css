@@ -4,14 +4,18 @@
   flex-direction: column;
   align-items: center;
   gap: 2rem;
+
+}
+.right{
+   grid-area: 1 / 2 / 3 / 3;
+}
+.right-top{
+  grid-area: 1 / 2 / 2 / 3;
 }
 
-.center {
-  grid-area: 1 / 2 / 3 / 3;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
+.right-bottom{
+grid-area: 2 / 2 / 3 / 3;
+align-self: end;
 }
 .timer-bar {
   height: 78vh;
