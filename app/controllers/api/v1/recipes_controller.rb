@@ -19,7 +19,6 @@ class Api::V1::RecipesController < ApplicationController
       instruction.gsub!(/\A\s\d*\s*/, "")
       Instruction.create(content: instruction, recipe: @recipe)
     end
-
     @ingredients = Ingredient.parse(@recipe.raw_ingredients.gsub(/ [0-9\u00BC-\u00BE\u2150-\u215E\u2189]+/) { |match| "-$#{match}" })
     @ingredients.each do |ingredient|
       Ingredient.create(content: ingredient, recipe: @recipe)
@@ -39,13 +38,13 @@ class Api::V1::RecipesController < ApplicationController
       title: recipes_params[:title],
       preptime: recipes_params[:preptime],
       category: recipes_params[:category],
-      ingredients: recipes_params[:ingredients]
+      raw_ingredients: recipes_params[:ingredients]
     }
     @recipe = Recipe.new(recipe_data)
     @recipe.user = @current_user
     @recipe.raw_ingredients = recipes_params[:ingredients]
     @recipe.save
-    @instructions = recipes_params[:instructionsString].split('-$')
+    @instructions = recipes_params[:instructions].split('-$')
     @instructions.shift
     @instructions.each do |instruction|
       Instruction.create(content: instruction, recipe: @recipe)
@@ -79,16 +78,19 @@ class Api::V1::RecipesController < ApplicationController
     }
   end
 
-  # def update
-  #   @recipe = Recipe.find(params[:id])
-  #   @recipe.update(favorite: true)
-  #   redirect_to recipe_path(@recipe)
-  # end
+  def update
+    @current_user = User.find_by(id: session[:id]) if session[:id]
+    @recipe = Recipe.find(params[:id])
+    @recipe.update(favorite: params[:state])
+    render json: @recipe
+  end
 
-  # def destroy
-  #   @recipes.destroy
-  #   redirect_to recipes_path
-  # end
+  def destroy
+    @current_user = User.find_by(id: session[:id]) if session[:id]
+    @recipe = Recipe.find(params[:id])
+    @recipe.destroy
+    redirect_to "http://localhost:4200/cookbook/#{@current_user.id}", allow_other_host: true
+  end
 
   private
 
@@ -181,7 +183,7 @@ class Api::V1::RecipesController < ApplicationController
                                        :genre,
                                        :recipe_id,
                                        :ingredients,
-                                       :instructionsString,
+                                       :instructions,
                                        :preptime,
                                        :title,
                                        :category)

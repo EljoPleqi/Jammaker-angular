@@ -1,9 +1,10 @@
 class Recipe < ApplicationRecord
   require "open-uri"
   belongs_to :user
-  has_many :instructions
-  has_many :ingredients
-  has_one :playlist
+  has_many :instructions, dependent: :destroy
+  has_many :ingredients, dependent: :destroy
+  has_many :condiments, through: :flavour_enhancers
+  has_one :playlist, dependent: :destroy
   scope :favorited, -> { where(favorite: true) }
   validates :genre, inclusion: ["pop", 'punk', 'rock', 'hiphop', 'chill', "indie_alt"]
 

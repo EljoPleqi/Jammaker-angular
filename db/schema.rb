@@ -10,15 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_26_165316) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_06_082510) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "condiments", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "flavour_enhancers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "condiment_id", null: false
+    t.bigint "recipe_id", null: false
+    t.index ["condiment_id"], name: "index_flavour_enhancers_on_condiment_id"
+    t.index ["recipe_id"], name: "index_flavour_enhancers_on_recipe_id"
+  end
 
   create_table "ingredients", force: :cascade do |t|
     t.string "content"
     t.bigint "recipe_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "condiment_id", null: false
+    t.index ["condiment_id"], name: "index_ingredients_on_condiment_id"
     t.index ["recipe_id"], name: "index_ingredients_on_recipe_id"
   end
 
@@ -27,6 +43,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_26_165316) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "recipe_id", null: false
+    t.bigint "condiment_id", null: false
+    t.index ["condiment_id"], name: "index_instructions_on_condiment_id"
     t.index ["recipe_id"], name: "index_instructions_on_recipe_id"
   end
 
@@ -71,7 +89,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_26_165316) do
     t.datetime "updated_at", precision: nil, null: false
   end
 
+  add_foreign_key "flavour_enhancers", "condiments"
+  add_foreign_key "flavour_enhancers", "recipes"
+  add_foreign_key "ingredients", "condiments"
   add_foreign_key "ingredients", "recipes"
+  add_foreign_key "instructions", "condiments"
   add_foreign_key "instructions", "recipes"
   add_foreign_key "playlists", "recipes"
   add_foreign_key "recipes", "users"

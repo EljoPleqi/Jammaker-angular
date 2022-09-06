@@ -7,8 +7,6 @@ class SessionsController < ApplicationController
       user = @user.as_json(except: %i[access_token refresh_token])
       session[:id] = params[:id]
       @recipes = Recipe.where(user_id: @user["id"])
-      puts user
-      puts "---------------- 12-------------------"
       response.headers['access_token'] = @user[:access_token].to_s
       render json: {
         status: 'created',

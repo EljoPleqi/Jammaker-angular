@@ -1,5 +1,7 @@
 class Instruction < ApplicationRecord
   belongs_to :recipe
+  belongs_to :condiment
+
 
   def self.parse(instructions)
     @instructions = []

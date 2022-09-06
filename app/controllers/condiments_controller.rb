@@ -1,0 +1,2 @@
+class CondimentsController < ApplicationController
+end
