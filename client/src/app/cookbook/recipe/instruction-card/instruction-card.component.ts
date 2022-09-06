@@ -11,5 +11,7 @@ export class InstructionCardComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.instruction);
+  }
 }

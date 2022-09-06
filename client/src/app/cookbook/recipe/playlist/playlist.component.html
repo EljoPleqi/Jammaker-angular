@@ -13,11 +13,11 @@
     <div class="flex gap-4 items-center">
       <div class="flex flex-col gap-1" >
       <p class="text-white text-xs">Duration</p>
-      <p class="text-white text-sm"> <fa-icon [icon]="faClock"></fa-icon> {{playlistData.duration}} Mins</p>
+      <p *ngIf="loaded" class="text-white text-sm"> <fa-icon [icon]="faClock"></fa-icon> {{playlistData.duration}} Mins</p>
       </div>
       <div  class="flex flex-col gap-1">
         <p class="text-white text-xs">Length</p>
-        <p class="text-white text-sm">{{playlistData.numberOfTracks}} Tracks</p>
+        <p *ngIf="loaded" class="text-white text-sm">{{playlistData.numberOfTracks}} Tracks</p>
       </div>
 
     </div>

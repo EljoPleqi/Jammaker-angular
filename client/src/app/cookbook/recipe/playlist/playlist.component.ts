@@ -19,6 +19,7 @@ export class PlaylistComponent implements OnInit {
   playlistData!: PlaylistData
   faArrows = faArrowsRotate;
   faClock = faClock
+  loaded:boolean = false
 
 
   constructor(
@@ -31,6 +32,7 @@ export class PlaylistComponent implements OnInit {
       .onGetData(this.recipeData.playlistId).pipe(take(1))
       .subscribe((data) => {
         this.playlistData = data;
+        this.loaded=true
       });
   }
   generateNewPlaylist() {
@@ -45,7 +47,7 @@ export class PlaylistComponent implements OnInit {
         }),
         map((data) => {
           this.playlistData = data;
-          console.log(data);
+          this.loaded=true
         })
       )
       .pipe(take(1))
