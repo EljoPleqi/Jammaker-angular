@@ -12,9 +12,9 @@
         <span
           class="bg-[#febc2b] px-4 py-2 rounded-md flex items-center justify-center gap-3"
         >
-          <fa-icon [icon]="faHeartSolid"class="hover:text-[#fc413b] cursor-pointer"></fa-icon>
+          <fa-icon [icon]="faHeartSolid"class="hover:text-[#fc413b] cursor-pointer" [class]="recipe.favorite ? 'text-[#fc413b] hover:text-black' : 'text-black'" (click)="onAddToFavorites()"></fa-icon>
           <fa-icon [icon]="faPenToSquareSolid"class="hover:text-white cursor-pointer"></fa-icon>
-          <fa-icon [icon]="faTrashCanSolid"class="hover:text-white cursor-pointer"></fa-icon>
+          <fa-icon [icon]="faTrashCanSolid"class="hover:text-white cursor-pointer" (click)="onDeleteRecipe()"></fa-icon>
         </span>
       </div>
     </div>
@@ -23,7 +23,7 @@
     >
       <app-instruction-card class=""
         *ngFor="let instruction of recipe.instructions"
-        [instruction]="instruction"
+      [instruction]="instruction"
       ></app-instruction-card>
     </div>
   </div>

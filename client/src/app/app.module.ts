@@ -15,7 +15,7 @@ import { SidebarComponent } from './cookbook/sidebar/sidebar.component';
 import { RecipesComponent } from './cookbook/recipes/recipes.component';
 import { RecipeCardComponent } from './cookbook/recipes/recipe-card/recipe-card.component';
 import { InstructionCardComponent } from './cookbook/recipe/instruction-card/instruction-card.component';
-import { IngredientsPanelComponent } from './cookbook/recipe/ingredients-panel/ingredients-panel.component';
+import { IngredientsPanelComponent } from './cookbook/recipe/ingredients-panel/ingredients-panel.component'
 import { RecipeFormComponent } from './cookbook/recipe-form/recipe-form.component';
 import { PlaylistComponent } from './cookbook/recipe/playlist/playlist.component';
 
