@@ -10,13 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_06_082510) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_07_103657) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "condiments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "raw_ingredients"
+    t.string "instructions"
   end
 
   create_table "flavour_enhancers", force: :cascade do |t|
@@ -30,10 +32,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_06_082510) do
 
   create_table "ingredients", force: :cascade do |t|
     t.string "content"
-    t.bigint "recipe_id", null: false
+    t.bigint "recipe_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "condiment_id", null: false
+    t.bigint "condiment_id"
     t.index ["condiment_id"], name: "index_ingredients_on_condiment_id"
     t.index ["recipe_id"], name: "index_ingredients_on_recipe_id"
   end
@@ -42,8 +44,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_06_082510) do
     t.string "content"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "recipe_id", null: false
-    t.bigint "condiment_id", null: false
+    t.bigint "recipe_id"
+    t.bigint "condiment_id"
     t.index ["condiment_id"], name: "index_instructions_on_condiment_id"
     t.index ["recipe_id"], name: "index_instructions_on_recipe_id"
   end

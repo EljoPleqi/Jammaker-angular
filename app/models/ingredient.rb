@@ -1,8 +1,6 @@
 class Ingredient < ApplicationRecord
-  belongs_to :recipe
-  belongs_to :condiment
-
   def self.parse(ingredients)
+    p ingredients
     @ingredients = []
     ingredients.split("-$").each do |ingredient|
       @ingredients << ingredient

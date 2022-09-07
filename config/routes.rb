@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       end
       resources :playlists, only: %i[show create destroy update]
       resources :condiments, only: %i[show create update destroy]
+      resources :flavour_enhancers, only: %i[show create destroy]
       post '/typed-recipe', to: "recipes#typed_recipe"
     end
   end
