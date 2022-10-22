@@ -3,6 +3,7 @@ class Api::V1::PlaylistsController < ApplicationController
 
   def show
     hdrs = return_header
+    puts hdrs
     playlist = JSON.parse(RestClient.get("https://api.spotify.com/v1/playlists/#{params[:id]}", hdrs))
     duration = 0
     playlist['tracks']['items'].each do |item|

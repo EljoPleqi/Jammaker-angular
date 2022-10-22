@@ -14,14 +14,23 @@ export interface Recipe {
   category: string;
   genre: string;
 }
-
+export interface Condiment {
+  id: number;
+  title: string;
+  url?: string;
+  favorite: boolean;
+  instructions: Instruction[];
+  ingredients: Ingredients[];
+  ingredientsArray?: string[];
+  instructionsArray?: string[];
+}
 export interface RecipeScrapped {
   genre: string;
   url: string;
 }
 
 export interface RecipeResponse {
-  recipe: Recipe;
+  recipe: Recipe
   playlist: string;
 }
 

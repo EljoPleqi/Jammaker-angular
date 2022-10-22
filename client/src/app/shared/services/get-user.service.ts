@@ -15,6 +15,6 @@ export class GetUserService {
   fetchUser(id: string | null) {
     return this.http.get<UserResponse>(`http://localhost:3000/sessions/${id}`, {
       withCredentials: true,
-    });
+    })
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Recipe, RecipeData } from 'src/app/shared/interfaces/recipe.model';
+import { Condiment, Recipe, RecipeData } from 'src/app/shared/interfaces/recipe.model';
 import { GetRecipeService } from 'src/app/shared/services/get-recipe.service';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import {
@@ -26,7 +26,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
   faHomeSolid = faHomeSolid;
   // * variables
   id: number = 0;
-  recipe!: Recipe;
+  recipe!: Recipe | Condiment;
   loading: Boolean = true;
   recipeData!: RecipeData;
 

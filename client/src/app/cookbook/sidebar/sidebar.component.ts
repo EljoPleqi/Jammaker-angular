@@ -3,6 +3,7 @@ import {
   faBookmark,
   faSquarePlus,
   faHeart,
+  faLemon
 } from '@fortawesome/free-regular-svg-icons';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/shared/interfaces/user';
@@ -23,6 +24,8 @@ export class SidebarComponent implements OnInit {
   faBookmark = faBookmark;
   faSquarePlus = faSquarePlus;
   faHeart = faHeart;
+  faCondiments = faLemon;
+
   url: string = `cookbook/${this.activeRoute.snapshot.params['id']}`;
 
   ngOnInit(): void {

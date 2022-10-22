@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Recipe } from 'src/app/shared/interfaces/recipe.model';
+import { Condiment, Recipe } from 'src/app/shared/interfaces/recipe.model';
 import { GetRecipeService } from 'src/app/shared/services/get-recipe.service';
 
 @Component({
@@ -9,14 +9,21 @@ import { GetRecipeService } from 'src/app/shared/services/get-recipe.service';
   styleUrls: ['./recipe-card.component.css'],
 })
 export class RecipeCardComponent implements OnInit {
-  @Input() recipe!: Recipe;
+  @Input() recipe!: Recipe | Condiment
 
-  constructor(private router: Router, private route:ActivatedRoute) { }
+  constructor(private router: Router, private route: ActivatedRoute) { }
 
   onOpenRecipe() {
-    this.router.navigate([`recipe/${this.recipe.id}`], {
-      relativeTo: this.route,
-    });
+    this.router.navigate(
+      [
+        'preptime' in this.recipe
+          ? `recipe/${this.recipe.id}`
+          : `condiment/${this.recipe.id}`,
+      ],
+      {
+        relativeTo: this.route,
+      }
+    );
   }
   ngOnInit(): void {}
 }
