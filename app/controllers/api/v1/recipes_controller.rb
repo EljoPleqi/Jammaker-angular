@@ -17,12 +17,13 @@ class Api::V1::RecipesController < ApplicationController
     @instructions.shift
     @instructions.each do |instruction|
       instruction.gsub!(/\A\s\d*\s*/, "")
-      Instruction.create(content: instruction, recipe: @recipe)
+      Instruction.create(content: instruction, recipe_id: @recipe.id)
     end
     @ingredients = Ingredient.parse(@recipe.raw_ingredients.gsub(/ [0-9\u00BC-\u00BE\u2150-\u215E\u2189]+/) { |match| "-$#{match}" })
     @ingredients.each do |ingredient|
-      Ingredient.create(content: ingredient, recipe: @recipe)
+      Ingredient.create(content: ingredient, recipe_id: @recipe.id)
     end
+
     create_playlist(@recipe)
 
     render json: {
@@ -96,8 +97,8 @@ class Api::V1::RecipesController < ApplicationController
 
   def create_playlist(recipe)
     recipe.playlist = Playlist.create({
-                                        spotify_playlist_id: create_spotify_playlist(@recipe),
-                                        recipe_id: @recipe.id
+                                        spotify_playlist_id: create_spotify_playlist(recipe),
+                                        recipe_id: recipe.id
                                       })
   end
 
@@ -118,17 +119,17 @@ class Api::V1::RecipesController < ApplicationController
     send_playlist(playlist, songs)
   end
 
-  def fetch_genre_url(recipe)
+  def fetch_genre_url(genre)
     # * get the categories
-    "https://api.spotify.com/v1/browse/categories/#{recipe[:genre]}"
+    "https://api.spotify.com/v1/browse/categories/0JQ5DAqbMKFEC4WFtoNRpw"
   end
 
   def fetch_playlist_response(recipe)
     hdrs = return_header
     # * get the playlist url from the category
-    playlist_response = fetch_genre_url(recipe)
+    playlist_response = fetch_genre_url(recipe.genre)
     if RestClient::Request.new({
-                                 url: "#{playlist_response}/playlists",
+                                 url: playlist_response + "/playlists",
                                  method: "GET",
                                  headers: hdrs
                                }).execute.code == 404

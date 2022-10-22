@@ -1,9 +1,11 @@
-<div *ngIf="spinner && !loading">Spinner</div>
 <div *ngIf="!loading">
   <div class="h-screen grid grid-cols-cookbook bg-[#EFECE6]">
     <app-sidebar class="row-span-3 bg-[#f7f6f3]" [id]="userId"></app-sidebar>
     <div class="row-span-3 overflow-auto flex flex-col items-center">
-      <router-outlet></router-outlet>
+      <div
+        class="grid w-[90%] py-4 px-10 place-content-center gap-4 rounded-t-md">
+        <router-outlet></router-outlet>
+      </div>
     </div>
   </div>
 </div>

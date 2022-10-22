@@ -1,10 +1,5 @@
-<h1 class="text-[#252118] mt-8 text-center font-semibold text-3xl pb-4">
-  {{ user.name }}'s Cookbook
-</h1>
-<div
-  class="grid grid-cols-2 border-b-0 py-4 px-10 place-content-center gap-4 rounded-t-md border-dashed border-2 border-[#4a4230]"
->
-  <app-recipe-card
+  <div class="border-b-0 h-[80vh] grid grid-cols-2 py-4 px-10 place-content-start gap-4 rounded-t-md border-dashed border-2 border-[#4a4230]">
+    <app-recipe-card
     *ngFor="let recipe of recipes"
     [recipe]="recipe"
   ></app-recipe-card>

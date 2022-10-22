@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :recipes, only: %i[show] do
+      resources :recipes, only: %i[show create] do
         post '/new-playlist', to: "recipes#generate_new_playlist"
       end
       resources :playlists, only: %i[show create destroy update]

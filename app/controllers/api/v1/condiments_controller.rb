@@ -1,11 +1,7 @@
 class Api::V1::CondimentsController < ApplicationController
   def create
-    p "----------------------"
     @condiment = Condiment.create(raw_ingredients: condiment_params[:ingredients])
     create_instructions_ingredients(@condiment)
-    p @condiment
-    p "-------------"
-    p @condiment.instructions
     render json: @condiment
   end
 

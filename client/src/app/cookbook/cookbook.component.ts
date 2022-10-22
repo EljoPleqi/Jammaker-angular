@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from '../shared/interfaces/user';
 import { Recipe } from '../shared/interfaces/recipe.model';
 import { GetUserService } from '../shared/services/get-user.service';
-import { DisplayService } from '../shared/services/display.service';
 import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-cookbook',
@@ -13,15 +12,12 @@ export class CookbookComponent implements OnInit, OnDestroy {
   spinner: boolean = false;
   userId: string | null = '';
   user!: User;
-  recipes!: Recipe[];
+  recipes!: Recipe[]
   loading: boolean = true;
   userTyped: boolean = false;
   typedSub!: Subscription;
 
-  constructor(
-    private loggedUser: GetUserService,
-    private displayService: DisplayService
-  ) {
+  constructor(private loggedUser: GetUserService) {
     this.userId = location.pathname.split('/')[2];
   }
 
@@ -29,10 +25,9 @@ export class CookbookComponent implements OnInit, OnDestroy {
     this.loggedUser.fetchUser(this.userId).subscribe((data) => {
       this.loggedUser.user = data.user;
       this.loggedUser.recipes = data.recipes;
+      this.user = data.user
+      this.recipes = data.recipes
       this.loading = false;
-      this.typedSub = this.displayService.typed$.subscribe(
-        (data) => (this.userTyped = data)
-      );
     });
   }
 

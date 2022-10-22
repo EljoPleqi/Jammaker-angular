@@ -13,12 +13,13 @@ import { InputSectionComponent } from './cookbook/input-section/input-section.co
 import { RecipeComponent } from './cookbook/recipe/recipe.component'
 import { SidebarComponent } from './cookbook/sidebar/sidebar.component';
 import { RecipesComponent } from './cookbook/recipes/recipes.component';
-import { RecipeCardComponent } from './cookbook/recipes/recipe-card/recipe-card.component';
+import { RecipeCardComponent } from './shared/components/recipe-card/recipe-card.component';
 import { InstructionCardComponent } from './cookbook/recipe/instruction-card/instruction-card.component';
 import { IngredientsPanelComponent } from './cookbook/recipe/ingredients-panel/ingredients-panel.component'
 import { RecipeFormComponent } from './cookbook/recipe-form/recipe-form.component';
 import { PlaylistComponent } from './cookbook/recipe/playlist/playlist.component';
 import { ManualFormComponent } from './cookbook/recipe-form/manual-form/manual-form.component';
+import { CondimentsComponent } from './cookbook/condiments/condiments.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { ManualFormComponent } from './cookbook/recipe-form/manual-form/manual-f
     RecipeFormComponent,
     PlaylistComponent,
     ManualFormComponent,
+    CondimentsComponent,
   ],
   imports: [
     BrowserModule,
