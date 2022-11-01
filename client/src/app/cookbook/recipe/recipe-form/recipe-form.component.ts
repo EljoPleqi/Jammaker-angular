@@ -26,7 +26,8 @@ import {
   faQrcode,
   faPenToSquare,
 } from '@fortawesome/free-solid-svg-icons';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { GetUserService } from 'src/app/shared/services/get-user.service';
 
 @Component({
   selector: 'app-Recipe-form',
@@ -34,6 +35,9 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./Recipe-form.component.css'],
 })
 export class RecipeFormComponent implements OnInit, OnDestroy {
+  userId: number | undefined;
+  userSubscription = new Subscription();
+
   scrape: boolean = false;
   isMeal: boolean = true;
 
@@ -62,7 +66,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private postUserRecipe: PostUserTypedRecipeService,
     private router: Router,
-    private ActivatedRoute: ActivatedRoute
+    private fetchUser: GetUserService
   ) {}
 
   recipeForm = this.fb.group({
@@ -85,7 +89,11 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     ingredients: this.fb.array([new FormControl(null, Validators.required)]),
   });
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.userSubscription = this.fetchUser.user$.subscribe(
+      (user) => (this.userId = user?.id)
+    );
+  }
 
   onIsMeal = (): boolean => (this.isMeal = !this.isMeal);
 
@@ -121,7 +129,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     this.postUserRecipe
       .PostUserRecipe(formData, this.isMeal)
       .subscribe((data) =>
-        this.router.navigate(['/cookbook/1/recipe/', `${data.id}`])
+        this.router.navigate([`/cookbook/${this.userId}/recipe/`, `${data.id}`])
       );
   }
 
@@ -151,5 +159,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
       ? (<FormArray>this.recipeForm.get(`${arrayName}`)).controls
       : (<FormArray>this.condimentForm.get(`${arrayName}`)).controls;
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.userSubscription.unsubscribe();
+  }
 }

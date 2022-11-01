@@ -18,7 +18,7 @@ class Api::V1::RecipesController < ApplicationController
       instruction.gsub!(/\A\s\d*\s*/, "")
       Instruction.create(content: instruction, recipe_id: @recipe.id)
     end
-    @ingredients = Ingredient.parse(@recipe.ingredients.gsub(/ [0-9\u00BC-\u00BE\u2150-\u215E\u2189]+/) { |match| "-$#{match}" })
+    @ingredients = Ingredient.parse(@recipe.bulk_ingredients.gsub(/ [0-9\u00BC-\u00BE\u2150-\u215E\u2189]+/) { |match| "-$#{match}" })
     @ingredients.each do |ingredient|
       Ingredient.create(content: ingredient, recipe_id: @recipe.id)
     end
@@ -26,9 +26,8 @@ class Api::V1::RecipesController < ApplicationController
     create_playlist(@recipe)
 
 
-
     render json: {
-      id: @recipe,
+      id: @recipe.id,
       playlistId: @recipe.playlist["spotify_playlist_id"]
     }
   end

@@ -15,6 +15,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { EditRecipeService } from 'src/app/cookbook/recipe/api/edit-recipe.service';
 import { GetUserService } from 'src/app/shared/services/get-user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-recipe',
@@ -30,22 +31,27 @@ export class RecipeComponent implements OnInit, OnDestroy {
   faHomeSolid = faHomeSolid;
   // * variables
   id: number = 0;
+  userId: number | undefined;
   recipe!: Recipe | Condiment;
   loading: Boolean = true;
   recipeData!: RecipeData;
+  userSubscription = new Subscription();
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private editRecipe: EditRecipeService,
     private recipeService: GetRecipeService,
-    private getUser: GetUserService
+    private fetchUser: GetUserService
   ) {}
 
   ngOnInit(): void {
     // * get recipe id from the url params
 
     this.id = this.route.snapshot.params['id'];
+    this.userSubscription = this.fetchUser.user$.subscribe(
+      (user) => (this.userId = user?.id)
+    );
 
     this.recipeService.fetchRecipe(this.id).subscribe((data) => {
       this.recipeData = {
@@ -54,10 +60,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
       };
       this.recipe = data.recipe;
       this.loading = false;
-      console.log(this.recipe);
     });
-
-    console.log(this.recipe);
   }
 
   onAddToFavorites() {
@@ -68,11 +71,11 @@ export class RecipeComponent implements OnInit, OnDestroy {
   onDeleteRecipe() {
     this.editRecipe.deleteRecipe(this.recipe.id).subscribe((data) => {
       /*emit deleted event*/ console.log(data);
-      this.router.navigate(['/cookbook', `${this.getUser.user.id}`]);
+      this.router.navigate(['/cookbook', `${this.userId}`]);
     });
   }
 
   ngOnDestroy(): void {
-    // ! unsubscribe here
+    this.userSubscription.unsubscribe();
   }
 }

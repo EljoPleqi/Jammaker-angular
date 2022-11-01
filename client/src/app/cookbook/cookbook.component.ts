@@ -11,28 +11,28 @@ import { Subscription } from 'rxjs';
 export class CookbookComponent implements OnInit, OnDestroy {
   spinner: boolean = false;
   userId: string | null = '';
-  user!: User;
-  recipes!: Recipe[]
+  user: User | undefined;
+  recipes: Recipe[] | undefined;
   loading: boolean = true;
   userTyped: boolean = false;
   typedSub!: Subscription;
 
-  constructor(private loggedUser: GetUserService) {
+  constructor(private fetchUser: GetUserService) {
     this.userId = location.pathname.split('/')[2];
   }
 
   ngOnInit(): void {
-    this.loggedUser.fetchUser(this.userId).subscribe((data) => {
-      this.loggedUser.user = data.user;
-      this.loggedUser.recipes = data.recipes;
-      this.user = data.user
-      this.recipes = data.recipes
-      this.loading = false;
+    this.fetchUser.fetchUser(this.userId).subscribe((data) => {
+      this.user = data.user;
+      this.recipes = data.recipes;
     });
+
+    this.loading = false;
   }
 
   ngOnDestroy() {
-    this.typedSub.unsubscribe();
+    // this.userSubscription.unsubscribe();
+    // this.recipesSubscription.unsubscribe();
   }
 
   loadSpinner(event: boolean) {

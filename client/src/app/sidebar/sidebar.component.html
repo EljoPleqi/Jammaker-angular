@@ -26,8 +26,8 @@
       </li></a
     >
   </ul>
-  <div class="flex gap-2 items-center">
-    <img [src]="user.image" alt="" class="rounded-full h-12 w-12" />
-    <p>{{ user.name }}'s Cookbook</p>
+  <div class="flex gap-2 items-center" *ngIf="!isLoading">
+    <img [src]="user?.image" alt="" class="rounded-full h-12 w-12" />
+    <p>{{ user?.name }}'s Cookbook</p>
   </div>
 </div>

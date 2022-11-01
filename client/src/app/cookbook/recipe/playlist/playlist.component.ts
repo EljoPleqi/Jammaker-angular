@@ -7,7 +7,6 @@ import { NewPlaylistService } from 'src/app/shared/services/new-playlist.service
 import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 
-
 @Component({
   selector: 'app-playlist',
   templateUrl: './playlist.component.html',
@@ -15,24 +14,26 @@ import { faClock } from '@fortawesome/free-regular-svg-icons';
 })
 export class PlaylistComponent implements OnInit {
   @Input() recipeData!: RecipeData;
-  playlistId: string = ''
-  playlistData!: PlaylistData
+  playlistId: string = '';
+  playlistData!: PlaylistData;
   faArrows = faArrowsRotate;
-  faClock = faClock
-  loaded:boolean = false
-
+  faClock = faClock;
+  loaded: boolean = false;
 
   constructor(
     private newPlaylist: NewPlaylistService,
-    private getPlaylistData: GetPlaylistDataService,
+    private getPlaylistData: GetPlaylistDataService
   ) {}
 
   ngOnInit(): void {
+    this.playlistId = this.recipeData.playlistId;
     this.getPlaylistData
-      .onGetData(this.recipeData.playlistId).pipe(take(1))
+      .onGetData(this.recipeData.playlistId)
+      .pipe(take(1))
       .subscribe((data) => {
+        console.log(data);
         this.playlistData = data;
-        this.loaded=true
+        this.loaded = true;
       });
   }
   generateNewPlaylist() {
@@ -47,7 +48,7 @@ export class PlaylistComponent implements OnInit {
         }),
         map((data) => {
           this.playlistData = data;
-          this.loaded=true
+          this.loaded = true;
         })
       )
       .pipe(take(1))
