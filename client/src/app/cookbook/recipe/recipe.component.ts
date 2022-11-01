@@ -32,6 +32,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
   // * variables
   id: number = 0;
   userId: number | undefined;
+  recipeType: string | undefined;
   recipe!: Recipe | Condiment;
   loading: Boolean = true;
   recipeData!: RecipeData;
@@ -49,18 +50,21 @@ export class RecipeComponent implements OnInit, OnDestroy {
     // * get recipe id from the url params
 
     this.id = this.route.snapshot.params['id'];
+    this.recipeType = this.route.snapshot.url[0].path;
     this.userSubscription = this.fetchUser.user$.subscribe(
       (user) => (this.userId = user?.id)
     );
 
-    this.recipeService.fetchRecipe(this.id).subscribe((data) => {
-      this.recipeData = {
-        id: data.recipe.id,
-        playlistId: data.playlist,
-      };
-      this.recipe = data.recipe;
-      this.loading = false;
-    });
+    this.recipeService
+      .fetchRecipe(this.id, this.recipeType)
+      .subscribe((data) => {
+        this.recipeData = {
+          id: data.recipe.id,
+          playlistId: data.playlist,
+        };
+        this.recipe = data.recipe;
+        this.loading = false;
+      });
   }
 
   onAddToFavorites() {

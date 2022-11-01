@@ -1,4 +1,4 @@
-import { Recipe } from './recipe.model';
+import { Condiment, Recipe } from './recipe.model';
 import { User } from './user';
 
 export interface UserResponse {
@@ -6,4 +6,5 @@ export interface UserResponse {
   logged_in: boolean;
   user: User;
   recipes: Recipe[];
+  condiments: Condiment[];
 }

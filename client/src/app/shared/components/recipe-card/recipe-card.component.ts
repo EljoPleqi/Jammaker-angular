@@ -17,8 +17,8 @@ export class RecipeCardComponent implements OnInit {
     this.router.navigate(
       [
         'preptime' in this.recipe
-          ? `recipe/${this.recipe.id}`
-          : `condiment/${this.recipe.id}`,
+          ? `recipes/${this.recipe.id}`
+          : `condiments/${this.recipe.id}`,
       ],
       {
         relativeTo: this.route,

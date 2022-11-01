@@ -7,12 +7,15 @@ class SessionsController < ApplicationController
       user = @user.as_json(except: %i[access_token refresh_token])
       session[:id] = params[:id]
       @recipes = Recipe.where(user_id: @user["id"])
+      @condiments = Condiment.where(user_id:  @user["id"])
+
       response.headers['access_token'] = @user[:access_token].to_s
       render json: {
         status: 'created',
         logged_in: true,
         user:,
-        recipes: @recipes.reverse
+        recipes: @recipes.reverse,
+        condiments: @condiments
       }
     else
       render json: {

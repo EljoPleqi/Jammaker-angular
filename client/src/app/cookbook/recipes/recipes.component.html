@@ -1,8 +1,36 @@
+<div class="flex flex-col w-full">
+  <select
+    name=""
+    id=""
+    [(ngModel)]="displayType"
+    class="py-3 px-8 bg-[#EEECE6] mb-2 place-self-end"
+  >
+    <option [value]="option" *ngFor="let option of options">
+      {{ option }}
+    </option>
+  </select>
+</div>
+
 <div
-  class="border-b-0 h-[95vh] grid grid-cols-2 py-10 px-10 place-content-start gap-4 rounded-t-md border-dashed border-2 border-[#4a4230] overflow-auto"
+  class="border-b-0 h-[95vh] p-10 rounded-t-md border-dashed border-2 border-[#4a4230] overflow-auto"
+  [ngSwitch]="displayType"
 >
-  <app-recipe-card
-    *ngFor="let recipe of recipes"
-    [recipe]="recipe"
-  ></app-recipe-card>
+  <div *ngSwitchCase="'All Meals'" class="grid grid-cols-2 gap-5">
+    <app-recipe-card
+      *ngFor="let recipe of meals"
+      [recipe]="recipe"
+    ></app-recipe-card>
+  </div>
+  <div *ngSwitchCase="'All Condiments'" class="grid grid-cols-2 gap-5">
+    <app-recipe-card
+      *ngFor="let recipe of condiments"
+      [recipe]="recipe"
+    ></app-recipe-card>
+  </div>
+  <div *ngSwitchDefault class="grid grid-cols-2 gap-5">
+    <app-recipe-card
+      *ngFor="let recipe of recipes"
+      [recipe]="recipe"
+    ></app-recipe-card>
+  </div>
 </div>

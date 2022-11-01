@@ -47,11 +47,11 @@ export interface RecipeScrapped {
 }
 
 export interface RecipeResponse {
-  recipe: Recipe;
-  playlist: string;
+  recipe: Recipe | Condiment;
+  playlist?: string;
 }
 
 export interface RecipeData {
   id: number;
-  playlistId: string;
+  playlistId?: string;
 }

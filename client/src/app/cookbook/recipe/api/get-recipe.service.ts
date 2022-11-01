@@ -8,9 +8,9 @@ import { RecipeResponse } from '../../../shared/interfaces/recipe.model';
 export class GetRecipeService {
   constructor(private http: HttpClient) {}
 
-  fetchRecipe(id: number) {
+  fetchRecipe(id: number, type: string) {
     return this.http.get<RecipeResponse>(
-      `http://localhost:3000/api/v1/recipes/${id}`,
+      `http://localhost:3000/api/v1/${type}/${id}`,
       {
         withCredentials: true,
       }

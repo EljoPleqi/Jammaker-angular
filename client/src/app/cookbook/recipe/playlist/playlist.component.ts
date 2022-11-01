@@ -14,7 +14,7 @@ import { faClock } from '@fortawesome/free-regular-svg-icons';
 })
 export class PlaylistComponent implements OnInit {
   @Input() recipeData!: RecipeData;
-  playlistId: string = '';
+  playlistId: string | undefined = '';
   playlistData!: PlaylistData;
   faArrows = faArrowsRotate;
   faClock = faClock;

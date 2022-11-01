@@ -129,7 +129,10 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     this.postUserRecipe
       .PostUserRecipe(formData, this.isMeal)
       .subscribe((data) =>
-        this.router.navigate([`/cookbook/${this.userId}/recipe/`, `${data.id}`])
+        this.router.navigate([
+          `/cookbook/${this.userId}/${this.isMeal ? 'recipes' : 'condiments'}`,
+          `${data.id}`,
+        ])
       );
   }
 

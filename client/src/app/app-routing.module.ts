@@ -12,7 +12,8 @@ const routes: Routes = [
     path: 'cookbook/:id',
     component: CookbookComponent,
     children: [
-      { path: 'recipe/:id', component: RecipeComponent },
+      { path: 'recipes/:id', component: RecipeComponent },
+      { path: 'condiments/:id', component: RecipeComponent },
       { path: '', component: RecipesComponent },
       { path: 'create', component: RecipeFormComponent },
     ],

@@ -4,6 +4,7 @@ import {
   OnInit,
   OnDestroy,
   Output,
+  Input,
 } from '@angular/core';
 import { PostUrlService } from 'src/app/shared/services/post-url.service';
 import { NgForm, FormGroup, FormControl } from '@angular/forms';
@@ -18,6 +19,8 @@ import { GetUserService } from 'src/app/shared/services/get-user.service';
 })
 export class ScrapperInputSectionComponent implements OnInit, OnDestroy {
   @Output() spinner = new EventEmitter<boolean>();
+  @Input() isMeal: boolean = false;
+
   userId: number | undefined;
   playlist: string = '';
   options: string[] = [
@@ -41,7 +44,7 @@ export class ScrapperInputSectionComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.scrapperData = new FormGroup({
       url: new FormControl(''),
-      genre: new FormControl('pop'),
+      genre: new FormControl({ value: 'pop', disabled: !this.isMeal }),
     });
 
     this.fetchUser.user$.subscribe((user) => (this.userId = user?.id));
@@ -49,11 +52,13 @@ export class ScrapperInputSectionComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.scrapperSub = this.recipeService
-      .postUrl(this.scrapperData.value)
+      .postUrl(this.scrapperData.value, this.isMeal)
       .subscribe((recipeData) => {
         console.log(recipeData);
         this.route.navigate([
-          `/cookbook/${this.userId}/recipe/${recipeData.id}`,
+          `/cookbook/${this.userId}/${this.isMeal ? 'recipes' : 'condiments'}/${
+            recipeData.id
+          }`,
         ]);
         this.spinner.emit(true);
       });

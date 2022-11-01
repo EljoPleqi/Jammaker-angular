@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Recipe } from 'src/app/shared/interfaces/recipe.model';
+import { Condiment, Recipe } from 'src/app/shared/interfaces/recipe.model';
 import { User } from 'src/app/shared/interfaces/user';
 import { GetUserService } from 'src/app/shared/services/get-user.service';
 
@@ -11,10 +11,17 @@ import { GetUserService } from 'src/app/shared/services/get-user.service';
 })
 export class RecipesComponent implements OnInit, OnDestroy {
   user: User | undefined;
-  recipes: Recipe[] | undefined;
+  meals: Recipe[] | undefined;
+  condiments: Condiment[] | undefined;
+  recipes!: (Recipe | Condiment)[];
+
+  displayType: string = 'All Recipes';
+  options: string[] = ['All Recipes', 'All Meals', 'All Condiments'];
 
   userSubscription = new Subscription();
   recipesSubscription = new Subscription();
+  condimentsSubscription = new Subscription();
+
   constructor(private fetchUser: GetUserService) {}
 
   ngOnInit(): void {
@@ -22,7 +29,15 @@ export class RecipesComponent implements OnInit, OnDestroy {
       this.user = user;
     });
     this.recipesSubscription = this.fetchUser.userRecipes$.subscribe(
-      (recipes) => (this.recipes = recipes)
+      (recipes) => {
+        this.meals = recipes;
+      }
+    );
+    this.condimentsSubscription = this.fetchUser.userCondiments$.subscribe(
+      (condiments) => {
+        this.condiments = condiments;
+        this.recipes = [...(this.meals as []), ...(condiments as [])];
+      }
     );
   }
   ngOnDestroy() {

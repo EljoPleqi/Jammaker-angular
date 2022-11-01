@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from '../shared/interfaces/user';
-import { Recipe } from '../shared/interfaces/recipe.model';
+import { Condiment, Recipe } from '../shared/interfaces/recipe.model';
 import { GetUserService } from '../shared/services/get-user.service';
 import { Subscription } from 'rxjs';
 @Component({
@@ -13,6 +13,7 @@ export class CookbookComponent implements OnInit, OnDestroy {
   userId: string | null = '';
   user: User | undefined;
   recipes: Recipe[] | undefined;
+  condiments: Condiment[] | undefined;
   loading: boolean = true;
   userTyped: boolean = false;
   typedSub!: Subscription;
@@ -25,6 +26,8 @@ export class CookbookComponent implements OnInit, OnDestroy {
     this.fetchUser.fetchUser(this.userId).subscribe((data) => {
       this.user = data.user;
       this.recipes = data.recipes;
+      this.condiments = data.condiments;
+      console.log(data);
     });
 
     this.loading = false;
