@@ -4,7 +4,6 @@ class Api::V1::RecipesController < ApplicationController
 
   def index
     @recipes = Recipe.all
-    @recipe = Recipe.new
   end
 
   def create
@@ -19,12 +18,13 @@ class Api::V1::RecipesController < ApplicationController
       instruction.gsub!(/\A\s\d*\s*/, "")
       Instruction.create(content: instruction, recipe_id: @recipe.id)
     end
-    @ingredients = Ingredient.parse(@recipe.raw_ingredients.gsub(/ [0-9\u00BC-\u00BE\u2150-\u215E\u2189]+/) { |match| "-$#{match}" })
+    @ingredients = Ingredient.parse(@recipe.bulk_ingredients.gsub(/ [0-9\u00BC-\u00BE\u2150-\u215E\u2189]+/) { |match| "-$#{match}" })
     @ingredients.each do |ingredient|
       Ingredient.create(content: ingredient, recipe_id: @recipe.id)
     end
 
     create_playlist(@recipe)
+
 
     render json: {
       id: @recipe.id,
@@ -37,29 +37,33 @@ class Api::V1::RecipesController < ApplicationController
     recipe_data = {
       genre: recipes_params[:genre],
       title: recipes_params[:title],
-      preptime: recipes_params[:preptime],
+      preptime: recipes_params[:prepTime],
       category: recipes_params[:category],
-      raw_ingredients: recipes_params[:ingredients]
     }
     @recipe = Recipe.new(recipe_data)
     @recipe.user = @current_user
-    @recipe.raw_ingredients = recipes_params[:ingredients]
+
     @recipe.save
-    @instructions = recipes_params[:instructions].split('-$')
-    @instructions.shift
+    p "----line 48"
+    p @recipe.id
+    @instructions = Instruction.parse(recipes_params[:instructions])
     @instructions.each do |instruction|
-      Instruction.create(content: instruction, recipe: @recipe)
+      Instruction.create(content: instruction, recipe_id: @recipe.id)
     end
-    @ingredients = Ingredient.parse(@recipe.raw_ingredients)
+    @ingredients = Ingredient.parse(recipes_params[:ingredients])
     @ingredients.each do |ingredient|
-      Ingredient.create(content: ingredient, recipe: @recipe)
+      Ingredient.create(content: ingredient, recipe_id: @recipe.id )
     end
     create_playlist(@recipe)
-    render json: {
-      id: @recipe.id,
+    data = {
+      id:@recipe.id,
       playlistId: @recipe.playlist["spotify_playlist_id"]
     }
+    render json: data
   end
+
+
+
 
   def show
     @recipe = Recipe.find(params[:id])
@@ -149,9 +153,9 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def curate_playlist(recipe)
+
     # * currate the songs array, it must hold either tracks or a collection of strings that is a valid spotify track uri
     songs = []
-    # TODO: calculate the total duration of all the songs inside the songs array
     playlist_time = 0
     # * looping until the total playlist time reaches the total preptime
     until playlist_time >= recipe.preptime.to_i
@@ -167,8 +171,10 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def send_playlist(playlist, songs)
+
     hdrs = return_header
     RestClient.post("https://api.spotify.com/v1/playlists/#{playlist['id']}/tracks?uris=#{songs.join(',')}", {}, hdrs)
+    p "line 176"
     playlist["id"]
   end
 
@@ -177,15 +183,22 @@ class Api::V1::RecipesController < ApplicationController
     { "Accept" => "application/json",
       "Content-Type" => "application/json",
       "Authorization" => enc_credentials }
+
+
   end
 
   def recipes_params
-    params.require(:recipeData).permit(:url,
+
+    params.require(:data).permit(:url,
                                        :genre,
                                        :recipe_id,
+                                       :tags,
+                                       :image,
+                                       :servings,
+                                       :favorite,
                                        :ingredients,
                                        :instructions,
-                                       :preptime,
+                                       :prepTime,
                                        :title,
                                        :category)
   end

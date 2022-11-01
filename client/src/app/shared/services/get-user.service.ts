@@ -1,20 +1,37 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../interfaces/user';
-import { Recipe } from '../interfaces/recipe.model';
+import { Condiment, Recipe } from '../interfaces/recipe.model';
 import { UserResponse } from '../interfaces/user_response';
+import { BehaviorSubject, EMPTY, empty, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GetUserService {
-  user!: User;
-  recipes!: Recipe[];
+  userSubject = new BehaviorSubject<User | undefined>(undefined);
+  user$ = this.userSubject.asObservable();
+  userRecipesSubject = new BehaviorSubject<Recipe[] | undefined>(undefined);
+  userRecipes$ = this.userRecipesSubject.asObservable();
+  userCondimentsSubject = new BehaviorSubject<Condiment[] | undefined>(
+    undefined
+  );
+  userCondiments$ = this.userCondimentsSubject.asObservable();
+
   constructor(private http: HttpClient) {}
 
   fetchUser(id: string | null) {
-    return this.http.get<UserResponse>(`http://localhost:3000/sessions/${id}`, {
-      withCredentials: true,
-    })
+    return this.http
+      .get<UserResponse>(`http://localhost:3000/sessions/${id}`, {
+        withCredentials: true,
+      })
+      .pipe(
+        map((userResponse) => {
+          this.userSubject.next(userResponse.user);
+          this.userRecipesSubject.next(userResponse.recipes);
+          this.userCondimentsSubject.next(userResponse.condiments);
+          return userResponse;
+        })
+      );
   }
 }

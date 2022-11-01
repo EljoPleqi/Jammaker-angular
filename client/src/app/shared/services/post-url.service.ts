@@ -9,10 +9,10 @@ import { RecipeData } from '../interfaces/recipe.model';
 export class PostUrlService {
   constructor(private http: HttpClient) {}
 
-  postUrl(recipeData: RecipeScrapped) {
+  postUrl(recipeData: RecipeScrapped, isMeal: boolean) {
     return this.http.post<RecipeData>(
-      'http://localhost:3000/api/v1/recipes',
-      { recipeData },
+      `http://localhost:3000/api/v1/${isMeal ? 'recipes' : 'condiments'}`,
+      { data: recipeData },
       { withCredentials: true }
     );
   }

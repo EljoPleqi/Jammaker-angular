@@ -16,29 +16,42 @@ class Recipe < ApplicationRecord
 
     # 2. We build a Nokogiri document from this file
     doc = Nokogiri::HTML(html_content)
-    @items = doc.search('.recipe-meta-item')
+    @items = doc.search('.mntl-recipe-details__item')
     @preptime = ""
-    @items.each { |item| @preptime = item.text.strip if item.children.text.include?('total') }
+
+
+    @items.each do |item|
+      puts item
+      p '-----'
+
+      @preptime = item.text.strip if item.text.include?('Total')
+    end
+
+    p @preptime
     hour = @preptime.match(/(\d+) hr/)
     hour = hour[1].to_i * 60 if hour.present?
     min = @preptime.match(/(\d+) mins/)
     min = min.present? ? min[1].to_i : 0
     @url = @recipe.url
     @preptime = hour.present? ? hour + min : min
-    @title = doc.search('.headline').text.strip
-    @ingredients = doc.search('.ingredients-section').text.strip
-    @steps = doc.search('.instructions-section').text.strip
-    if doc.search('.lead-media img').present?
-      @image = doc.search('.lead-media img').attribute("src").value
+    @title = doc.search('.article-heading').text.strip
+    @ingredients = doc.search('.mntl-structured-ingredients__list').text.strip
+
+    @steps = doc.search('.recipe__steps-content').text.strip
+
+
+
+
+    if doc.search('.primary-image__image').present?
+      @image = doc.search('.primary-image__image').attribute("src").value
     else
       @image = doc.search('video').attribute('poster').value
     end
-    @category = doc.search('.breadcrumbs__item')[2].text.strip
-    # @image = if @image.present? ? @image : @image
+    @category = doc.search('.mntl-breadcrumbs__item')[2].text.strip
     @recipe.title = @title
     @recipe.preptime = @preptime
-    @recipe.raw_ingredients = @ingredients
-    @recipe.steps = @steps
+    @recipe.bulk_ingredients = @ingredients
+    @recipe.steps = @steps.gsub(/\s\s\s*/,'-$')
     @recipe.url = @image
     @recipe.category = @category
     @recipe

@@ -10,15 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_07_103657) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_01_182310) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "condiments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "raw_ingredients"
+    t.string "title"
     t.string "instructions"
+    t.string "bulk_ingredients"
+    t.string "url"
+    t.string "steps"
+    t.string "category"
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_condiments_on_user_id"
   end
 
   create_table "flavour_enhancers", force: :cascade do |t|
@@ -63,7 +69,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_07_103657) do
     t.string "preptime"
     t.string "instructions"
     t.string "tags"
-    t.string "raw_ingredients"
     t.string "url"
     t.string "steps"
     t.bigint "user_id", null: false
@@ -74,6 +79,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_07_103657) do
     t.string "genre"
     t.string "servings"
     t.string "ingredients"
+    t.string "bulk_ingredients"
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 
@@ -91,6 +97,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_07_103657) do
     t.datetime "updated_at", precision: nil, null: false
   end
 
+  add_foreign_key "condiments", "users"
   add_foreign_key "flavour_enhancers", "condiments"
   add_foreign_key "flavour_enhancers", "recipes"
   add_foreign_key "ingredients", "condiments"
