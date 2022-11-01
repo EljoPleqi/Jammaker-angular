@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { CookbookComponent } from './cookbook/cookbook.component';
 import { RecipeComponent } from './cookbook/recipe/recipe.component';
-import { RecipeFormComponent } from './cookbook/recipe-form/recipe-form.component';
+import { RecipeFormComponent } from './cookbook/recipe/recipe-form/recipe-form.component';
 import { RecipesComponent } from './cookbook/recipes/recipes.component';
 
 const routes: Routes = [
@@ -16,9 +16,8 @@ const routes: Routes = [
       { path: '', component: RecipesComponent },
       { path: 'create', component: RecipeFormComponent },
     ],
-  }
-]
-
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

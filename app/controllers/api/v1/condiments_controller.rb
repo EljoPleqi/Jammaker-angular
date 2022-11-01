@@ -20,12 +20,12 @@ class Api::V1::CondimentsController < ApplicationController
 
   private
 
-  def condiment_params
-    params.require(:recipeData).permit(:preptime, :category, :genre, :image, :servings, :title, :favorite, :id, :instructions, :ingredients)
-  end
+
 
   def create_instructions_ingredients(condiment)
-    @instructions = condiment_params[:instructions].split('-$')
+
+    @instructions = condiment_params[:instructions]
+    p  condiment_params
     @instructions.each do |instruction|
       puts instruction
       Instruction.create(content: instruction, condiment_id: condiment.id)
@@ -34,5 +34,9 @@ class Api::V1::CondimentsController < ApplicationController
     @ingredients.each do |ingredient|
       Ingredient.create(content: ingredient, condiment_id: condiment.id)
     end
+  end
+
+   def condiment_params
+    params.require(:recipeData).permit(:preptime, :category, :genre, :image, :servings, :title, :favorite, :id, :instructions, :ingredients)
   end
 end

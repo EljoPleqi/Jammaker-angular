@@ -8,8 +8,6 @@ export interface Recipe {
   instructions: Instruction[];
   url?: string;
   ingredients: Ingredients[];
-  ingredientsArray?: string[];
-  instructionsArray?: string[];
   favorite: boolean;
   category: string;
   genre: string;
@@ -24,13 +22,32 @@ export interface Condiment {
   ingredientsArray?: string[];
   instructionsArray?: string[];
 }
+export interface NewRecipeData {
+  title: string | null;
+  prepTime: string | null;
+  image?: string | null;
+  servings: number | null;
+  instructions: string | null;
+  ingredients: string | null;
+  favorite: boolean | null;
+  category: string | null;
+  genre: string | null;
+  tags?: string | null;
+}
+export interface NewCondimentData {
+  title: string | null;
+  favorite: boolean | null;
+  image: string | null;
+  instructions: string | null;
+  ingredients: string | null;
+}
 export interface RecipeScrapped {
   genre: string;
   url: string;
 }
 
 export interface RecipeResponse {
-  recipe: Recipe
+  recipe: Recipe;
   playlist: string;
 }
 

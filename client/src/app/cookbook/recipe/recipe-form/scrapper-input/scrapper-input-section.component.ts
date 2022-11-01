@@ -11,11 +11,11 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-input-section',
-  templateUrl: './input-section.component.html',
-  styleUrls: ['./input-section.component.css'],
+  selector: 'app-scrapper-input-section',
+  templateUrl: './scrapper-input-section.component.html',
+  styleUrls: ['./scrapper-input-section.component.css'],
 })
-export class InputSectionComponent implements OnInit, OnDestroy {
+export class ScrapperInputSectionComponent implements OnInit, OnDestroy {
   @Output() spinner = new EventEmitter<boolean>();
   playlist: string = '';
   options: string[] = [

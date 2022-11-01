@@ -1,15 +1,19 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Condiment, Recipe, RecipeData } from 'src/app/shared/interfaces/recipe.model';
-import { GetRecipeService } from 'src/app/shared/services/get-recipe.service';
+import {
+  Condiment,
+  Recipe,
+  RecipeData,
+} from 'src/app/shared/interfaces/recipe.model';
+import { GetRecipeService } from 'src/app/cookbook/recipe/api/get-recipe.service';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import {
   faHeart as faHeartSolid,
   faPenToSquare as faPenToSquareSolid,
   faTrashCan as faTrashCanSolid,
-  faHomeAlt as faHomeSolid
+  faHomeAlt as faHomeSolid,
 } from '@fortawesome/free-solid-svg-icons';
-import { EditRecipeService } from 'src/app/shared/services/edit-recipe.service';
+import { EditRecipeService } from 'src/app/cookbook/recipe/api/edit-recipe.service';
 import { GetUserService } from 'src/app/shared/services/get-user.service';
 
 @Component({
@@ -35,7 +39,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
     private router: Router,
     private editRecipe: EditRecipeService,
     private recipeService: GetRecipeService,
-    private getUser:GetUserService
+    private getUser: GetUserService
   ) {}
 
   ngOnInit(): void {
@@ -50,7 +54,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
       };
       this.recipe = data.recipe;
       this.loading = false;
-       console.log(this.recipe);
+      console.log(this.recipe);
     });
 
     console.log(this.recipe);
@@ -62,9 +66,10 @@ export class RecipeComponent implements OnInit, OnDestroy {
       .subscribe((data) => (this.recipe.favorite = data));
   }
   onDeleteRecipe() {
-    this.editRecipe.deleteRecipe(this.recipe.id).subscribe(data => {/*emit deleted event*/ console.log(data)
-      this.router.navigate(['/cookbook',`${this.getUser.user.id}`])}
-    )
+    this.editRecipe.deleteRecipe(this.recipe.id).subscribe((data) => {
+      /*emit deleted event*/ console.log(data);
+      this.router.navigate(['/cookbook', `${this.getUser.user.id}`]);
+    });
   }
 
   ngOnDestroy(): void {

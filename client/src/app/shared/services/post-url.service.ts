@@ -12,7 +12,7 @@ export class PostUrlService {
   postUrl(recipeData: RecipeScrapped) {
     return this.http.post<RecipeData>(
       'http://localhost:3000/api/v1/recipes',
-      { recipeData },
+      { data: recipeData },
       { withCredentials: true }
     );
   }

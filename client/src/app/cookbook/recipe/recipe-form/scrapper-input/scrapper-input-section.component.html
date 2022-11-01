@@ -1,0 +1,22 @@
+<form [formGroup]="scrapperData" class="w-full flex">
+  <select
+    formControlName="genre"
+    class="bg-[#febc2b] rounded-tl-lg rounded-bl-lg py-2 cursor-pointer"
+  >
+    <option *ngFor="let option of options" [value]="option" selected>
+      {{ option }}
+    </option>
+  </select>
+  <input
+    type="text"
+    formControlName="url"
+    placeholder="Paste your link form your favorite site"
+    class="py-2 bg-[#EFECE6] bg-opacity-70 pl-4 w-[69%] placeholder:text-[#3d3829] placeholder:text-opacity-50"
+  />
+  <button
+    (click)="onSubmit()"
+    class="bg-[#60b158] px-8 rounded-tr-lg rounded-br-lg text-white py-2 text-semibold"
+  >
+    Create Recipe
+  </button>
+</form>
