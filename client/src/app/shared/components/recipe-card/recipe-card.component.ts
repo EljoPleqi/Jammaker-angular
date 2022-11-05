@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Condiment, Recipe } from 'src/app/shared/interfaces/recipe.model';
-import { GetRecipeService } from 'src/app/cookbook/recipe/api/get-recipe.service';
 
 @Component({
   selector: 'app-recipe-card',

@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/shared/interfaces/user';
 import { GetUserService } from 'src/app/shared/services/get-user.service';
 import { Subscription } from 'rxjs';
+import { DiplayFavoritesService } from '../shared/services/diplay-favorites.service';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
@@ -18,7 +19,8 @@ export class SidebarComponent implements OnInit {
   constructor(
     private fetchUser: GetUserService,
     private route: Router,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private displayFavoritesService: DiplayFavoritesService
   ) {}
   isLoading: boolean = true;
   id!: string;
@@ -41,8 +43,12 @@ export class SidebarComponent implements OnInit {
 
   toDashboard() {
     this.route.navigate([this.url]);
+    this.displayFavoritesService.showAllRecipes();
   }
   toCreation() {
     this.route.navigate(['create'], { relativeTo: this.activeRoute });
+  }
+  displayFavorites() {
+    this.displayFavoritesService.showFavorites();
   }
 }

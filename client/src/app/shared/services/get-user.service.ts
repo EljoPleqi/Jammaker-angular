@@ -18,6 +18,9 @@ export class GetUserService {
   );
   userCondiments$ = this.userCondimentsSubject.asObservable();
 
+  userObjectSubject = new BehaviorSubject<UserResponse | undefined>(undefined);
+  userObject$ = this.userObjectSubject.asObservable();
+
   constructor(private http: HttpClient) {}
 
   fetchUser(id: string | null) {
@@ -27,9 +30,8 @@ export class GetUserService {
       })
       .pipe(
         map((userResponse) => {
+          this.userObjectSubject.next(userResponse);
           this.userSubject.next(userResponse.user);
-          this.userRecipesSubject.next(userResponse.recipes);
-          this.userCondimentsSubject.next(userResponse.condiments);
           return userResponse;
         })
       );

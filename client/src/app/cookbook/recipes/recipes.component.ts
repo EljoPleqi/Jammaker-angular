@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { map, Subscription, switchMap } from 'rxjs';
 import { Condiment, Recipe } from 'src/app/shared/interfaces/recipe.model';
 import { User } from 'src/app/shared/interfaces/user';
+import { DiplayFavoritesService } from 'src/app/shared/services/diplay-favorites.service';
 import { GetUserService } from 'src/app/shared/services/get-user.service';
 
 @Component({
@@ -17,31 +18,34 @@ export class RecipesComponent implements OnInit, OnDestroy {
 
   displayType: string = 'All Recipes';
   options: string[] = ['All Recipes', 'All Meals', 'All Condiments'];
+  showFavotires: boolean = false;
 
-  userSubscription = new Subscription();
+  userObjectSubscription = new Subscription();
   recipesSubscription = new Subscription();
   condimentsSubscription = new Subscription();
+  favoritesSubscription = new Subscription();
 
-  constructor(private fetchUser: GetUserService) {}
+  constructor(
+    private fetchUser: GetUserService,
+    private displayFavoritesServices: DiplayFavoritesService
+  ) {}
 
   ngOnInit(): void {
-    this.userSubscription = this.fetchUser.user$.subscribe((user) => {
-      this.user = user;
-    });
-    this.recipesSubscription = this.fetchUser.userRecipes$.subscribe(
-      (recipes) => {
-        this.meals = recipes;
+    this.userObjectSubscription = this.fetchUser.userObject$.subscribe(
+      (data) => {
+        this.user = data?.user;
+        this.meals = data?.recipes;
+        this.condiments = data?.condiments;
+        this.recipes = [...(this.meals as []), ...(this.condiments as [])];
       }
     );
-    this.condimentsSubscription = this.fetchUser.userCondiments$.subscribe(
-      (condiments) => {
-        this.condiments = condiments;
-        this.recipes = [...(this.meals as []), ...(condiments as [])];
-      }
-    );
+    this.favoritesSubscription =
+      this.displayFavoritesServices.favorites$.subscribe(
+        (data) => (this.showFavotires = data)
+      );
   }
   ngOnDestroy() {
-    this.userSubscription.unsubscribe();
-    this.recipesSubscription.unsubscribe();
+    this.userObjectSubscription.unsubscribe();
+    this.favoritesSubscription.unsubscribe();
   }
 }

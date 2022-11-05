@@ -1,14 +1,15 @@
 AllCops:
+  TargetRubyVersion: 3.1.x
   NewCops: enable
   Exclude:
-    - 'bin/**/*'
-    - 'db/**/*'
-    - 'config/**/*'
-    - 'node_modules/**/*'
-    - 'script/**/*'
-    - 'support/**/*'
-    - 'tmp/**/*'
-    - 'test/**/*'
+    - "bin/**/*"
+    - "db/**/*"
+    - "config/**/*"
+    - "node_modules/**/*"
+    - "script/**/*"
+    - "support/**/*"
+    - "tmp/**/*"
+    - "test/**/*"
 
 Style/ConditionalAssignment:
   Enabled: false

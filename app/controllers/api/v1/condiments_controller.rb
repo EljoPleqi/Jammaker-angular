@@ -5,7 +5,6 @@ class Api::V1::CondimentsController < ApplicationController
     @condiment = Condiment.scrapper(@condiment)
     @condiment.user = @current_user
     @condiment.save
-    p  @condiment.save
     @instructions = Instruction.parse(@condiment.steps)
     @instructions.shift
     @instructions.each do |instruction|
@@ -16,17 +15,12 @@ class Api::V1::CondimentsController < ApplicationController
     @ingredients.each do |ingredient|
       Ingredient.create(content: ingredient, condiment_id: @condiment.id)
     end
-    p "-----------------"
-    p @condiment.ingredients
-    p @condiment.instructions
-     p "-----------------"
-
     render json: @condiment
   end
 
   def show
     @condiment = Condiment.find(params[:id])
-    render json: {recipe: @condiment}
+    render json: { recipe: @condiment }
   end
 
   def update
@@ -35,21 +29,24 @@ class Api::V1::CondimentsController < ApplicationController
 
   def destroy
     @condiment = Condiment.find(params[:id])
+    @condiment.destroy
+    render json: { status: 'success' }
   end
 
   def typed_condiment
-    @condiment = Condiment.create(raw_ingredients: condiment_params[:ingredients])
+    @current_user = User.find_by(id: session[:id]) if session[:id]
+
+    @condiment = Condiment.new(raw_ingredients: condiment_params[:ingredients])
+    @condiment.user = @current_user
+    @condiment.save
     create_instructions_ingredients(@condiment)
     render json: @condiment
   end
+
   private
 
-
-
   def create_instructions_ingredients(condiment)
-
     @instructions = condiment_params[:instructions]
-    p  condiment_params
     @instructions.each do |instruction|
       puts instruction
       Instruction.create(content: instruction, condiment_id: condiment.id)
@@ -60,14 +57,14 @@ class Api::V1::CondimentsController < ApplicationController
     end
   end
 
-   def condiment_params
-   params.require(:data).permit(:url,
-                                :recipe_id,
-                                :image,
-                                :favorite,
-                                :ingredients,
-                                :instructions,
-                                :title,
-                                :category)
+  def condiment_params
+    params.require(:data).permit(:url,
+                                 :recipe_id,
+                                 :image,
+                                 :favorite,
+                                 :ingredients,
+                                 :instructions,
+                                 :title,
+                                 :category)
   end
 end
