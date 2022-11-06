@@ -15,10 +15,11 @@ export class RecipesComponent implements OnInit, OnDestroy {
   meals: Recipe[] | undefined;
   condiments: Condiment[] | undefined;
   recipes!: (Recipe | Condiment)[];
+  favoriteRecipes!: (Recipe | Condiment)[];
 
   displayType: string = 'All Recipes';
   options: string[] = ['All Recipes', 'All Meals', 'All Condiments'];
-  showFavotires: boolean = false;
+  showFavorites: boolean = false;
 
   userObjectSubscription = new Subscription();
   recipesSubscription = new Subscription();
@@ -40,10 +41,16 @@ export class RecipesComponent implements OnInit, OnDestroy {
       }
     );
     this.favoritesSubscription =
-      this.displayFavoritesServices.favorites$.subscribe(
-        (data) => (this.showFavotires = data)
-      );
+      this.displayFavoritesServices.favorites$.subscribe((data) => {
+        this.showFavorites = data;
+        if (this.showFavorites) {
+          this.favoriteRecipes = this.recipes.filter((recipe) =>
+            recipe.favorite ? recipe : null
+          );
+        }
+      });
   }
+
   ngOnDestroy() {
     this.userObjectSubscription.unsubscribe();
     this.favoritesSubscription.unsubscribe();

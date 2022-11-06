@@ -29,7 +29,7 @@
   </div>
   <div *ngSwitchDefault class="grid grid-cols-2 gap-5">
     <app-recipe-card
-      *ngFor="let recipe of recipes"
+      *ngFor="let recipe of showFavorites ? favoriteRecipes : recipes"
       [recipe]="recipe"
     ></app-recipe-card>
   </div>
