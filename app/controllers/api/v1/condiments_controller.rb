@@ -25,6 +25,8 @@ class Api::V1::CondimentsController < ApplicationController
 
   def update
     @condiment = Condiment.find(params[:id])
+    @condiment.update(favorite: params[:state])
+    render json: @condiment
   end
 
   def destroy

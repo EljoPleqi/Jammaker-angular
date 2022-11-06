@@ -12,9 +12,14 @@ import { GetUserService } from 'src/app/shared/services/get-user.service';
 })
 export class RecipesComponent implements OnInit, OnDestroy {
   user: User | undefined;
+
   meals: Recipe[] | undefined;
+  favoriteMeals: Recipe[] = [];
+
   condiments: Condiment[] | undefined;
-  recipes!: (Recipe | Condiment)[];
+  favoriteCondiments: Condiment[] = [];
+
+  recipes: (Recipe | Condiment)[] = [];
   favoriteRecipes!: (Recipe | Condiment)[];
 
   displayType: string = 'All Recipes';
@@ -44,9 +49,8 @@ export class RecipesComponent implements OnInit, OnDestroy {
       this.displayFavoritesServices.favorites$.subscribe((data) => {
         this.showFavorites = data;
         if (this.showFavorites) {
-          this.favoriteRecipes = this.recipes.filter((recipe) =>
-            recipe.favorite ? recipe : null
-          );
+          this.favoriteRecipes = this.filterRecipes(this.recipes);
+          this.filterMeals(this.favoriteRecipes);
         }
       });
   }
@@ -54,5 +58,19 @@ export class RecipesComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.userObjectSubscription.unsubscribe();
     this.favoritesSubscription.unsubscribe();
+  }
+
+  private filterRecipes = (recipes: (Recipe | Condiment)[]) =>
+    recipes.filter((recipe) => (recipe.favorite ? recipe : null));
+
+  private filterMeals = (recipes: (Recipe | Condiment)[]) =>
+    recipes.forEach((recipe) =>
+      this.isRecipe(recipe)
+        ? this.favoriteMeals.push(recipe)
+        : this.favoriteCondiments.push(recipe)
+    );
+
+  private isRecipe(recipe: Recipe | Condiment): recipe is Recipe {
+    return (<Recipe>recipe).genre !== undefined;
   }
 }
