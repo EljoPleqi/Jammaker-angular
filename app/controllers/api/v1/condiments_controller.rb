@@ -6,27 +6,33 @@ class Api::V1::CondimentsController < ApplicationController
     @condiment.user = @current_user
     @condiment.save
     @instructions = Instruction.parse(@condiment.steps)
-    @instructions.shift
+
     @instructions.each do |instruction|
       instruction.gsub!(/\A\s\d*\s*/, "")
       Instruction.create(content: instruction, condiment_id: @condiment.id)
     end
+
     @ingredients = Ingredient.parse(@condiment.bulk_ingredients.gsub(/ [0-9\u00BC-\u00BE\u2150-\u215E\u2189]+/) { |match| "-$#{match}" })
     @ingredients.each do |ingredient|
       Ingredient.create(content: ingredient, condiment_id: @condiment.id)
     end
+
     render json: @condiment
   end
 
   def show
     @condiment = Condiment.find(params[:id])
+     p '-------------'
+      puts @condiment
+      p @condiment.instructions
+      p '-------------'
     render json: { recipe: @condiment }
   end
 
   def update
     @condiment = Condiment.find(params[:id])
     @condiment.update(favorite: params[:state])
-    render json: @condiment
+    render json: { condiment: @condiment, ingredients: @condiment.ingredients }
   end
 
   def destroy
@@ -38,7 +44,7 @@ class Api::V1::CondimentsController < ApplicationController
   def typed_condiment
     @current_user = User.find_by(id: session[:id]) if session[:id]
 
-    @condiment = Condiment.new(raw_ingredients: condiment_params[:ingredients])
+    @condiment = Condiment.new(bulk_ingredients: condiment_params[:ingredients])
     @condiment.user = @current_user
     @condiment.save
     create_instructions_ingredients(@condiment)
@@ -48,12 +54,13 @@ class Api::V1::CondimentsController < ApplicationController
   private
 
   def create_instructions_ingredients(condiment)
-    @instructions = condiment_params[:instructions]
+    @instructions = condiment.instructions
     @instructions.each do |instruction|
       puts instruction
       Instruction.create(content: instruction, condiment_id: condiment.id)
     end
-    @ingredients = Ingredient.parse(@condiment.raw_ingredients)
+
+    @ingredients = Ingredient.parse(@condiment.bulk_ingredients)
     @ingredients.each do |ingredient|
       Ingredient.create(content: ingredient, condiment_id: condiment.id)
     end

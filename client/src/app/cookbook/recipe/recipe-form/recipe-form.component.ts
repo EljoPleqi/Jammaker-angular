@@ -31,6 +31,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
 
   scrape: boolean = false;
   isMeal: boolean = true;
+  isLoading: boolean = true;
 
   ingredients: string[] = [];
   instructions: string[] = [];
@@ -81,9 +82,10 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
   });
 
   ngOnInit(): void {
-    this.userSubscription = this.fetchUser.user$.subscribe(
-      (user) => (this.userId = user?.id)
-    );
+    this.userSubscription = this.fetchUser.user$.subscribe((user) => {
+      this.userId = user?.id;
+      this.isLoading = false;
+    });
   }
 
   onIsMeal = (): boolean => (this.isMeal = !this.isMeal);
@@ -116,15 +118,17 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     const formData: NewRecipeData | NewCondimentData = this.makeFormData(
       this.isMeal
     );
-
+    this.isLoading = true;
     this.recipeApiService
       .postUserRecipe(formData, this.isMeal)
-      .subscribe((data) =>
+      .subscribe((data) => {
+        this.isLoading = false;
+
         this.router.navigate([
           `/cookbook/${this.userId}/${this.isMeal ? 'recipes' : 'condiments'}`,
           `${data.id}`,
-        ])
-      );
+        ]);
+      });
   }
 
   private makeFormData = (isMeal: boolean): NewRecipeData | NewCondimentData =>

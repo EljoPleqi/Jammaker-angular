@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Ingredients } from 'src/app/shared/interfaces/ingredients';
+import { Ingredient } from 'src/app/shared/interfaces/ingredients';
 
 @Component({
   selector: 'app-ingredients-panel',
@@ -7,8 +7,10 @@ import { Ingredients } from 'src/app/shared/interfaces/ingredients';
   styleUrls: ['./ingredients-panel.component.css'],
 })
 export class IngredientsPanelComponent implements OnInit {
-  @Input() ingredients!: Ingredients[];
+  @Input() ingredients!: Ingredient[];
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.ingredients);
+  }
 }

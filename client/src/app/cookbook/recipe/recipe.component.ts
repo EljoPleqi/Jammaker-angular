@@ -33,7 +33,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
   userId: number | undefined;
   recipeType: string | undefined;
   recipe!: Recipe | Condiment;
-  loading: Boolean = true;
+  isLoading: Boolean = true;
   recipeData!: RecipeData;
   userSubscription = new Subscription();
 
@@ -61,7 +61,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
           playlistId: data.playlist,
         };
         this.recipe = data.recipe;
-        this.loading = false;
+        this.isLoading = false;
       });
   }
 
@@ -74,7 +74,6 @@ export class RecipeComponent implements OnInit, OnDestroy {
     this.recipeApiService
       .deleteRecipe(this.recipe.id, this.recipeType!)
       .subscribe((data) => {
-        /*emit deleted event*/ console.log(data);
         this.router.navigate(['/cookbook', `${this.userId}`]);
       });
   }

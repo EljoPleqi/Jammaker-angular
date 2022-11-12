@@ -19,11 +19,7 @@ class Recipe < ApplicationRecord
     @items = doc.search('.mntl-recipe-details__item')
     @preptime = ""
 
-
     @items.each do |item|
-      puts item
-      p '-----'
-
       @preptime = item.text.strip if item.text.include?('Total')
     end
 
@@ -39,9 +35,6 @@ class Recipe < ApplicationRecord
 
     @steps = doc.search('.recipe__steps-content').text.strip
 
-
-
-
     if doc.search('.primary-image__image').present?
       @image = doc.search('.primary-image__image').attribute("src").value
     else
@@ -50,8 +43,8 @@ class Recipe < ApplicationRecord
     @category = doc.search('.mntl-breadcrumbs__item')[2].text.strip
     @recipe.title = @title
     @recipe.preptime = @preptime
-    @recipe.bulk_ingredients = @ingredients
-    @recipe.steps = @steps.gsub(/\s\s\s*/,'-$')
+    @recipe.bulk_ingredients = @ingredients.gsub(/\s\s\s\s*/, '-$')
+    @recipe.steps = @steps.gsub(/\s\s\s*/, '-$')
     @recipe.url = @image
     @recipe.category = @category
     @recipe
