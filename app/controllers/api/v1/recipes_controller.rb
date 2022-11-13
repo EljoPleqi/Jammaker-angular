@@ -13,7 +13,7 @@ class Api::V1::RecipesController < ApplicationController
     @recipe.user = @current_user
     @recipe.save
     @instructions = Instruction.parse(@recipe.steps)
-    @instructions.shift
+    @instructions.pop
     @instructions.each do |instruction|
       instruction.gsub!(/\A\s\d*\s*/, "")
       Instruction.create(content: instruction, recipe_id: @recipe.id)
@@ -34,36 +34,17 @@ class Api::V1::RecipesController < ApplicationController
 
   def typed_recipe
     @current_user = User.find_by(id: session[:id]) if session[:id]
-    recipe_data = {
-      genre: recipes_params[:genre],
-      title: recipes_params[:title],
-      preptime: recipes_params[:prepTime],
-      category: recipes_params[:category],
-    }
-    @recipe = Recipe.new(recipe_data)
+    @recipe = Recipe.new({ genre: recipes_params[:genre], title: recipes_params[:title],
+                           preptime: recipes_params[:prepTime], category: recipes_params[:category] })
     @recipe.user = @current_user
-
     @recipe.save
-    p "----line 48"
-    p @recipe.id
-    @instructions = Instruction.parse(recipes_params[:instructions])
-    @instructions.each do |instruction|
-      Instruction.create(content: instruction, recipe_id: @recipe.id)
-    end
-    @ingredients = Ingredient.parse(recipes_params[:ingredients])
-    @ingredients.each do |ingredient|
-      Ingredient.create(content: ingredient, recipe_id: @recipe.id )
-    end
+    create_instructions_ingredients(@recipe)
     create_playlist(@recipe)
-    data = {
-      id:@recipe.id,
+    render json: {
+      id: @recipe.id,
       playlistId: @recipe.playlist["spotify_playlist_id"]
     }
-    render json: data
   end
-
-
-
 
   def show
     @recipe = Recipe.find(params[:id])
@@ -94,10 +75,23 @@ class Api::V1::RecipesController < ApplicationController
     @current_user = User.find_by(id: session[:id]) if session[:id]
     @recipe = Recipe.find(params[:id])
     @recipe.destroy
-    redirect_to "http://localhost:4200/cookbook/#{@current_user.id}", allow_other_host: true
+
+    render json: { status: 'success' }
   end
 
   private
+
+  def create_instructions_ingredients(recipe)
+    @instructions = recipe_params[:instructions]
+    @instructions.each do |instruction|
+      puts instruction
+      Instruction.create(content: instruction, recipe_id: recipe.id)
+    end
+    @ingredients = Ingredient.parse(@recipe.raw_ingredients)
+    @ingredients.each do |ingredient|
+      Ingredient.create(content: ingredient, recipe_id: condiment.id)
+    end
+  end
 
   def create_playlist(recipe)
     recipe.playlist = Playlist.create({
@@ -133,7 +127,7 @@ class Api::V1::RecipesController < ApplicationController
     # * get the playlist url from the category
     playlist_response = fetch_genre_url(recipe.genre)
     if RestClient::Request.new({
-                                 url: playlist_response + "/playlists",
+                                 url: "#{playlist_response}/playlists",
                                  method: "GET",
                                  headers: hdrs
                                }).execute.code == 404
@@ -153,7 +147,6 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def curate_playlist(recipe)
-
     # * currate the songs array, it must hold either tracks or a collection of strings that is a valid spotify track uri
     songs = []
     playlist_time = 0
@@ -171,7 +164,6 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def send_playlist(playlist, songs)
-
     hdrs = return_header
     RestClient.post("https://api.spotify.com/v1/playlists/#{playlist['id']}/tracks?uris=#{songs.join(',')}", {}, hdrs)
     p "line 176"
@@ -183,23 +175,12 @@ class Api::V1::RecipesController < ApplicationController
     { "Accept" => "application/json",
       "Content-Type" => "application/json",
       "Authorization" => enc_credentials }
-
-
   end
 
   def recipes_params
-
-    params.require(:data).permit(:url,
-                                       :genre,
-                                       :recipe_id,
-                                       :tags,
-                                       :image,
-                                       :servings,
-                                       :favorite,
-                                       :ingredients,
-                                       :instructions,
-                                       :prepTime,
-                                       :title,
-                                       :category)
+    params.require(:data).permit(:url, :genre, :recipe_id, :tags,
+                                 :image, :servings, :favorite,
+                                 :ingredients, :instructions, :prepTime,
+                                 :title, :category)
   end
 end

@@ -27,9 +27,7 @@ export class CookbookComponent implements OnInit, OnDestroy {
       this.user = data.user;
       this.recipes = data.recipes;
       this.condiments = data.condiments;
-      console.log(data);
     });
-
     this.loading = false;
   }
 

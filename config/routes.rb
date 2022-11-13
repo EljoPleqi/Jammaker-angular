@@ -11,13 +11,13 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :recipes, only: %i[show create] do
+      resources :recipes, only: %i[show create  update destroy] do
         post '/new-playlist', to: "recipes#generate_new_playlist"
+        post '/typed-recipe', to: "recipes#typed_recipe"
       end
-      resources :playlists, only: %i[show create destroy update]
+      resources :playlists, only: %i[show create update destroy]
       resources :condiments, only: %i[show create update destroy]
-      resources :flavour_enhancers, only: %i[show create destroy]
-      post '/typed-recipe', to: "recipes#typed_recipe"
+      resources :flavour_enhancers, only: %i[create show destroy]
     end
   end
   resources :sessions, only: [:create]

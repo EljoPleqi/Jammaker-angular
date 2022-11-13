@@ -17,19 +17,19 @@
 >
   <div *ngSwitchCase="'All Meals'" class="grid grid-cols-2 gap-5">
     <app-recipe-card
-      *ngFor="let recipe of meals"
+      *ngFor="let recipe of showFavorites ? favoriteMeals : meals"
       [recipe]="recipe"
     ></app-recipe-card>
   </div>
   <div *ngSwitchCase="'All Condiments'" class="grid grid-cols-2 gap-5">
     <app-recipe-card
-      *ngFor="let recipe of condiments"
+      *ngFor="let recipe of showFavorites ? favoriteCondiments : condiments"
       [recipe]="recipe"
     ></app-recipe-card>
   </div>
   <div *ngSwitchDefault class="grid grid-cols-2 gap-5">
     <app-recipe-card
-      *ngFor="let recipe of recipes"
+      *ngFor="let recipe of showFavorites ? favoriteRecipes : recipes"
       [recipe]="recipe"
     ></app-recipe-card>
   </div>

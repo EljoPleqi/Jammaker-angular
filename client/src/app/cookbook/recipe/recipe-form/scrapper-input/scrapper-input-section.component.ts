@@ -20,6 +20,7 @@ import { GetUserService } from 'src/app/shared/services/get-user.service';
 export class ScrapperInputSectionComponent implements OnInit, OnDestroy {
   @Output() spinner = new EventEmitter<boolean>();
   @Input() isMeal: boolean = false;
+  isLoading: boolean = true;
 
   userId: number | undefined;
   playlist: string = '';
@@ -47,20 +48,23 @@ export class ScrapperInputSectionComponent implements OnInit, OnDestroy {
       genre: new FormControl({ value: 'pop', disabled: !this.isMeal }),
     });
 
-    this.fetchUser.user$.subscribe((user) => (this.userId = user?.id));
+    this.fetchUser.user$.subscribe((user) => {
+      this.userId = user?.id;
+      this.isLoading = false;
+    });
   }
 
   onSubmit() {
+    this.isLoading = true;
     this.scrapperSub = this.recipeService
       .postUrl(this.scrapperData.value, this.isMeal)
       .subscribe((recipeData) => {
-        console.log(recipeData);
+        this.isLoading = false;
         this.route.navigate([
           `/cookbook/${this.userId}/${this.isMeal ? 'recipes' : 'condiments'}/${
             recipeData.id
           }`,
         ]);
-        this.spinner.emit(true);
       });
   }
 

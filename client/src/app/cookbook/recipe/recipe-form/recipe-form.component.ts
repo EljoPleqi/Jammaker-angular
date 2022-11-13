@@ -1,33 +1,24 @@
-import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
   FormControl,
-  FormGroup,
   Validators,
 } from '@angular/forms';
 import {
   NewCondimentData,
   NewRecipeData,
-  Recipe,
 } from 'src/app/shared/interfaces/recipe.model';
-import { PostUserTypedRecipeService } from 'src/app/cookbook/recipe/api/post-user-typed-recipe.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { DisplayService } from 'src/app/shared/services/display.service';
+import { Router } from '@angular/router';
 import {
   faPlusCircle,
   faCamera,
   faQrcode,
   faPenToSquare,
 } from '@fortawesome/free-solid-svg-icons';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { GetUserService } from 'src/app/shared/services/get-user.service';
+import { RecipeApiService } from '../api/recipe-api.service';
 
 @Component({
   selector: 'app-Recipe-form',
@@ -40,6 +31,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
 
   scrape: boolean = false;
   isMeal: boolean = true;
+  isLoading: boolean = true;
 
   ingredients: string[] = [];
   instructions: string[] = [];
@@ -64,7 +56,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private postUserRecipe: PostUserTypedRecipeService,
+    private recipeApiService: RecipeApiService,
     private router: Router,
     private fetchUser: GetUserService
   ) {}
@@ -90,9 +82,10 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
   });
 
   ngOnInit(): void {
-    this.userSubscription = this.fetchUser.user$.subscribe(
-      (user) => (this.userId = user?.id)
-    );
+    this.userSubscription = this.fetchUser.user$.subscribe((user) => {
+      this.userId = user?.id;
+      this.isLoading = false;
+    });
   }
 
   onIsMeal = (): boolean => (this.isMeal = !this.isMeal);
@@ -125,15 +118,17 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     const formData: NewRecipeData | NewCondimentData = this.makeFormData(
       this.isMeal
     );
+    this.isLoading = true;
+    this.recipeApiService
+      .postUserRecipe(formData, this.isMeal)
+      .subscribe((data) => {
+        this.isLoading = false;
 
-    this.postUserRecipe
-      .PostUserRecipe(formData, this.isMeal)
-      .subscribe((data) =>
         this.router.navigate([
           `/cookbook/${this.userId}/${this.isMeal ? 'recipes' : 'condiments'}`,
           `${data.id}`,
-        ])
-      );
+        ]);
+      });
   }
 
   private makeFormData = (isMeal: boolean): NewRecipeData | NewCondimentData =>

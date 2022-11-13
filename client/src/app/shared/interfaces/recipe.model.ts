@@ -1,4 +1,4 @@
-import { Ingredients } from './ingredients';
+import { Ingredient } from './ingredients';
 import { Instruction } from './instruction';
 
 export interface Recipe {
@@ -7,7 +7,7 @@ export interface Recipe {
   preptime: string;
   instructions: Instruction[];
   url?: string;
-  ingredients: Ingredients[];
+  ingredients: Ingredient[];
   favorite: boolean;
   category: string;
   genre: string;
@@ -17,8 +17,9 @@ export interface Condiment {
   title: string;
   url?: string;
   favorite: boolean;
+  category: string;
   instructions: Instruction[];
-  ingredients: Ingredients[];
+  ingredients: Ingredient[];
   ingredientsArray?: string[];
   instructionsArray?: string[];
 }
@@ -38,6 +39,7 @@ export interface NewCondimentData {
   title: string | null;
   favorite: boolean | null;
   image: string | null;
+  category?: string;
   instructions: string | null;
   ingredients: string | null;
 }
