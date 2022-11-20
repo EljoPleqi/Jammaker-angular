@@ -23,6 +23,7 @@
           <fa-icon
             [icon]="faPenToSquareSolid"
             class="hover:text-white cursor-pointer"
+            (click)="onToggleEdit()"
           ></fa-icon>
           <fa-icon
             [icon]="faTrashCanSolid"
@@ -36,9 +37,8 @@
       class="h-[36rem] overflow-y-auto flex flex-col items-center justify-start p-[1.2rem] gap-4 rounded-md border-dashed border-2 border-[#4a4230] w-full"
     >
       <app-instruction-card
-        class=""
-        *ngFor="let instruction of recipe.instructions"
-        [instruction]="instruction"
+        [instructions]="recipe.instructions"
+        [toggleEdit]="toggleEdit"
       ></app-instruction-card>
     </div>
   </div>
@@ -47,6 +47,7 @@
   <div class="flex flex-col gap-4 right">
     <app-ingredients-panel
       class="right-top"
+      [toggleEdit]="toggleEdit"
       [ingredients]="recipe.ingredients"
     ></app-ingredients-panel>
   </div>

@@ -7,7 +7,9 @@ import { Ingredient } from 'src/app/shared/interfaces/ingredients';
   styleUrls: ['./ingredients-panel.component.css'],
 })
 export class IngredientsPanelComponent implements OnInit {
-  @Input() ingredients!: Ingredient[];
+  @Input() ingredients: Ingredient[] | undefined;
+  @Input() toggleEdit: boolean = false;
+
   constructor() {}
 
   ngOnInit(): void {

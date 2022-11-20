@@ -1,6 +1,29 @@
-<div
-  class="flex gap-2 min-w-[38rem] min-h-[9.375rem] bg-[#F7F6F3] gap-2rem items-center px-4"
->
-  <div>{{ instruction.content }}</div>
-  <div></div>
+<div>
+  <div class="flex flex-col gap-2">
+    <div *ngFor="let instruction of instructions">
+      <ng-container
+        [ngTemplateOutlet]="toggleEdit ? editable : display"
+        [ngTemplateOutletContext]="{ instruction: instruction }"
+      >
+      </ng-container>
+    </div>
+  </div>
+
+  <ng-template #display let-instruction="instruction">
+    <p class="w-[38rem] h-[9.375rem] bg-[#F7F6F3] items-center p-4">
+      {{ instruction.content }}
+    </p>
+  </ng-template>
+  <ng-template
+    #editable
+    let-instruction="instruction"
+    class="w-[38rem] h-[9.375rem] bg-[#F7F6F3] items-center p-4"
+  >
+    <textarea
+      name=""
+      id=""
+      [placeholder]="instruction.content"
+      class="w-[38rem] h-[9.375rem] bg-[#F7F6F3] items-center p-4"
+    ></textarea>
+  </ng-template>
 </div>

@@ -32,8 +32,11 @@ export class RecipeComponent implements OnInit, OnDestroy {
   id: number = 0;
   userId: number | undefined;
   recipeType: string | undefined;
+
+  toggleEdit: boolean = false;
+  isLoading: boolean = true;
+
   recipe!: Recipe | Condiment;
-  isLoading: Boolean = true;
   recipeData!: RecipeData;
   userSubscription = new Subscription();
 
@@ -76,6 +79,9 @@ export class RecipeComponent implements OnInit, OnDestroy {
       .subscribe((data) => {
         this.router.navigate(['/cookbook', `${this.userId}`]);
       });
+  }
+  onToggleEdit() {
+    this.toggleEdit = !this.toggleEdit;
   }
 
   ngOnDestroy(): void {

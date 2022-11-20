@@ -1,7 +1,21 @@
 <div class="w-full min-h-[15rem] bg-[#F7F6F3] p-4">
   <h2 class="text-lg mb-4">Ingredients</h2>
-  <p *ngFor="let ingredient of ingredients" class="text-sm mb-1">
-    {{ ingredient.content }}
-  </p>
-  <!-- <p class="text-sm">{{ ingredients }}</p> -->
+  <div *ngFor="let ingredient of ingredients" class="text-sm mb-1">
+    <ng-container
+      [ngTemplateOutlet]="toggleEdit ? editable : display"
+      [ngTemplateOutletContext]="{ ingredient: ingredient }"
+    >
+    </ng-container>
+  </div>
 </div>
+
+<ng-template #display let-ingredient="ingredient">
+  <p class="w-full">{{ ingredient.content }}</p>
+</ng-template>
+<ng-template #editable let-ingredient="ingredient">
+  <input
+    class="w-full bg-transparent border-b-2 border-dashed"
+    type="text"
+    [placeholder]="ingredient.content"
+  />
+</ng-template>
