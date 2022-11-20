@@ -20,6 +20,7 @@ import { IngredientsPanelComponent } from './cookbook/recipe/ingredients-panel/i
 import { RecipeFormComponent } from './cookbook/recipe/recipe-form/recipe-form.component';
 import { PlaylistComponent } from './cookbook/recipe/playlist/playlist.component';
 import { CondimentsComponent } from './cookbook/condiments/condiments.component';
+import { AutoFocusDirective } from './shared/auto-focus.directive';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { CondimentsComponent } from './cookbook/condiments/condiments.component'
     RecipeFormComponent,
     PlaylistComponent,
     CondimentsComponent,
+    AutoFocusDirective,
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Ingredient } from 'src/app/shared/interfaces/ingredients';
 
 @Component({
@@ -9,10 +10,15 @@ import { Ingredient } from 'src/app/shared/interfaces/ingredients';
 export class IngredientsPanelComponent implements OnInit {
   @Input() ingredients: Ingredient[] | undefined;
   @Input() toggleEdit: boolean = false;
-
-  constructor() {}
+  editIngredientsForm: FormGroup | undefined = undefined;
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    console.log(this.ingredients);
+    this.ingredients?.forEach((ingredient: Ingredient, i: number) => {
+      this.editIngredientsForm?.addControl(
+        `${ingredient}${i}`,
+        ingredient.content
+      );
+    });
   }
 }

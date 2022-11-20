@@ -1,29 +1,30 @@
 <div>
-  <div class="flex flex-col gap-2">
-    <div *ngFor="let instruction of instructions">
-      <ng-container
-        [ngTemplateOutlet]="toggleEdit ? editable : display"
-        [ngTemplateOutletContext]="{ instruction: instruction }"
-      >
-      </ng-container>
+  <form
+    *ngIf="toggleEdit; else display"
+    action=""
+    appAutoFocus
+    [formGroup]="editInstructionsForm"
+  >
+    <div class="flex flex-col gap-2">
+      <div *ngFor="let instruction of instructions; let i = index">
+        <textarea
+          name=""
+          formArrayName="instructions"
+          [value]="instruction.content"
+          id=""
+          class="w-[38rem] h-[9.375rem] bg-white items-center p-4 border-violet-500 pb-1 border-b-2 border-dashed"
+        ></textarea>
+      </div>
     </div>
-  </div>
+  </form>
 
   <ng-template #display let-instruction="instruction">
-    <p class="w-[38rem] h-[9.375rem] bg-[#F7F6F3] items-center p-4">
-      {{ instruction.content }}
-    </p>
-  </ng-template>
-  <ng-template
-    #editable
-    let-instruction="instruction"
-    class="w-[38rem] h-[9.375rem] bg-[#F7F6F3] items-center p-4"
-  >
-    <textarea
-      name=""
-      id=""
-      [placeholder]="instruction.content"
-      class="w-[38rem] h-[9.375rem] bg-[#F7F6F3] items-center p-4"
-    ></textarea>
+    <div class="flex flex-col gap-2">
+      <div *ngFor="let instruction of instructions; let i = index">
+        <p class="w-[38rem] h-[9.375rem] bg-[#F7F6F3] items-center p-4">
+          {{ instruction.content }}
+        </p>
+      </div>
+    </div>
   </ng-template>
 </div>

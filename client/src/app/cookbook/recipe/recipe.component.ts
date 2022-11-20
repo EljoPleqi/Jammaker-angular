@@ -7,10 +7,11 @@ import {
 } from 'src/app/shared/interfaces/recipe.model';
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import {
-  faHeart as faHeartSolid,
-  faPenToSquare as faPenToSquareSolid,
-  faTrashCan as faTrashCanSolid,
-  faHomeAlt as faHomeSolid,
+  faHeart,
+  faPenToSquare,
+  faTrashCan,
+  faHomeAlt as faHome,
+  faSave,
 } from '@fortawesome/free-solid-svg-icons';
 import { RecipeApiService } from 'src/app/cookbook/recipe/api/recipe-api.service';
 import { GetUserService } from 'src/app/shared/services/get-user.service';
@@ -24,10 +25,11 @@ import { Subscription } from 'rxjs';
 export class RecipeComponent implements OnInit, OnDestroy {
   // * icons
   faClock = faClock;
-  faHeartSolid = faHeartSolid;
-  faPenToSquareSolid = faPenToSquareSolid;
-  faTrashCanSolid = faTrashCanSolid;
-  faHomeSolid = faHomeSolid;
+  faHeart = faHeart;
+  faPenToSquare = faPenToSquare;
+  faTrashCan = faTrashCan;
+  faHome = faHome;
+  faSave = faSave;
   // * variables
   id: number = 0;
   userId: number | undefined;
