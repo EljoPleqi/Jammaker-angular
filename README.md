@@ -1,24 +1,5 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+With Jammaker you will never have to think about what music to listen to while cooking.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+An online tool that makes it easy to create playlists that last exactly as long as the cooking time. Forget about your playlist having to stop mid-dinner, or worrying whether they will run out of songs by the time you cut the cheese.
