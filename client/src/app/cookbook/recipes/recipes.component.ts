@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { map, Subscription, switchMap } from 'rxjs';
+import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import { Subscription } from 'rxjs';
 import { Condiment, Recipe } from 'src/app/shared/interfaces/recipe.model';
 import { User } from 'src/app/shared/interfaces/user';
 import { DiplayFavoritesService } from 'src/app/shared/services/diplay-favorites.service';
@@ -12,6 +13,7 @@ import { GetUserService } from 'src/app/shared/services/get-user.service';
 })
 export class RecipesComponent implements OnInit, OnDestroy {
   user: User | undefined;
+  faHeart = faHeart;
 
   meals: Recipe[] | undefined;
   favoriteMeals: Recipe[] = [];
@@ -33,7 +35,7 @@ export class RecipesComponent implements OnInit, OnDestroy {
 
   constructor(
     private fetchUser: GetUserService,
-    private displayFavoritesServices: DiplayFavoritesService
+    private displayFavoritesService: DiplayFavoritesService
   ) {}
 
   ngOnInit(): void {
@@ -46,7 +48,7 @@ export class RecipesComponent implements OnInit, OnDestroy {
       }
     );
     this.favoritesSubscription =
-      this.displayFavoritesServices.favorites$.subscribe((data) => {
+      this.displayFavoritesService.favorites$.subscribe((data) => {
         this.showFavorites = data;
         if (this.showFavorites) {
           this.favoriteRecipes = this.filterRecipes(this.recipes);
@@ -54,7 +56,9 @@ export class RecipesComponent implements OnInit, OnDestroy {
         }
       });
   }
-
+  displayFavorites() {
+    this.displayFavoritesService.showFavorites();
+  }
   ngOnDestroy() {
     this.userObjectSubscription.unsubscribe();
     this.favoritesSubscription.unsubscribe();

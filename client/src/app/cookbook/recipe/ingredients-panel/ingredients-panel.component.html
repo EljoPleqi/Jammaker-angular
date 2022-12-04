@@ -1,4 +1,7 @@
-<div class="w-full min-h-[15rem] bg-[#F7F6F3] p-4">
+<div
+  class="w-full min-h-[15rem] bg-[#F7F6F3] p-4"
+  [ngClass]="toggleEdit ? 'bg-[#fff]' : 'bg-[#F7F6F3]'"
+>
   <h2 class="text-lg mb-4">Ingredients</h2>
   <div *ngFor="let ingredient of ingredients" class="text-sm mb-1">
     <ng-container
@@ -16,6 +19,6 @@
   <input
     class="w-full bg-transparent border-violet-500 pb-1 border-b-2 border-dashed placeholder:text-[#4a4230]"
     type="text"
-    [placeholder]="ingredient.content"
+    [value]="ingredient.content"
   />
 </ng-template>

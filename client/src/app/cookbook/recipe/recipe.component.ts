@@ -16,6 +16,8 @@ import {
 import { RecipeApiService } from 'src/app/cookbook/recipe/api/recipe-api.service';
 import { GetUserService } from 'src/app/shared/services/get-user.service';
 import { Subscription } from 'rxjs';
+import { CompareDataService } from 'src/app/shared/services/compare-data.service';
+import { Instruction } from 'src/app/shared/interfaces/instruction';
 
 @Component({
   selector: 'app-recipe',
@@ -33,12 +35,13 @@ export class RecipeComponent implements OnInit, OnDestroy {
   // * variables
   id: number = 0;
   userId: number | undefined;
-  recipeType: string | undefined;
+  recipeType: string = '';
 
   toggleEdit: boolean = false;
   isLoading: boolean = true;
 
-  recipe!: Recipe | Condiment;
+  recipe?: Recipe | Condiment;
+  updatedRecipe?: Recipe | Condiment;
   recipeData!: RecipeData;
   userSubscription = new Subscription();
 
@@ -46,7 +49,8 @@ export class RecipeComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private recipeApiService: RecipeApiService,
-    private fetchUser: GetUserService
+    private fetchUser: GetUserService,
+    private compareDataService: CompareDataService
   ) {}
 
   ngOnInit(): void {
@@ -71,11 +75,20 @@ export class RecipeComponent implements OnInit, OnDestroy {
   }
 
   onAddToFavorites() {
+    if (!this.recipe) {
+      console.error('No Recipe');
+      return;
+    }
     this.recipeApiService
-      .makeFavourite(this.recipe.id, !this.recipe.favorite, this.recipeType!)
-      .subscribe((data) => (this.recipe.favorite = data));
+      .makeFavourite(this.recipe.id, this.recipe.favorite, this.recipeType)
+      .subscribe((data) => {
+        this.recipe ? (this.recipe.favorite = data) : false;
+      });
   }
   onDeleteRecipe() {
+    if (!this.recipe) {
+      return;
+    }
     this.recipeApiService
       .deleteRecipe(this.recipe.id, this.recipeType!)
       .subscribe((data) => {
@@ -84,6 +97,24 @@ export class RecipeComponent implements OnInit, OnDestroy {
   }
   onToggleEdit() {
     this.toggleEdit = !this.toggleEdit;
+  }
+
+  onCompareData() {
+    if (
+      !this.compareDataService.areSameRecipe(this.recipe!, this.updatedRecipe!)
+    ) {
+      this.recipeApiService.editRecipe(this.updatedRecipe).subscribe();
+    }
+    this.toggleEdit = !this.toggleEdit;
+  }
+
+  createNewInstructions(data: Instruction[]) {
+    this.updatedRecipe = this.recipe;
+    if (this.updatedRecipe) {
+      this.updatedRecipe.instructions = data;
+      return;
+    }
+    return;
   }
 
   ngOnDestroy(): void {

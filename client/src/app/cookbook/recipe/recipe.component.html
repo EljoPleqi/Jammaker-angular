@@ -6,8 +6,9 @@
   <div class="left">
     <div
       class="flex items-center justify-around gap-2 w-[41rem] h-[7rem] bg-[#F7F6F3]"
+      [ngClass]="toggleEdit ? 'bg-[#fff]' : 'bg-[#F7F6F3]'"
     >
-      <h2 class="text-2xl flex-wrap font-bold">{{ recipe.title }}</h2>
+      <h2 class="text-2xl flex-wrap font-bold">{{ recipe?.title }}</h2>
       <div class="flex justify-center items-center gap-8">
         <span
           class="bg-[#febc2b] px-4 py-2 rounded-md flex items-center justify-center gap-3"
@@ -16,25 +17,27 @@
             [icon]="faHeart"
             class="hover:text-[#fc413b] cursor-pointer"
             [class]="
-              recipe.favorite ? 'text-[#fc413b] hover:text-black' : 'text-black'
+              recipe?.favorite
+                ? 'text-[#fc413b] hover:text-black'
+                : 'text-black'
             "
             (click)="onAddToFavorites()"
           ></fa-icon>
           <fa-icon
             *ngIf="!toggleEdit"
             [icon]="faPenToSquare"
-            class="hover:text-violet-500 cursor-pointer"
+            class="hover:text-white cursor-pointer"
             (click)="onToggleEdit()"
           ></fa-icon>
           <fa-icon
             *ngIf="toggleEdit"
             [icon]="faSave"
-            class="hover:text-violet-500 cursor-pointer"
-            (click)="onToggleEdit()"
+            class="hover:text-white cursor-pointer"
+            (click)="onCompareData()"
           ></fa-icon>
           <fa-icon
             [icon]="faTrashCan"
-            class="hover:text-violet-500 cursor-pointer"
+            class="hover:text-white cursor-pointer"
             (click)="onDeleteRecipe()"
           ></fa-icon>
         </span>
@@ -44,8 +47,9 @@
       class="h-[36rem] overflow-y-auto overflow-x-hidden flex flex-col items-center justify-start p-[1.2rem] gap-4 rounded-md w-full border-dashed border-2 border-[#4a4230]"
     >
       <app-instruction-card
-        [instructions]="recipe.instructions"
+        [instructions]="recipe?.instructions"
         [toggleEdit]="toggleEdit"
+        (getNewInstructions)="createNewInstructions($event)"
       ></app-instruction-card>
     </div>
   </div>
@@ -55,7 +59,7 @@
     <app-ingredients-panel
       class="right-top"
       [toggleEdit]="toggleEdit"
-      [ingredients]="recipe.ingredients"
+      [ingredients]="recipe?.ingredients"
     ></app-ingredients-panel>
   </div>
   <app-playlist [recipeData]="recipeData" class="right-bottom"></app-playlist>

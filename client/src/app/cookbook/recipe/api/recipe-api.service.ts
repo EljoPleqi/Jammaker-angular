@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { iif } from 'rxjs';
 import {
+  Condiment,
   NewCondimentData,
   NewRecipeData,
+  Recipe,
   RecipeData,
   RecipeResponse,
 } from 'src/app/shared/interfaces/recipe.model';
@@ -35,7 +36,9 @@ export class RecipeApiService {
     );
   }
 
-  editRecipe(recipeId: number) {
+  editRecipe(recipe: (Recipe | Condiment) | undefined) {
+    console.log(recipe);
+
     return this.http.put('url', {}, { withCredentials: true });
   }
 

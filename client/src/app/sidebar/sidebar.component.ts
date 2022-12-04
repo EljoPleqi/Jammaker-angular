@@ -48,7 +48,4 @@ export class SidebarComponent implements OnInit {
   toCreation() {
     this.route.navigate(['create'], { relativeTo: this.activeRoute });
   }
-  displayFavorites() {
-    this.displayFavoritesService.showFavorites();
-  }
 }
