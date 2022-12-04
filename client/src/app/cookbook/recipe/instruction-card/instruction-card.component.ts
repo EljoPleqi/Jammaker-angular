@@ -27,7 +27,7 @@ export class InstructionCardComponent implements OnInit {
     });
   }
 
-  assembleNewInstructions() {
+  assembleNewInstrucastions() {
     const newInstructions = <FormArray>(
       this.editInstructionsForm.get('instructions')
     );
