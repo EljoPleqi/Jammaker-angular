@@ -15,8 +15,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { RecipeApiService } from 'src/app/cookbook/recipe/api/recipe-api.service';
 import { GetUserService } from 'src/app/shared/services/get-user.service';
-import { Subscription } from 'rxjs';
-import { CompareDataService } from 'src/app/shared/services/compare-data.service';
+import { ReplaySubject, Subscription } from 'rxjs';
+import { UtilitiesService } from 'src/app/shared/services/utilities.service';
 import { Instruction } from 'src/app/shared/interfaces/instruction';
 
 @Component({
@@ -32,6 +32,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
   faTrashCan = faTrashCan;
   faHome = faHome;
   faSave = faSave;
+
   // * variables
   id: number = 0;
   userId: number | undefined;
@@ -43,6 +44,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
   recipe?: Recipe | Condiment;
   updatedRecipe?: Recipe | Condiment;
   recipeData!: RecipeData;
+
   userSubscription = new Subscription();
 
   constructor(
@@ -50,7 +52,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
     private router: Router,
     private recipeApiService: RecipeApiService,
     private fetchUser: GetUserService,
-    private compareDataService: CompareDataService
+    private utilitiesService: UtilitiesService
   ) {}
 
   ngOnInit(): void {
@@ -70,6 +72,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
           playlistId: data.playlist,
         };
         this.recipe = data.recipe;
+        this.updatedRecipe = { ...this.recipe };
         this.isLoading = false;
       });
   }
@@ -91,7 +94,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
     }
     this.recipeApiService
       .deleteRecipe(this.recipe.id, this.recipeType!)
-      .subscribe((data) => {
+      .subscribe((_) => {
         this.router.navigate(['/cookbook', `${this.userId}`]);
       });
   }
@@ -100,23 +103,27 @@ export class RecipeComponent implements OnInit, OnDestroy {
   }
 
   onCompareData() {
-    if (
-      !this.compareDataService.areSameRecipe(this.recipe!, this.updatedRecipe!)
-    ) {
-      this.recipeApiService.editRecipe(this.updatedRecipe).subscribe();
-    }
+    this.utilitiesService.triggerChildEvent().subscribe();
     this.toggleEdit = !this.toggleEdit;
   }
 
   createNewInstructions(data: Instruction[]) {
-    this.updatedRecipe = this.recipe;
     if (this.updatedRecipe) {
       this.updatedRecipe.instructions = data;
-      return;
+      this.compareData();
     }
     return;
   }
-
+  private compareData() {
+    if (
+      !this.utilitiesService.areSameRecipe(this.recipe!, this.updatedRecipe!)
+    ) {
+      console.log(6);
+      this.recipeApiService.editRecipe(this.updatedRecipe).subscribe((data) => {
+        console.log(data);
+      });
+    }
+  }
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();
   }

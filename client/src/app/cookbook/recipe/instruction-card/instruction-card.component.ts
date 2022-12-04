@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { Observable, skip } from 'rxjs';
 import { Instruction } from 'src/app/shared/interfaces/instruction';
+import { UtilitiesService } from 'src/app/shared/services/utilities.service';
 
 @Component({
   selector: 'app-instruction-card',
@@ -16,25 +18,33 @@ export class InstructionCardComponent implements OnInit {
   >();
 
   editInstructionsForm: FormGroup;
+  newInstructions: FormArray;
 
-  constructor(private fb: FormBuilder) {
-    this.editInstructionsForm = new FormGroup({});
-  }
-
-  ngOnInit(): void {
+  constructor(
+    private fb: FormBuilder,
+    private utilitiesService: UtilitiesService
+  ) {
     this.editInstructionsForm = this.fb.group({
       instructions: this.fb.array([]),
     });
-  }
-
-  assembleNewInstrucastions() {
-    const newInstructions = <FormArray>(
+    this.newInstructions = <FormArray>(
       this.editInstructionsForm.get('instructions')
     );
+  }
+
+  ngOnInit(): void {
     this.instructions?.forEach((instruction: Instruction) => {
-      newInstructions.push(this.fb.control(instruction.content));
+      this.newInstructions.push(this.fb.control(instruction.content));
     });
 
-    this.getNewInstructions.emit(newInstructions.value as Instruction[]);
+    this.utilitiesService.childEvent$.pipe(skip(1)).subscribe((_) => {
+      this.assembleNewInstrucastions(this.editInstructionsForm);
+    });
+  }
+
+  assembleNewInstrucastions(form: FormGroup) {
+    this.getNewInstructions.emit(
+      form.get('instructions')?.value as Instruction[]
+    );
   }
 }
