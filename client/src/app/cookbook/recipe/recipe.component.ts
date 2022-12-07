@@ -118,10 +118,9 @@ export class RecipeComponent implements OnInit, OnDestroy {
     if (
       !this.utilitiesService.areSameRecipe(this.recipe!, this.updatedRecipe!)
     ) {
-      console.log(6);
-      this.recipeApiService.editRecipe(this.updatedRecipe).subscribe((data) => {
-        console.log(data);
-      });
+      this.recipeApiService
+        .editRecipe(this.updatedRecipe, this.recipeType)
+        .subscribe();
     }
   }
   ngOnDestroy(): void {

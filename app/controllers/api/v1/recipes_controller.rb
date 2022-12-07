@@ -1,5 +1,4 @@
 class Api::V1::RecipesController < ApplicationController
-  # require 'rest-client'
   include CurrentUserConcern
 
   def index
@@ -64,10 +63,17 @@ class Api::V1::RecipesController < ApplicationController
     }
   end
 
+
+
   def update
+    p "---------------------"
+    
+    puts params[:data][:instructions]
+    p "---------------------"
     @current_user = User.find_by(id: session[:id]) if session[:id]
     @recipe = Recipe.find(params[:id])
     @recipe.update(favorite: params[:state])
+    update_instructions_ingredients(params[:data])
     render json: @recipe
   end
 
@@ -89,8 +95,15 @@ class Api::V1::RecipesController < ApplicationController
     end
     @ingredients = Ingredient.parse(@recipe.raw_ingredients)
     @ingredients.each do |ingredient|
-      Ingredient.create(content: ingredient, recipe_id: condiment.id)
+      Ingredient.create(content: ingredient, recipe_id: recipe.id)
     end
+  end
+
+  def update_instructions_ingredients(recipe)
+     @existing_recipe = Recipe.find(recipe[:id])
+
+    p @existing_recipe == recipe
+
   end
 
   def create_playlist(recipe)
