@@ -9,8 +9,10 @@
   <div
     *ngFor="let ingredient of ingredients; let i = index"
     class="text-sm mb-1"
+    formArrayName="ingredients"
   >
     <input
+      [formControlName]="i"
       class="w-full bg-transparent border-violet-500 pb-1 border-b-2 border-dashed placeholder:text-[#4a4230]"
       type="text"
       [value]="ingredient.content"

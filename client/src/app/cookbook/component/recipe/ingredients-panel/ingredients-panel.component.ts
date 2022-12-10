@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-import { skip } from 'rxjs';
+import { skip, switchMap } from 'rxjs';
 import { Ingredient } from 'src/app/shared/interfaces/ingredients';
-import { UtilitiesService } from 'src/app/shared/services/utilities.service';
+import { RecipeUpdateStateService } from '../shared/services/recipe-update-state.service';
 
 @Component({
   selector: 'app-ingredients-panel',
@@ -21,7 +21,7 @@ export class IngredientsPanelComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private utilitiesService: UtilitiesService
+    private recipeUpdateStateService: RecipeUpdateStateService
   ) {
     this.editIngredientsForm = this.fb.group({
       ingredients: this.fb.array([]),
@@ -35,13 +35,18 @@ export class IngredientsPanelComponent implements OnInit {
     this.ingredients?.forEach((ingredient: Ingredient, i: number) => {
       this.newIngredients.push(this.fb.control(ingredient.content));
     });
-    this.utilitiesService.childEvent$.pipe(skip(1)).subscribe((_) => {
-      this.assembleNewIngredients(this.editIngredientsForm);
-    });
+    this.recipeUpdateStateService.gatherData$
+      .pipe(skip(1))
+      .pipe(
+        switchMap((_) =>
+          this.recipeUpdateStateService.gatherNewIngredients(
+            this.assembleNewIngredients(this.editIngredientsForm)
+          )
+        )
+      )
+      .subscribe();
   }
 
-  assembleNewIngredients(form: FormGroup) {
-    console.log();
-    this.getNewIngredients.emit(form.get('ingredients')?.value as Ingredient[]);
-  }
+  private assembleNewIngredients = (form: FormGroup) =>
+    form.get('ingredients')?.value as Ingredient[];
 }

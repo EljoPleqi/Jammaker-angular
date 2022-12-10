@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { Observable, skip } from 'rxjs';
+import { skip, switchMap } from 'rxjs';
 import { Instruction } from 'src/app/shared/interfaces/instruction';
-import { UtilitiesService } from 'src/app/shared/services/utilities.service';
+import { RecipeUpdateStateService } from '../shared/services/recipe-update-state.service';
 
 @Component({
   selector: 'app-instruction-card',
@@ -22,7 +22,7 @@ export class InstructionCardComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private utilitiesService: UtilitiesService
+    private recipeUpdateStateService: RecipeUpdateStateService
   ) {
     this.editInstructionsForm = this.fb.group({
       instructions: this.fb.array([]),
@@ -37,14 +37,18 @@ export class InstructionCardComponent implements OnInit {
       this.newInstructions.push(this.fb.control(instruction.content));
     });
 
-    this.utilitiesService.childEvent$.pipe(skip(1)).subscribe((_) => {
-      this.assembleNewInstrucastions(this.editInstructionsForm);
-    });
+    this.recipeUpdateStateService.gatherData$
+      .pipe(skip(1))
+      .pipe(
+        switchMap((_) =>
+          this.recipeUpdateStateService.gatherNewInstructions(
+            this.assembleNewInstrucastions(this.editInstructionsForm)
+          )
+        )
+      )
+      .subscribe();
   }
 
-  assembleNewInstrucastions(form: FormGroup) {
-    this.getNewInstructions.emit(
-      form.get('instructions')?.value as Instruction[]
-    );
-  }
+  private assembleNewInstrucastions = (form: FormGroup) =>
+    form.get('instructions')?.value as Instruction[];
 }

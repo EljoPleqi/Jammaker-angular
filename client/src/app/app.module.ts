@@ -13,7 +13,7 @@ import { CookbookComponent } from './cookbook/cookbook.component';
 import { ScrapperInputSectionComponent } from './cookbook/component/recipe/recipe-form/scrapper-input/scrapper-input-section.component';
 import { RecipeComponent } from './cookbook/component/recipe/recipe.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { RecipesComponent } from './cookbook/recipes/recipes.component';
+import { RecipesPageComponent } from './cookbook/pages/recipes-page/recipes-page.component';
 import { RecipeCardComponent } from './shared/components/recipe-card/recipe-card.component';
 import { InstructionCardComponent } from './cookbook/component/recipe/instruction-card/instruction-card.component';
 import { IngredientsPanelComponent } from './cookbook/component/recipe/ingredients-panel/ingredients-panel.component';
@@ -32,7 +32,7 @@ import { AutoFocusDirective } from './shared/auto-focus.directive';
     PlaylistComponent,
 
     SidebarComponent,
-    RecipesComponent,
+    RecipesPageComponent,
     RecipeCardComponent,
     InstructionCardComponent,
 

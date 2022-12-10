@@ -33,7 +33,7 @@
             *ngIf="toggleEdit"
             [icon]="faSave"
             class="hover:text-white cursor-pointer"
-            (click)="onCompareData()"
+            (click)="onUpdatingRecipe()"
           ></fa-icon>
           <fa-icon
             [icon]="faTrashCan"
@@ -49,7 +49,6 @@
       <app-instruction-card
         [instructions]="recipe?.instructions"
         [toggleEdit]="toggleEdit"
-        (getNewInstructions)="createNewInstructions($event)"
       ></app-instruction-card>
     </div>
   </div>

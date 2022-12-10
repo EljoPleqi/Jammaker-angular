@@ -15,9 +15,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { RecipeApiService } from './api/recipe-api.service';
 import { GetUserService } from 'src/app/shared/services/get-user.service';
-import { ReplaySubject, Subscription } from 'rxjs';
-import { UtilitiesService } from 'src/app/shared/services/utilities.service';
+import { concatMap, first, forkJoin, Subscription } from 'rxjs';
 import { Instruction } from 'src/app/shared/interfaces/instruction';
+import { RecipeUpdateStateService } from './shared/services/recipe-update-state.service';
 
 @Component({
   selector: 'app-recipe',
@@ -52,7 +52,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
     private router: Router,
     private recipeApiService: RecipeApiService,
     private fetchUser: GetUserService,
-    private utilitiesService: UtilitiesService
+    private recipeUpdateStateService: RecipeUpdateStateService
   ) {}
 
   ngOnInit(): void {
@@ -71,8 +71,8 @@ export class RecipeComponent implements OnInit, OnDestroy {
           id: data.recipe.id,
           playlistId: data.playlist,
         };
-        this.recipe = data.recipe;
-        this.updatedRecipe = { ...this.recipe };
+        this.recipe = data.recipe || {};
+        this.updatedRecipe = { ...this.recipe } || {};
         this.isLoading = false;
       });
   }
@@ -102,26 +102,29 @@ export class RecipeComponent implements OnInit, OnDestroy {
     this.toggleEdit = !this.toggleEdit;
   }
 
-  onCompareData() {
-    this.utilitiesService.triggerChildEvent().subscribe();
+  onUpdatingRecipe() {
+    this.recipeUpdateStateService.triggerGatherData().subscribe();
+    this.triggerUpdatinRecipe();
     this.toggleEdit = !this.toggleEdit;
   }
 
-  createNewInstructions(data: Instruction[]) {
-    if (this.updatedRecipe) {
-      this.updatedRecipe.instructions = data;
-      this.compareData();
-    }
-    return;
-  }
-  private compareData() {
-    if (
-      !this.utilitiesService.areSameRecipe(this.recipe!, this.updatedRecipe!)
-    ) {
-      this.recipeApiService
-        .editRecipe(this.updatedRecipe, this.recipeType)
-        .subscribe();
-    }
+  private triggerUpdatinRecipe() {
+    this.recipeUpdateStateService.newInstructions$
+      .pipe(first())
+      .subscribe((newInstructions) => {
+        if (this.updatedRecipe)
+          this.updatedRecipe.instructions = newInstructions;
+      });
+
+    this.recipeUpdateStateService.newIngredients$
+      .pipe(first())
+      .subscribe((newIngredients) => {
+        if (this.updatedRecipe) this.updatedRecipe.ingredients = newIngredients;
+      });
+
+    this.recipeApiService
+      .editRecipe(this.updatedRecipe, this.recipeType)
+      .subscribe();
   }
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();
