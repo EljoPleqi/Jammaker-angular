@@ -13,7 +13,7 @@ import {
   faHomeAlt as faHome,
   faSave,
 } from '@fortawesome/free-solid-svg-icons';
-import { RecipeApiService } from 'src/app/cookbook/recipe/api/recipe-api.service';
+import { RecipeApiService } from './api/recipe-api.service';
 import { GetUserService } from 'src/app/shared/services/get-user.service';
 import { ReplaySubject, Subscription } from 'rxjs';
 import { UtilitiesService } from 'src/app/shared/services/utilities.service';
