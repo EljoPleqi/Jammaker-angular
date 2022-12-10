@@ -22,10 +22,6 @@ class Api::V1::CondimentsController < ApplicationController
 
   def show
     @condiment = Condiment.find(params[:id])
-     p '-------------'
-      puts @condiment
-      p @condiment.instructions
-      p '-------------'
     render json: { recipe: @condiment }
   end
 

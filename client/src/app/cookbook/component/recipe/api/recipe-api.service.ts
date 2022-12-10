@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { iif } from 'rxjs';
 import {
+  Condiment,
   NewCondimentData,
   NewRecipeData,
+  Recipe,
   RecipeData,
   RecipeResponse,
 } from 'src/app/shared/interfaces/recipe.model';
-
+const BASE_URL = 'http://localhost:3000/api/v1';
 @Injectable({
   providedIn: 'root',
 })
@@ -15,19 +16,14 @@ export class RecipeApiService {
   constructor(private http: HttpClient) {}
 
   fetchRecipe(id: number, type: string) {
-    return this.http.get<RecipeResponse>(
-      `http://localhost:3000/api/v1/${type}/${id}`,
-      {
-        withCredentials: true,
-      }
-    );
+    return this.http.get<RecipeResponse>(`${BASE_URL}/${type}/${id}`, {
+      withCredentials: true,
+    });
   }
 
   postUserRecipe(data: NewRecipeData | NewCondimentData, toggleForm: boolean) {
     return this.http.post<RecipeData>(
-      `http://localhost:3000/api/v1/${
-        toggleForm ? 'typed-recipe' : 'condiments'
-      }`,
+      `${BASE_URL}/${toggleForm ? 'typed-recipe' : 'condiments'}`,
       { data: data },
       {
         withCredentials: true,
@@ -35,13 +31,19 @@ export class RecipeApiService {
     );
   }
 
-  editRecipe(recipeId: number) {
-    return this.http.put('url', {}, { withCredentials: true });
+  editRecipe(recipe: (Recipe | Condiment) | undefined, recipeType: string) {
+    return this.http.put<Recipe | Condiment>(
+      `${BASE_URL}/${recipeType === 'recipes' ? recipeType : 'condiments'}/${
+        recipe!.id
+      }`,
+      { data: recipe },
+      { withCredentials: true }
+    );
   }
 
   deleteRecipe(recipeId: number, recipeType: string) {
     return this.http.delete(
-      `http://localhost:3000/api/v1/${
+      `${BASE_URL}/${
         recipeType === 'recipes' ? recipeType : 'condiments'
       }/${recipeId}`,
       { withCredentials: true }
@@ -50,7 +52,7 @@ export class RecipeApiService {
 
   makeFavourite(recipeId: number, state: boolean, recipeType: string) {
     return this.http.patch<boolean>(
-      `http://localhost:3000/api/v1/${
+      `${BASE_URL}/${
         recipeType === 'recipes' ? recipeType : 'condiments'
       }/${recipeId}`,
       { state },

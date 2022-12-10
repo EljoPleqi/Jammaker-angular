@@ -35,6 +35,7 @@ export class SidebarComponent implements OnInit {
   url: string = `cookbook/${this.activeRoute.snapshot.params['id']}`;
 
   ngOnInit(): void {
+    console.log(this.activeRoute);
     this.userSubscription = this.fetchUser.user$.subscribe((user) => {
       this.user = user;
       this.isLoading = false;
@@ -47,8 +48,5 @@ export class SidebarComponent implements OnInit {
   }
   toCreation() {
     this.route.navigate(['create'], { relativeTo: this.activeRoute });
-  }
-  displayFavorites() {
-    this.displayFavoritesService.showFavorites();
   }
 }

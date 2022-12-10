@@ -9,12 +9,9 @@
   />
   <div class="flex flex-col items-start gap-2 justify-center">
     <p class="text-[#263a44] font-medium">{{ recipe.title }}</p>
-    <span
-      class="rounded-md bg-violet-500 py-1 px-3 text-xs"
-      *ngIf="'preptime'; in: recipe; else: codniment"
-    >
-      <p class="text-white">{{ recipe.category }}</p></span
-    >
-    <ng-template #codniment> Condiment </ng-template>
+    <div class="rounded-md bg-violet-500 py-1 px-3 text-xs">
+      <p class="text-white">{{ recipe.category }}</p>
+    </div>
+    <ng-template #condiment> Condiment </ng-template>
   </div>
 </div>

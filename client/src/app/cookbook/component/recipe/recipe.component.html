@@ -6,26 +6,37 @@
   <div class="left">
     <div
       class="flex items-center justify-around gap-2 w-[41rem] h-[7rem] bg-[#F7F6F3]"
+      [ngClass]="toggleEdit ? 'bg-[#fff]' : 'bg-[#F7F6F3]'"
     >
-      <h2 class="text-2xl flex-wrap font-bold">{{ recipe.title }}</h2>
+      <h2 class="text-2xl flex-wrap font-bold">{{ recipe?.title }}</h2>
       <div class="flex justify-center items-center gap-8">
         <span
           class="bg-[#febc2b] px-4 py-2 rounded-md flex items-center justify-center gap-3"
         >
           <fa-icon
-            [icon]="faHeartSolid"
+            [icon]="faHeart"
             class="hover:text-[#fc413b] cursor-pointer"
             [class]="
-              recipe.favorite ? 'text-[#fc413b] hover:text-black' : 'text-black'
+              recipe?.favorite
+                ? 'text-[#fc413b] hover:text-black'
+                : 'text-black'
             "
             (click)="onAddToFavorites()"
           ></fa-icon>
           <fa-icon
-            [icon]="faPenToSquareSolid"
+            *ngIf="!toggleEdit"
+            [icon]="faPenToSquare"
             class="hover:text-white cursor-pointer"
+            (click)="onToggleEdit()"
           ></fa-icon>
           <fa-icon
-            [icon]="faTrashCanSolid"
+            *ngIf="toggleEdit"
+            [icon]="faSave"
+            class="hover:text-white cursor-pointer"
+            (click)="onUpdatingRecipe()"
+          ></fa-icon>
+          <fa-icon
+            [icon]="faTrashCan"
             class="hover:text-white cursor-pointer"
             (click)="onDeleteRecipe()"
           ></fa-icon>
@@ -33,12 +44,11 @@
       </div>
     </div>
     <div
-      class="h-[36rem] overflow-y-auto flex flex-col items-center justify-start p-[1.2rem] gap-4 rounded-md border-dashed border-2 border-[#4a4230] w-full"
+      class="h-[36rem] overflow-y-auto overflow-x-hidden flex flex-col items-center justify-start p-[1.2rem] gap-4 rounded-md w-full border-dashed border-2 border-[#4a4230]"
     >
       <app-instruction-card
-        class=""
-        *ngFor="let instruction of recipe.instructions"
-        [instruction]="instruction"
+        [instructions]="recipe?.instructions"
+        [toggleEdit]="toggleEdit"
       ></app-instruction-card>
     </div>
   </div>
@@ -47,7 +57,8 @@
   <div class="flex flex-col gap-4 right">
     <app-ingredients-panel
       class="right-top"
-      [ingredients]="recipe.ingredients"
+      [toggleEdit]="toggleEdit"
+      [ingredients]="recipe?.ingredients"
     ></app-ingredients-panel>
   </div>
   <app-playlist [recipeData]="recipeData" class="right-bottom"></app-playlist>
