@@ -18,12 +18,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
 import { GetUserService } from 'src/app/shared/services/get-user.service';
-import { RecipeApiService } from '../api/recipe-api.service';
+import { RecipeApiService } from '../recipe/api/recipe-api.service';
 
 @Component({
-  selector: 'app-Recipe-form',
-  templateUrl: './Recipe-form.component.html',
-  styleUrls: ['./Recipe-form.component.css'],
+  selector: 'app-recipe-form',
+  templateUrl: './recipe-form.component.html',
+  styleUrls: ['./recipe-form.component.scss'],
 })
 export class RecipeFormComponent implements OnInit, OnDestroy {
   userId: number | undefined;
@@ -51,6 +51,8 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     'elector pop',
     'indie pop',
   ];
+
+  types: string[] = ['Meal', 'Condiment'];
 
   files: File[] = [];
 

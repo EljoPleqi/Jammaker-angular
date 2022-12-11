@@ -1,0 +1,167 @@
+<div *ngIf="!isLoading; else loading" class="recipe-form-page">
+  <div class="recipe-form-control-center">
+    <button class="btn-toogle-scrapper" (click)="onIsScraping()">
+      <fa-icon [icon]="!scrape ? faQrcode : faPenToSquare"></fa-icon>
+      {{ !scrape ? "Add recipe from link" : "Add your recipe" }}
+    </button>
+    <div class="type-selector">
+      <label for="select">Recipe Type:</label>
+      <select name="select" id="" class="type-select" (change)="onIsMeal()">
+        <option value="" *ngFor="let type of types">
+          {{ type }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="recipe-form-container">
+    <div>
+      <form
+        [formGroup]="isMeal ? recipeForm : condimentForm"
+        class="recipe-form"
+        (submit)="onSubmit()"
+        *ngIf="!scrape; else scrapeView"
+      >
+        <div class="form-row">
+          <label for="title" class="text-[#3d3829]">Title (required)</label>
+          <input
+            type="text"
+            name="title"
+            formControlName="title"
+            id=""
+            placeholder="What is this dish called?"
+            class="input-array"
+          />
+        </div>
+
+        <ngx-dropzone
+          ><ngx-dropzone-label class="">
+            <fa-icon [icon]="faCamera"></fa-icon> Upload Photos
+          </ngx-dropzone-label></ngx-dropzone
+        >
+        <div class="row-meta-details" [class.hidden]="!isMeal">
+          <div class="input-meta-details">
+            <label for="prepTime">Cooking Duration (required)</label>
+            <input
+              type="number"
+              name="prepTime"
+              formControlName="prepTime"
+              id=""
+              placeholder="Minutes"
+              class="input-array"
+            />
+          </div>
+          <div class="input-meta-details">
+            <label for="category">Category</label>
+            <input
+              type="text"
+              name="category"
+              id=""
+              placeholder="Enter a category"
+              class="input-array"
+            />
+          </div>
+          <div class="input-meta-details">
+            <label for="servings">Number of servings (required)</label>
+            <input
+              type="number"
+              name="servings"
+              formControlName="servings"
+              placeholder="#"
+              id=""
+              class="input-array"
+            />
+          </div>
+          <div class="input-meta-details">
+            <label for="select">Music Genre</label>
+            <select name="genre" id="" class="genre-select">
+              <option value="" *ngFor="let genre of genres">
+                {{ genre }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div formArrayName="instructions" class="form-row">
+          <label for="instructions" class=""
+            >Instructions
+            <span> ({{ getControls("instructions").length }})</span></label
+          >
+          <div
+            class="flex w-full"
+            *ngFor="
+              let instruction of getControls('instructions');
+              let i = index
+            "
+          >
+            <input
+              type="textarea"
+              name="instructions"
+              [formControlName]="i"
+              placeholder="After each instruction please click the button"
+              id=""
+              class="input-array"
+            />
+          </div>
+          <button
+            type="button"
+            (click)="onAddInstruction()"
+            [disabled]="
+              isMeal
+                ? recipeForm.controls.instructions.pristine
+                : condimentForm.controls.instructions.pristine
+            "
+            class="btn array"
+          >
+            Add Instructions
+          </button>
+        </div>
+
+        <div formArrayName="ingredients" class="form-row">
+          <label for="ingredients"
+            >Ingredients
+            <span> ({{ getControls("ingredients").length }})</span></label
+          >
+          <div
+            *ngFor="let ingredient of getControls('ingredients'); let i = index"
+          >
+            <input
+              type="textarea"
+              name="ingredients"
+              [formControlName]="i"
+              placeholder="After each ingredient please click the button"
+              id=""
+              class="input-array"
+            />
+          </div>
+          <button
+            type="button"
+            (click)="onAddIngredient()"
+            class="btn array"
+            [disabled]="
+              isMeal
+                ? recipeForm.controls.ingredients.pristine
+                : condimentForm.controls.ingredients.pristine
+            "
+          >
+            Add Ingredients
+          </button>
+        </div>
+        <div class="divider"></div>
+        <button type="submit" class="btn submit">
+          <fa-icon [icon]="faPlus" class="pr-1"></fa-icon>
+          Save Recipe
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<ng-template #scrapeView>
+  <div class="scrapper-form">
+    <app-scrapper-input-section [isMeal]="isMeal"></app-scrapper-input-section>
+  </div>
+</ng-template>
+
+<ng-template #loading>
+  <div class="loader">Loading...</div>
+</ng-template>

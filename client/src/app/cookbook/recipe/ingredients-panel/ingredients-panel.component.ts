@@ -1,6 +1,13 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnDestroy,
+} from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-import { skip, switchMap } from 'rxjs';
+import { skip, Subscription, switchMap } from 'rxjs';
 import { Ingredient } from 'src/app/shared/interfaces/ingredients';
 import { RecipeUpdateStateService } from '../shared/services/recipe-update-state.service';
 
@@ -9,7 +16,7 @@ import { RecipeUpdateStateService } from '../shared/services/recipe-update-state
   templateUrl: './ingredients-panel.component.html',
   styleUrls: ['./ingredients-panel.component.css'],
 })
-export class IngredientsPanelComponent implements OnInit {
+export class IngredientsPanelComponent implements OnInit, OnDestroy {
   @Input() ingredients: Ingredient[] | undefined;
   @Input() toggleEdit: boolean = false;
 
@@ -18,6 +25,8 @@ export class IngredientsPanelComponent implements OnInit {
   >();
   editIngredientsForm: FormGroup;
   newIngredients: FormArray;
+
+  gatherDataSub: Subscription = new Subscription();
 
   constructor(
     private fb: FormBuilder,
@@ -49,4 +58,8 @@ export class IngredientsPanelComponent implements OnInit {
 
   private assembleNewIngredients = (form: FormGroup) =>
     form.get('ingredients')?.value as Ingredient[];
+
+  ngOnDestroy() {
+    this.gatherDataSub.unsubscribe();
+  }
 }

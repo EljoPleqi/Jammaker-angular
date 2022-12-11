@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+:root {
+  --jammaker-bg-color: #efece6;
+  --jammaker-cream: #F7F6F3;
+  --jammaker-brown: #3d3829;
+  --jammaker-green: #60b158;
+  --jammaker-violet: #884fc4;
+  --jammaker-yellow: #febc2b;
+  --jammaker-red:#fc413b
+  --jammaker-dark-blue: #263a44;
+}
+
+body {
+  background-color: var(--jammaker-bg-color);
+}
+p {
+  color: #263a44;
+}
+
+html,
+body {
+  height: 100vh;
+}
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+}

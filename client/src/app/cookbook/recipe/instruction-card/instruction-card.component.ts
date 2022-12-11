@@ -1,6 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { skip, switchMap } from 'rxjs';
+import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
+import { skip, Subscription, switchMap } from 'rxjs';
 import { Instruction } from 'src/app/shared/interfaces/instruction';
 import { RecipeUpdateStateService } from '../shared/services/recipe-update-state.service';
 
@@ -9,7 +17,7 @@ import { RecipeUpdateStateService } from '../shared/services/recipe-update-state
   templateUrl: './instruction-card.component.html',
   styleUrls: ['./instruction-card.component.css'],
 })
-export class InstructionCardComponent implements OnInit {
+export class InstructionCardComponent implements OnInit, OnDestroy {
   @Input() instructions: Instruction[] | undefined = [];
   @Input() toggleEdit: boolean = false;
 
@@ -19,6 +27,10 @@ export class InstructionCardComponent implements OnInit {
 
   editInstructionsForm: FormGroup;
   newInstructions: FormArray;
+
+  faTrashCan = faTrashCan;
+
+  gatherDataSub: Subscription = new Subscription();
 
   constructor(
     private fb: FormBuilder,
@@ -49,6 +61,14 @@ export class InstructionCardComponent implements OnInit {
       .subscribe();
   }
 
+  onDeleteInstruction(index: number) {
+    this.instructions!.splice(index, 1);
+  }
+
   private assembleNewInstrucastions = (form: FormGroup) =>
     form.get('instructions')?.value as Instruction[];
+
+  ngOnDestroy() {
+    this.gatherDataSub.unsubscribe();
+  }
 }

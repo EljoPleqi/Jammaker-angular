@@ -1,0 +1,18 @@
+<div class="navbar" *ngIf="!isLoading">
+  <div class="nav-control-center">
+    <div class="menu-icon">
+      <fa-icon [icon]="menu"></fa-icon>
+    </div>
+    <h1 class="jammaker-logo">Jammaker</h1>
+    <div class="searchbar-container">
+      <input type="text" placeholder="Search your cookbook" class="searchbar" />
+      <button class="btn search-btn">
+        <fa-icon [icon]="search"></fa-icon>
+      </button>
+    </div>
+  </div>
+  <div class="user-details">
+    <p>{{ user?.name }}'s Cookbook</p>
+    <img [src]="user?.image" alt="" class="user-avatar" />
+  </div>
+</div>

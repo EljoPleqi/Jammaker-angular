@@ -5,13 +5,19 @@
   [formGroup]="editInstructionsForm"
 >
   <div class="flex flex-col gap-2" formArrayName="instructions">
-    <div *ngFor="let instruction of instructions; let i = index">
+    <div *ngFor="let instruction of instructions; let i = index" class="flex">
       <textarea
         name=""
         [formControlName]="i"
         [value]="instruction.content"
         class="w-[38rem] min-h-[9.375rem] bg-white items-center p-4 border-violet-500 pb-1 border-b-2 border-dashed"
       ></textarea>
+      <button
+        class="bg-red-500 cursor-pointer px-4 py-2 flex flex-col"
+        (click)="onDeleteInstruction(i)"
+      >
+        <fa-icon [icon]="faTrashCan" class="items-start"></fa-icon>
+      </button>
     </div>
   </div>
 </form>

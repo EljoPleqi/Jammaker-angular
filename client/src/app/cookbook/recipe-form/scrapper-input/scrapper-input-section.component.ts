@@ -15,7 +15,7 @@ import { GetUserService } from 'src/app/shared/services/get-user.service';
 @Component({
   selector: 'app-scrapper-input-section',
   templateUrl: './scrapper-input-section.component.html',
-  styleUrls: ['./scrapper-input-section.component.css'],
+  styleUrls: ['../recipe-form.component.scss'],
 })
 export class ScrapperInputSectionComponent implements OnInit, OnDestroy {
   @Output() spinner = new EventEmitter<boolean>();
@@ -24,7 +24,7 @@ export class ScrapperInputSectionComponent implements OnInit, OnDestroy {
 
   userId: number | undefined;
   playlist: string = '';
-  options: string[] = [
+  genres: string[] = [
     'rock',
     'pop',
     'uk pop',

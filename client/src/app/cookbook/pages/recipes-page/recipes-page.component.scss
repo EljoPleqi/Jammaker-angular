@@ -1,0 +1,25 @@
+.recipes-page {
+  height: 100%;
+  margin: 0rem 3rem;
+
+  .recipes-page-control-center {
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem 0rem;
+  }
+  .recipes-page-main {
+    overflow: auto;
+    border: var(--jammaker-brown) 2px dashed;
+    padding: 2rem 0rem;
+    height: 100%;
+    border-bottom: none;
+
+    .recipes-grid {
+      display: grid;
+      padding: 0 2rem;
+
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+  }
+}

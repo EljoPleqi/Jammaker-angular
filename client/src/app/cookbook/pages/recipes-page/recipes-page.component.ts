@@ -9,6 +9,7 @@ import { GetUserService } from 'src/app/shared/services/get-user.service';
 @Component({
   selector: 'app-recipes-page',
   templateUrl: './recipes-page.component.html',
+  styleUrls: ['./recipes-page.component.scss'],
 })
 export class RecipesPageComponent implements OnInit, OnDestroy {
   user: User | undefined;
@@ -28,8 +29,6 @@ export class RecipesPageComponent implements OnInit, OnDestroy {
   showFavorites: boolean = false;
 
   userObjectSubscription = new Subscription();
-  recipesSubscription = new Subscription();
-  condimentsSubscription = new Subscription();
   favoritesSubscription = new Subscription();
 
   constructor(
@@ -58,10 +57,6 @@ export class RecipesPageComponent implements OnInit, OnDestroy {
   displayFavorites() {
     this.displayFavoritesService.showFavorites();
   }
-  ngOnDestroy() {
-    this.userObjectSubscription.unsubscribe();
-    this.favoritesSubscription.unsubscribe();
-  }
 
   private filterRecipes = (recipes: (Recipe | Condiment)[]) =>
     recipes.filter((recipe) => (recipe.favorite ? recipe : null));
@@ -75,5 +70,9 @@ export class RecipesPageComponent implements OnInit, OnDestroy {
 
   private isRecipe(recipe: Recipe | Condiment): recipe is Recipe {
     return (<Recipe>recipe).genre !== undefined;
+  }
+  ngOnDestroy() {
+    this.userObjectSubscription.unsubscribe();
+    this.favoritesSubscription.unsubscribe();
   }
 }

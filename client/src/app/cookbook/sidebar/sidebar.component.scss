@@ -1,0 +1,28 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  width: 4rem;
+  height: 100%;
+  background-color: var(--jammaker-cream);
+  .sidebar-item {
+    display: flex;
+    color: var(--jammaker-brown);
+    gap: 1rem;
+    cursor: pointer;
+    .sidebar-item-icon {
+      font-size: 1.5rem;
+    }
+    p {
+      font-size: 0.875rem;
+    }
+    &:hover,
+    &:active {
+      color: var(--jammaker-violet);
+    }
+  }
+  &:first-child {
+    padding-top: 3rem;
+  }
+}

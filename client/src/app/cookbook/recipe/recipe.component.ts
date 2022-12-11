@@ -15,8 +15,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { RecipeApiService } from './api/recipe-api.service';
 import { GetUserService } from 'src/app/shared/services/get-user.service';
-import { concatMap, first, forkJoin, Subscription } from 'rxjs';
-import { Instruction } from 'src/app/shared/interfaces/instruction';
+import { first, Subscription } from 'rxjs';
 import { RecipeUpdateStateService } from './shared/services/recipe-update-state.service';
 
 @Component({
@@ -45,7 +44,10 @@ export class RecipeComponent implements OnInit, OnDestroy {
   updatedRecipe?: Recipe | Condiment;
   recipeData!: RecipeData;
 
-  userSubscription = new Subscription();
+  userSubscription: Subscription = new Subscription();
+  newInstructionsArray: Subscription = new Subscription();
+  newIngredientsArray: Subscription = new Subscription();
+  gatherDataSub: Subscription = new Subscription();
 
   constructor(
     private route: ActivatedRoute,
@@ -64,17 +66,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
       (user) => (this.userId = user?.id)
     );
 
-    this.recipeApiService
-      .fetchRecipe(this.id, this.recipeType)
-      .subscribe((data) => {
-        this.recipeData = {
-          id: data.recipe.id,
-          playlistId: data.playlist,
-        };
-        this.recipe = data.recipe || {};
-        this.updatedRecipe = { ...this.recipe } || {};
-        this.isLoading = false;
-      });
+    this.onRefreshRecipe();
   }
 
   onAddToFavorites() {
@@ -109,14 +101,14 @@ export class RecipeComponent implements OnInit, OnDestroy {
   }
 
   private triggerUpdatinRecipe() {
-    this.recipeUpdateStateService.newInstructions$
+    this.newInstructionsArray = this.recipeUpdateStateService.newInstructions$
       .pipe(first())
       .subscribe((newInstructions) => {
         if (this.updatedRecipe)
           this.updatedRecipe.instructions = newInstructions;
       });
 
-    this.recipeUpdateStateService.newIngredients$
+    this.newIngredientsArray = this.recipeUpdateStateService.newIngredients$
       .pipe(first())
       .subscribe((newIngredients) => {
         if (this.updatedRecipe) this.updatedRecipe.ingredients = newIngredients;
@@ -124,9 +116,27 @@ export class RecipeComponent implements OnInit, OnDestroy {
 
     this.recipeApiService
       .editRecipe(this.updatedRecipe, this.recipeType)
-      .subscribe();
+      .subscribe((_) => this.onRefreshRecipe());
   }
+
+  onRefreshRecipe() {
+    this.recipeApiService
+      .fetchRecipe(this.id, this.recipeType)
+      .subscribe((data) => {
+        this.recipeData = {
+          id: data.recipe.id,
+          playlistId: data.playlist,
+        };
+        this.recipe = data.recipe || {};
+        this.updatedRecipe = { ...this.recipe } || {};
+        this.isLoading = false;
+      });
+  }
+
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();
+    this.newIngredientsArray.unsubscribe();
+    this.newInstructionsArray.unsubscribe();
+    this.gatherDataSub.unsubscribe();
   }
 }
