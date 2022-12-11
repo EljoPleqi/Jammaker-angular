@@ -6,6 +6,9 @@
     display: flex;
     justify-content: space-between;
     padding: 2rem 0rem;
+    .category {
+      background-color: transparent;
+    }
   }
   .recipes-page-main {
     overflow: auto;

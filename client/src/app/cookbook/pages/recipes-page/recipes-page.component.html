@@ -4,13 +4,12 @@
       <fa-icon [icon]="faHeart" class="favorites"></fa-icon>
       Favorities
     </button>
-    <div class="category">
-      <select name="" id="" [(ngModel)]="displayType">
-        <option [value]="option" *ngFor="let option of options">
-          {{ option }}
-        </option>
-      </select>
-    </div>
+
+    <select name="" id="" [(ngModel)]="displayType" class="category">
+      <option [value]="option" *ngFor="let option of options">
+        {{ option }}
+      </option>
+    </select>
   </div>
 
   <div class="recipes-page-main" [ngSwitch]="displayType">

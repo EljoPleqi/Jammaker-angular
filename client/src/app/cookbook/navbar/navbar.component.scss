@@ -8,7 +8,7 @@
     display: flex;
     align-items: center;
     padding: 2rem 1.5rem;
-    gap: 3rem;
+    gap: 4rem;
     .jammaker-logo {
       font-size: 2rem;
       font-weight: 700;
@@ -17,6 +17,11 @@
     .menu-icon {
       font-size: 1.5rem;
       color: var(--jammaker-brown);
+      cursor: pointer;
+      &:hover,
+      &:active {
+        color: var(--jammaker-violet);
+      }
     }
     .searchbar-container {
       display: flex;
