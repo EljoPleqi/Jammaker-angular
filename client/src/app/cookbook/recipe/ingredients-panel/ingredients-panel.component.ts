@@ -14,7 +14,7 @@ import { RecipeUpdateStateService } from '../shared/services/recipe-update-state
 @Component({
   selector: 'app-ingredients-panel',
   templateUrl: './ingredients-panel.component.html',
-  styleUrls: ['./ingredients-panel.component.css'],
+  styleUrls: ['./ingredients-panel.component.scss'],
 })
 export class IngredientsPanelComponent implements OnInit, OnDestroy {
   @Input() ingredients: Ingredient[] | undefined;

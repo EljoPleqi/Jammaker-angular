@@ -20,7 +20,7 @@
       cursor: pointer;
       &:hover,
       &:active {
-        color: var(--jammaker-violet);
+        color: var(--jammaker-orange);
       }
     }
     .searchbar-container {
@@ -33,11 +33,11 @@
         padding-left: 1rem;
       }
       .search-btn {
-        background-color: var(--jammaker-violet);
+        background-color: var(--jammaker-yellow);
         padding: 0 1.5rem;
         border-top-right-radius: 100px;
         border-bottom-right-radius: 100px;
-        color: var(--jammaker-cream);
+        color: var(--jammaker-brown);
       }
     }
   }

@@ -1,39 +1,39 @@
-<div class="flex flex-col gap-2">
-  <div class="w-full flex gap-8 bg-[#3d3829] rounded-md p-4">
+<div class="flex-col-gap2">
+  <div class="media-center">
     <a
       [href]="'https://open.spotify.com/playlist/' + playlistId"
       target="_blank"
-      class="bg-[rgb(29,184,84)] py-2 pl-5 text-white rounded-md items-center flex gap-2 w-[12rem] cursor-pointer"
+      class="btn spotify"
     >
       <img
         src="../../../assets/img/Spotify_Icon_RGB_White.png"
         alt=""
-        class="h-2[rem] w-[2rem]"
+        class="spotify-icon"
       />
       Open Playlist</a
     >
-    <div class="flex gap-4 items-center">
-      <div class="flex flex-col gap-1">
-        <p class="text-white text-xs">Duration</p>
-        <p *ngIf="loaded" class="text-white text-sm">
+    <div class="playlist-meta-info">
+      <div class="flex-col-gap1">
+        <p class="meta-heading">Duration</p>
+        <p *ngIf="loaded" class="meta-info">
           <fa-icon [icon]="faClock"></fa-icon> {{ playlistData.duration }} Mins
         </p>
       </div>
-      <div class="flex flex-col gap-1">
-        <p class="text-white text-xs">Length</p>
-        <p *ngIf="loaded" class="text-white text-sm">
+      <div class="flex-col-gap1">
+        <p class="meta-heading">Length</p>
+        <p *ngIf="loaded" class="meta-info">
           {{ playlistData.numberOfTracks }} Tracks
         </p>
       </div>
     </div>
   </div>
-  <div
+
+  <button
+    type="button"
+    class="btn generate-playlist"
     (click)="generateNewPlaylist()"
-    class="flex items-center py-3 justify-center bg-[#febc2b] rounded-md hover:border-dashed hover:border-2 hover:border-[#3d3829] cursor-pointer"
   >
-    <button type="button" class="text-[#3d3829] flex gap-2">
-      <fa-icon [icon]="faArrows"></fa-icon>
-      <span> Generate New playlist </span>
-    </button>
-  </div>
+    <fa-icon [icon]="faArrows"></fa-icon>
+    <span> Generate New playlist </span>
+  </button>
 </div>

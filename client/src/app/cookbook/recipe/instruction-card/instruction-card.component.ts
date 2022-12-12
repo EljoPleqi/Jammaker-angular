@@ -15,7 +15,7 @@ import { RecipeUpdateStateService } from '../shared/services/recipe-update-state
 @Component({
   selector: 'app-instruction-card',
   templateUrl: './instruction-card.component.html',
-  styleUrls: ['./instruction-card.component.css'],
+  styleUrls: ['./instruction-card.component.scss'],
 })
 export class InstructionCardComponent implements OnInit, OnDestroy {
   @Input() instructions: Instruction[] | undefined = [];

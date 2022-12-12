@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -11,7 +11,6 @@ import {
 } from 'src/app/shared/interfaces/recipe.model';
 import { Router } from '@angular/router';
 import {
-  faPlusCircle,
   faCamera,
   faQrcode,
   faPenToSquare,
@@ -19,6 +18,7 @@ import {
 import { Subscription } from 'rxjs';
 import { GetUserService } from 'src/app/shared/services/get-user.service';
 import { RecipeApiService } from '../recipe/api/recipe-api.service';
+import { faSquarePlus } from '@fortawesome/free-regular-svg-icons';
 
 @Component({
   selector: 'app-recipe-form',
@@ -38,7 +38,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
 
   tags: string[] = [];
 
-  faPlus = faPlusCircle;
+  faPlus = faSquarePlus;
   faCamera = faCamera;
   faQrcode = faQrcode;
   faPenToSquare = faPenToSquare;
@@ -60,7 +60,8 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private recipeApiService: RecipeApiService,
     private router: Router,
-    private fetchUser: GetUserService
+    private fetchUser: GetUserService,
+    private changeDetection: ChangeDetectorRef
   ) {}
 
   recipeForm = this.fb.group({
@@ -90,7 +91,11 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  onIsMeal = (): boolean => (this.isMeal = !this.isMeal);
+  onIsMeal = (): boolean => {
+    this.isMeal = !this.isMeal;
+    this.changeDetection.detectChanges();
+    return this.isMeal;
+  };
 
   onIsScraping = (): boolean => (this.scrape = !this.scrape);
 

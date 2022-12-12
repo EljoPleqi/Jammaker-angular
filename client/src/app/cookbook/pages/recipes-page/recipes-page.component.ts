@@ -50,6 +50,7 @@ export class RecipesPageComponent implements OnInit, OnDestroy {
         this.showFavorites = data;
         if (this.showFavorites) {
           this.favoriteRecipes = this.filterRecipes(this.recipes);
+          console.log(this.favoriteRecipes);
           this.filterMeals(this.favoriteRecipes);
         }
       });

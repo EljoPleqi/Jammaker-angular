@@ -10,7 +10,7 @@ import { faClock } from '@fortawesome/free-regular-svg-icons';
 @Component({
   selector: 'app-playlist',
   templateUrl: './playlist.component.html',
-  styleUrls: ['./playlist.component.css'],
+  styleUrls: ['./playlist.component.scss'],
 })
 export class PlaylistComponent implements OnInit {
   @Input() recipeData!: RecipeData;

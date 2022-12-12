@@ -21,7 +21,7 @@ import { RecipeUpdateStateService } from './shared/services/recipe-update-state.
 @Component({
   selector: 'app-recipe',
   templateUrl: './recipe.component.html',
-  styleUrls: ['./recipe.component.css'],
+  styleUrls: ['./recipe.component.scss'],
 })
 export class RecipeComponent implements OnInit, OnDestroy {
   // * icons

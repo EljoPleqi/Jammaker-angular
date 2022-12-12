@@ -4,14 +4,14 @@
       <fa-icon [icon]="!scrape ? faQrcode : faPenToSquare"></fa-icon>
       {{ !scrape ? "Add recipe from link" : "Add your recipe" }}
     </button>
-    <div class="type-selector">
+    <form class="type-selector" name="typeForm">
       <label for="select">Recipe Type:</label>
       <select name="select" id="" class="type-select" (change)="onIsMeal()">
         <option value="" *ngFor="let type of types">
           {{ type }}
         </option>
       </select>
-    </div>
+    </form>
   </div>
   <div class="recipe-form-container">
     <div>
@@ -161,7 +161,9 @@
     <app-scrapper-input-section [isMeal]="isMeal"></app-scrapper-input-section>
   </div>
 </ng-template>
-
 <ng-template #loading>
-  <div class="loader">Loading...</div>
+  <div class="flex-col-gap4 center">
+    <span class="loader"></span>
+    <span>Please hold tight your recipe is in the oven</span>
+  </div>
 </ng-template>

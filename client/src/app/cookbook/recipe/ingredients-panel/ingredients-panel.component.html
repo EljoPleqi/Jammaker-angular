@@ -3,17 +3,17 @@
   action=""
   appAutoFocus
   [formGroup]="editIngredientsForm"
-  class="w-full min-h-[15rem] bg-white p-4"
+  class="panel editable"
 >
-  <h2 class="text-lg mb-4">Ingredients</h2>
+  <h4 class="heading">Ingredients</h4>
   <div
     *ngFor="let ingredient of ingredients; let i = index"
-    class="text-sm mb-1"
+    class="content"
     formArrayName="ingredients"
   >
     <input
       [formControlName]="i"
-      class="w-full bg-transparent border-violet-500 pb-1 border-b-2 border-dashed placeholder:text-[#4a4230]"
+      class="input editable"
       type="text"
       [value]="ingredient.content"
     />
@@ -21,13 +21,10 @@
 </form>
 
 <ng-template #display>
-  <div class="bg-[#F7F6F3] w-full min-h-[15rem] p-4">
-    <h2 class="text-lg mb-4">Ingredients</h2>
-    <div
-      *ngFor="let ingredient of ingredients; let i = index"
-      class="text-sm mb-1"
-    >
-      <p class="w-full">{{ ingredient.content }}</p>
+  <div class="panel">
+    <h2 class="heading">Ingredients</h2>
+    <div *ngFor="let ingredient of ingredients; let i = index" class="content">
+      <p>{{ ingredient.content }}</p>
     </div>
   </div>
 </ng-template>
