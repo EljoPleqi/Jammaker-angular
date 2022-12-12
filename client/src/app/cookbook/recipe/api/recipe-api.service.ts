@@ -54,7 +54,7 @@ export class RecipeApiService {
     return this.http.patch<boolean>(
       `${BASE_URL}/${
         recipeType === 'recipes' ? recipeType : 'condiments'
-      }/${recipeId}`,
+      }/${recipeId}/make-favorite`,
       { state },
       { withCredentials: true }
     );

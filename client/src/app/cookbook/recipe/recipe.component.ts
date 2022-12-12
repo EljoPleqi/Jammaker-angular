@@ -75,10 +75,11 @@ export class RecipeComponent implements OnInit, OnDestroy {
       return;
     }
     this.recipeApiService
-      .makeFavourite(this.recipe.id, this.recipe.favorite, this.recipeType)
+      .makeFavourite(this.recipe.id, !this.recipe.favorite, this.recipeType)
       .subscribe((data) => {
         this.recipe ? (this.recipe.favorite = data) : false;
       });
+    console.log(this.recipe.id);
   }
   onDeleteRecipe() {
     if (!this.recipe) {
