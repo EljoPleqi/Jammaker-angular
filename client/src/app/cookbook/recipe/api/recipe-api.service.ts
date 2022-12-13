@@ -55,7 +55,7 @@ export class RecipeApiService {
       `${BASE_URL}/${
         recipeType === 'recipes' ? recipeType : 'condiments'
       }/${recipeId}/make-favorite`,
-      { state },
+      { data: { recipe_id: recipeId, favorite: state } },
       { withCredentials: true }
     );
   }

@@ -81,6 +81,7 @@ export class RecipeComponent implements OnInit, OnDestroy {
       });
     console.log(this.recipe.id);
   }
+
   onDeleteRecipe() {
     if (!this.recipe) {
       return;
