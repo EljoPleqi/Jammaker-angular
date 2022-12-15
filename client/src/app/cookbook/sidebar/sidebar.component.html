@@ -1,4 +1,4 @@
-<div class="sidebar">
+<div class="sidebar" [class.open]="isOpen">
   <a (click)="toDashboard()" class="sidebar-item">
     <fa-icon [icon]="cookbook" class="sidebar-item-icon"></fa-icon>
     <p *ngIf="isOpen">Cookbook</p>

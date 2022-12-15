@@ -1,7 +1,7 @@
 <div class="navbar" *ngIf="!isLoading">
   <div class="nav-control-center">
     <div class="menu-icon">
-      <fa-icon [icon]="menu"></fa-icon>
+      <fa-icon [icon]="menu" (click)="toggleSidebar()"></fa-icon>
     </div>
     <h1 class="jammaker-logo">Jammaker</h1>
     <div class="searchbar-container">

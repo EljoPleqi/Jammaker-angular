@@ -5,7 +5,10 @@
   [formGroup]="editInstructionsForm"
 >
   <div class="flex-col-gap2" formArrayName="instructions">
-    <div *ngFor="let instruction of instructions; let i = index" class="flex">
+    <div
+      *ngFor="let instruction of instructions; let i = index"
+      class="flex instruction-container"
+    >
       <textarea
         name=""
         [formControlName]="i"

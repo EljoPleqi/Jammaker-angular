@@ -48,7 +48,20 @@ export class InstructionCardComponent implements OnInit, OnDestroy {
     this.instructions?.forEach((instruction: Instruction) => {
       this.newInstructions.push(this.fb.control(instruction.content));
     });
+    console.log(this.newInstructions.value);
+    this.gatherData();
+  }
 
+  onDeleteInstruction(index: number) {
+    this.newInstructions.removeAt(index);
+    console.log(this.newInstructions.value);
+    this.gatherData();
+  }
+
+  private assembleNewInstrucastions = (form: FormGroup) =>
+    form.get('instructions')?.value as Instruction[];
+
+  private gatherData() {
     this.recipeUpdateStateService.gatherData$
       .pipe(skip(1))
       .pipe(
@@ -60,14 +73,6 @@ export class InstructionCardComponent implements OnInit, OnDestroy {
       )
       .subscribe();
   }
-
-  onDeleteInstruction(index: number) {
-    this.instructions!.splice(index, 1);
-  }
-
-  private assembleNewInstrucastions = (form: FormGroup) =>
-    form.get('instructions')?.value as Instruction[];
-
   ngOnDestroy() {
     this.gatherDataSub.unsubscribe();
   }

@@ -41,12 +41,13 @@
   </div>
 
   <!-- right column -->
-  <div class=".flex-col-gap4 right">
-    <app-ingredients-panel
-      class="right-top"
-      [toggleEdit]="toggleEdit"
-      [ingredients]="recipe?.ingredients"
-    ></app-ingredients-panel>
+  <div class="flex-col-gap4 right">
+    <div class="right-top">
+      <app-ingredients-panel
+        [toggleEdit]="toggleEdit"
+        [ingredients]="recipe?.ingredients"
+      ></app-ingredients-panel>
+    </div>
   </div>
   <app-playlist [recipeData]="recipeData" class="right-bottom"></app-playlist>
 </div>

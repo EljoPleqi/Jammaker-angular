@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       resources :recipes, only: %i[show create update destroy] do
         post '/new-playlist', to: "recipes#generate_new_playlist"
         post '/typed-recipe', to: "recipes#typed_recipe"
+        patch '/make-favorite', to: "recipes#make_favorite"
       end
       resources :playlists, only: %i[show create update destroy]
       resources :condiments, only: %i[show create update destroy]

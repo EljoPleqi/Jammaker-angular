@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/shared/interfaces/user';
 import { GetUserService } from 'src/app/shared/services/get-user.service';
 import { Subscription } from 'rxjs';
-import { DiplayFavoritesService } from '../../shared/services/diplay-favorites.service';
+import { ToggleSidebarService } from '../../shared/services/toggle-sidebar.service';
 import { faBook, faUtensils } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-sidebar',
@@ -19,7 +19,7 @@ export class SidebarComponent implements OnInit {
   constructor(
     private route: Router,
     private activeRoute: ActivatedRoute,
-    private displayFavoritesService: DiplayFavoritesService
+    private toggleSidebarService: ToggleSidebarService
   ) {}
   isOpen: boolean = false;
 
@@ -30,11 +30,14 @@ export class SidebarComponent implements OnInit {
 
   url: string = `cookbook/${this.activeRoute.snapshot.params['id']}`;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.toggleSidebarService.favorites$.subscribe((data) => {
+      this.isOpen = data;
+    });
+  }
 
   toDashboard() {
     this.route.navigate([this.url]);
-    this.displayFavoritesService.showAllRecipes();
   }
   toCreation() {
     this.route.navigate(['create'], { relativeTo: this.activeRoute });

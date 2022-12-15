@@ -3,7 +3,6 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { Subscription } from 'rxjs';
 import { Condiment, Recipe } from 'src/app/shared/interfaces/recipe.model';
 import { User } from 'src/app/shared/interfaces/user';
-import { DiplayFavoritesService } from 'src/app/shared/services/diplay-favorites.service';
 import { GetUserService } from 'src/app/shared/services/get-user.service';
 
 @Component({
@@ -31,32 +30,22 @@ export class RecipesPageComponent implements OnInit, OnDestroy {
   userObjectSubscription = new Subscription();
   favoritesSubscription = new Subscription();
 
-  constructor(
-    private fetchUser: GetUserService,
-    private displayFavoritesService: DiplayFavoritesService
-  ) {}
+  constructor(private fetchUser: GetUserService) {}
 
   ngOnInit(): void {
     this.userObjectSubscription = this.fetchUser.userObject$.subscribe(
       (data) => {
         this.user = data?.user;
-        this.meals = data?.recipes;
-        this.condiments = data?.condiments;
+        this.meals = data?.recipes || [];
+        this.condiments = data?.condiments || [];
         this.recipes = [...(this.meals as []), ...(this.condiments as [])];
+        this.favoriteRecipes = this.filterRecipes(this.recipes);
+        this.filterMeals(this.favoriteRecipes);
       }
     );
-    this.favoritesSubscription =
-      this.displayFavoritesService.favorites$.subscribe((data) => {
-        this.showFavorites = data;
-        if (this.showFavorites) {
-          this.favoriteRecipes = this.filterRecipes(this.recipes);
-          console.log(this.favoriteRecipes);
-          this.filterMeals(this.favoriteRecipes);
-        }
-      });
   }
   displayFavorites() {
-    this.displayFavoritesService.showFavorites();
+    this.showFavorites = !this.showFavorites;
   }
 
   private filterRecipes = (recipes: (Recipe | Condiment)[]) =>
@@ -74,6 +63,5 @@ export class RecipesPageComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.userObjectSubscription.unsubscribe();
-    this.favoritesSubscription.unsubscribe();
   }
 }
