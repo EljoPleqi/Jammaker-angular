@@ -1,0 +1,25 @@
+.instruction-card-editing {
+  min-width: 49.2rem;
+  min-height: 9.375rem;
+  background-color: white;
+  border-bottom: 2px dashed var(--jammaker-orange);
+  padding: 2rem;
+}
+.instruction-container {
+  display: flex;
+  gap: 0.5rem;
+  width: 100%;
+}
+.instruction-card {
+  width: 100%;
+  min-height: 9.375rem;
+  background-color: var(--jammaker-cream);
+  padding: 2rem;
+}
+
+.btn {
+  .delete {
+    background-color: var(--jammaker-red);
+    margin: 0.5rem;
+  }
+}

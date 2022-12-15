@@ -1,0 +1,11 @@
+.cookbook {
+  height: 100%;
+  main {
+    height: calc(100% - 64px);
+    display: flex;
+    .route-content {
+      overflow: auto;
+      width: 100%;
+    }
+  }
+}

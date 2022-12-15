@@ -1,0 +1,39 @@
+<div class="flex-col-gap2">
+  <div class="media-center">
+    <a
+      [href]="'https://open.spotify.com/playlist/' + playlistId"
+      target="_blank"
+      class="btn spotify"
+    >
+      <img
+        src="../../../assets/img/Spotify_Icon_RGB_White.png"
+        alt=""
+        class="spotify-icon"
+      />
+      Open Playlist</a
+    >
+    <div class="playlist-meta-info">
+      <div class="flex-col-gap1">
+        <p class="meta-heading">Duration</p>
+        <p *ngIf="loaded" class="meta-info">
+          <fa-icon [icon]="faClock"></fa-icon> {{ playlistData.duration }} Mins
+        </p>
+      </div>
+      <div class="flex-col-gap1">
+        <p class="meta-heading">Length</p>
+        <p *ngIf="loaded" class="meta-info">
+          {{ playlistData.numberOfTracks }} Tracks
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <button
+    type="button"
+    class="btn generate-playlist"
+    (click)="generateNewPlaylist()"
+  >
+    <fa-icon [icon]="faArrows"></fa-icon>
+    <span> Generate New playlist </span>
+  </button>
+</div>

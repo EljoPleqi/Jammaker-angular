@@ -1,0 +1,45 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: flex-start;
+  padding: 0 1.5rem;
+  width: 4rem;
+  height: 100%;
+  background-color: var(--jammaker-cream);
+  transition: width 0.3s ease-in-out;
+  .sidebar-item {
+    display: flex;
+    color: var(--jammaker-brown);
+    gap: 1rem;
+    cursor: pointer;
+    .sidebar-item-icon {
+      font-size: 1.5rem;
+    }
+    p {
+      font-size: 0.875rem;
+      flex-wrap: nowrap;
+    }
+    &:hover,
+    &:active {
+      color: var(--jammaker-orange);
+    }
+  }
+  &:first-child {
+    padding-top: 3rem;
+  }
+
+  &.open {
+    width: 15rem;
+    .sidebar-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      gap: 0.5rem;
+      p {
+        display: block;
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+<form
+  *ngIf="toggleEdit; else display"
+  action=""
+  appAutoFocus
+  [formGroup]="editIngredientsForm"
+  class="panel editable"
+>
+  <h4 class="heading">Ingredients</h4>
+  <div
+    *ngFor="let ingredient of ingredients; let i = index"
+    class="content"
+    formArrayName="ingredients"
+  >
+    <input
+      [formControlName]="i"
+      class="input editable"
+      type="text"
+      [value]="ingredient.content"
+    />
+  </div>
+</form>
+
+<ng-template #display>
+  <div class="panel">
+    <h2 class="heading">Ingredients</h2>
+    <div *ngFor="let ingredient of ingredients; let i = index" class="content">
+      <p>{{ ingredient.content }}</p>
+    </div>
+  </div>
+</ng-template>
+<ng-template #editable let-ingredient="ingredient"> </ng-template>

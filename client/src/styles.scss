@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+:root {
+  --jammaker-bg-color: #efece6;
+  --jammaker-cream: #f7f6f3;
+  --jammaker-brown: #3d3829;
+  --jammaker-green: #60b158;
+  --jammaker-violet: #884fc4;
+  --jammaker-yellow: #febc2b;
+  --jammaker-red: #fc413b;
+  --jammaker-orange: #fc623a;
+  --jammaker-dark-blue: #263a44;
+}
+
+body {
+  background-color: var(--jammaker-bg-color);
+  color: var(--jammaker-brown);
+}
+
+html,
+body {
+  height: 100vh;
+}
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+}
+
+.flex-col-gap4 {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.flex-col-gap2 {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.flex-col-gap1 {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.full-screen {
+  width: 100%;
+  height: 100%;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid var(--jammaker-cream);
+  border-bottom-color: var(--jammaker-orange);
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

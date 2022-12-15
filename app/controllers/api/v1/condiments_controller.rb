@@ -27,6 +27,7 @@ class Api::V1::CondimentsController < ApplicationController
 
   def update
     @condiment = Condiment.find(params[:id])
+    p params[:state]
     @condiment.update(favorite: params[:state])
     render json: { condiment: @condiment, ingredients: @condiment.ingredients }
   end

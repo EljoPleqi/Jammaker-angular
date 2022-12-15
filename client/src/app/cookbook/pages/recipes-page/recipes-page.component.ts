@@ -3,12 +3,12 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { Subscription } from 'rxjs';
 import { Condiment, Recipe } from 'src/app/shared/interfaces/recipe.model';
 import { User } from 'src/app/shared/interfaces/user';
-import { DiplayFavoritesService } from 'src/app/shared/services/diplay-favorites.service';
 import { GetUserService } from 'src/app/shared/services/get-user.service';
 
 @Component({
   selector: 'app-recipes-page',
   templateUrl: './recipes-page.component.html',
+  styleUrls: ['./recipes-page.component.scss'],
 })
 export class RecipesPageComponent implements OnInit, OnDestroy {
   user: User | undefined;
@@ -28,39 +28,24 @@ export class RecipesPageComponent implements OnInit, OnDestroy {
   showFavorites: boolean = false;
 
   userObjectSubscription = new Subscription();
-  recipesSubscription = new Subscription();
-  condimentsSubscription = new Subscription();
   favoritesSubscription = new Subscription();
 
-  constructor(
-    private fetchUser: GetUserService,
-    private displayFavoritesService: DiplayFavoritesService
-  ) {}
+  constructor(private fetchUser: GetUserService) {}
 
   ngOnInit(): void {
     this.userObjectSubscription = this.fetchUser.userObject$.subscribe(
       (data) => {
         this.user = data?.user;
-        this.meals = data?.recipes;
-        this.condiments = data?.condiments;
+        this.meals = data?.recipes || [];
+        this.condiments = data?.condiments || [];
         this.recipes = [...(this.meals as []), ...(this.condiments as [])];
+        this.favoriteRecipes = this.filterRecipes(this.recipes);
+        this.filterMeals(this.favoriteRecipes);
       }
     );
-    this.favoritesSubscription =
-      this.displayFavoritesService.favorites$.subscribe((data) => {
-        this.showFavorites = data;
-        if (this.showFavorites) {
-          this.favoriteRecipes = this.filterRecipes(this.recipes);
-          this.filterMeals(this.favoriteRecipes);
-        }
-      });
   }
   displayFavorites() {
-    this.displayFavoritesService.showFavorites();
-  }
-  ngOnDestroy() {
-    this.userObjectSubscription.unsubscribe();
-    this.favoritesSubscription.unsubscribe();
+    this.showFavorites = !this.showFavorites;
   }
 
   private filterRecipes = (recipes: (Recipe | Condiment)[]) =>
@@ -75,5 +60,8 @@ export class RecipesPageComponent implements OnInit, OnDestroy {
 
   private isRecipe(recipe: Recipe | Condiment): recipe is Recipe {
     return (<Recipe>recipe).genre !== undefined;
+  }
+  ngOnDestroy() {
+    this.userObjectSubscription.unsubscribe();
   }
 }

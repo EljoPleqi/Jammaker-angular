@@ -1,0 +1,10 @@
+<div class="sidebar" [class.open]="isOpen">
+  <a (click)="toDashboard()" class="sidebar-item">
+    <fa-icon [icon]="cookbook" class="sidebar-item-icon"></fa-icon>
+    <p *ngIf="isOpen">Cookbook</p>
+  </a>
+  <a (click)="toCreation()" class="sidebar-item">
+    <fa-icon [icon]="faSquarePlus" class="sidebar-item-icon"></fa-icon>
+    <p *ngIf="isOpen">Create Your Recipe</p>
+  </a>
+</div>

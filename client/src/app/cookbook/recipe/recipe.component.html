@@ -1,0 +1,60 @@
+<div *ngIf="!isLoading; else loading" class="recipe-grid">
+  <!-- left column -->
+  <div class="left">
+    <div
+      class="recipe-info-center"
+      [ngClass]="toggleEdit ? 'bg-[#fff]' : 'bg-[#F7F6F3]'"
+    >
+      <h2 class="heading">{{ recipe?.title }}</h2>
+      <div class="control-center">
+        <fa-icon
+          [icon]="faHeart"
+          class="btn favorite"
+          [class.hearted]="recipe?.favorite"
+          (click)="onAddToFavorites()"
+        ></fa-icon>
+        <fa-icon
+          *ngIf="!toggleEdit"
+          [icon]="faPenToSquare"
+          class="btn"
+          (click)="onToggleEdit()"
+        ></fa-icon>
+        <fa-icon
+          *ngIf="toggleEdit"
+          [icon]="faSave"
+          class="btn"
+          (click)="onUpdatingRecipe()"
+        ></fa-icon>
+        <fa-icon
+          [icon]="faTrashCan"
+          class="btn"
+          (click)="onDeleteRecipe()"
+        ></fa-icon>
+      </div>
+    </div>
+    <div class="instructions-container">
+      <app-instruction-card
+        [instructions]="recipe?.instructions"
+        [toggleEdit]="toggleEdit"
+      ></app-instruction-card>
+    </div>
+  </div>
+
+  <!-- right column -->
+  <div class="flex-col-gap4 right">
+    <div class="right-top">
+      <app-ingredients-panel
+        [toggleEdit]="toggleEdit"
+        [ingredients]="recipe?.ingredients"
+      ></app-ingredients-panel>
+    </div>
+  </div>
+  <app-playlist [recipeData]="recipeData" class="right-bottom"></app-playlist>
+</div>
+
+<ng-template #loading>
+  <div class="flex-col-gap4 center full-screen">
+    <div class="loader"></div>
+    <div>Reading through your cookbook</div>
+  </div>
+</ng-template>

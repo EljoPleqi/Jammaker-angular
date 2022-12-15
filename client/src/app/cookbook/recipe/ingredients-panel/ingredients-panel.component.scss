@@ -1,0 +1,32 @@
+.panel {
+  background-color: var(--jammaker-cream);
+  width: 100%;
+  max-height: 32rem;
+  overflow: auto;
+  padding: 2rem;
+  &.editable {
+    background-color: white;
+  }
+  .content {
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    width: 100%;
+  }
+}
+
+.heading {
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+}
+
+.input {
+  &.editable {
+    width: 100%;
+    background-color: transparent;
+    border-bottom: var(--jammaker-orange) 2px dashed;
+    padding-bottom: 0.5rem;
+  }
+  &::placeholder {
+    color: var(--jammaker-brown);
+  }
+}

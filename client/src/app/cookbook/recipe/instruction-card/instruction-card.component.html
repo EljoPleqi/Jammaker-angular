@@ -1,0 +1,33 @@
+<form
+  *ngIf="toggleEdit; else display"
+  action=""
+  appAutoFocus
+  [formGroup]="editInstructionsForm"
+>
+  <div class="flex-col-gap2" formArrayName="instructions">
+    <div
+      *ngFor="let instruction of instructions; let i = index"
+      class="flex instruction-container"
+    >
+      <textarea
+        name=""
+        [formControlName]="i"
+        [value]="instruction.content"
+        class="instruction-card-editing"
+      ></textarea>
+      <button class="btn delete" (click)="onDeleteInstruction(i)">
+        <fa-icon [icon]="faTrashCan" class="items-start"></fa-icon>
+      </button>
+    </div>
+  </div>
+</form>
+
+<ng-template #display let-instruction="instruction">
+  <div class="flex-col-gap2">
+    <div *ngFor="let instruction of instructions; let i = index">
+      <p class="instruction-card">
+        {{ instruction.content }}
+      </p>
+    </div>
+  </div>
+</ng-template>

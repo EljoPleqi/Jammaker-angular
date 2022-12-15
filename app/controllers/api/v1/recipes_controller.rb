@@ -1,5 +1,4 @@
 class Api::V1::RecipesController < ApplicationController
-
   include CurrentUserConcern
 
   def index
@@ -58,8 +57,15 @@ class Api::V1::RecipesController < ApplicationController
   def update
     @current_user = User.find_by(id: session[:id]) if session[:id]
     @recipe = Recipe.find(params[:id])
-    @recipe.update(favorite: params[:state])
     update_instructions_ingredients(params[:data])
+    render json: @recipe
+  end
+
+  def make_favorite
+    p recipes_params[:recipe_id]
+    @current_user = User.find_by(id: session[:id]) if session[:id]
+    @recipe = Recipe.find(recipes_params[:recipe_id])
+    @recipe.update(favorite: params[:data][:favorite])
     render json: @recipe
   end
 
@@ -87,15 +93,20 @@ class Api::V1::RecipesController < ApplicationController
 
   def update_instructions_ingredients(recipe)
     @existing_recipe = Recipe.find(recipe[:id])
-    @new_recipe = recipe
-    if are_different?(@existing_recipe.instructions, @new_recipe[:instructions])
-      @existing_recipe.instructions.each_with_index { |instruction, index| instruction.update({ content: @new_recipe[:instructions][index] }) }
-    end
-    if are_different?(@existing_recipe.ingredients, @new_recipe[:ingredients])
-      @existing_recipe.ingredients.each_with_index { |ingredient, index| ingredient.update({ content: @new_recipe[:ingredients][index] }) }
+    if are_different?(@existing_recipe.instructions, recipe[:instructions])
+
+      @existing_recipe.instructions.each_with_index do |instruction, index|
+        instruction.update({ content: recipe[:instructions][index] })
+        instruction.destroy if instruction[:content].nil?
+      end
     end
 
-    p @existing_recipe.ingredients, @new_recipe[:ingredients]
+    if are_different?(@existing_recipe.ingredients, recipe[:ingredients])
+      @existing_recipe.ingredients.each_with_index do |ingredient, index|
+        ingredient.update({ content: recipe[:ingredients][index] })
+        ingredient.destroy if ingredient[:content].nil?
+      end
+    end
   end
 
   def are_different?(existing_recipe_set, new_set)

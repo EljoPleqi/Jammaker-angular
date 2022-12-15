@@ -1,0 +1,51 @@
+.media-center {
+  background-color: var(--jammaker-brown);
+  width: 100%;
+  display: flex;
+  gap: 2rem;
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.btn {
+  &.spotify {
+    display: flex;
+    gap: 0.5rem;
+    background-color: rgb(29, 184, 84);
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    align-items: center;
+    .spotify-icon {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+  &.generate-playlist {
+    display: flex;
+    width: 100%;
+    padding: 0.75rem 0rem;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: var(--jammaker-yellow);
+    border-radius: 6px;
+    cursor: pointer;
+    &:hover {
+      border: dashed 2px var(--jammaker-brown);
+    }
+  }
+}
+
+.playlist-meta-info {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  .meta-heading {
+    font-size: 0.875rem;
+    color: var(--jammaker-cream);
+    .meta-info {
+      font-size: 1rem;
+    }
+  }
+}
