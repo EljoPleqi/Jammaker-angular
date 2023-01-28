@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Condiment, Recipe } from 'src/app/shared/interfaces/recipe.model';
 
@@ -7,7 +7,7 @@ import { Condiment, Recipe } from 'src/app/shared/interfaces/recipe.model';
   templateUrl: './recipe-card.component.html',
   styleUrls: ['./recipe-card.component.scss'],
 })
-export class RecipeCardComponent implements OnInit {
+export class RecipeCardComponent {
   @Input() recipe!: Recipe | Condiment;
 
   constructor(private router: Router, private route: ActivatedRoute) {}
@@ -24,5 +24,4 @@ export class RecipeCardComponent implements OnInit {
       }
     );
   }
-  ngOnInit(): void {}
 }

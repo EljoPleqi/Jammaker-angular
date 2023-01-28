@@ -1,9 +1,11 @@
-<div class="cookbook">
-  <nav>
-    <app-navbar></app-navbar>
-  </nav>
-  <main>
-    <app-sidebar></app-sidebar>
-    <div class="route-content"><router-outlet></router-outlet></div>
-  </main>
-</div>
+<ng-container *ngIf="user$ | async as userData">
+  <div class="cookbook">
+    <nav>
+      <app-navbar [user]="userData.user"></app-navbar>
+    </nav>
+    <main>
+      <app-sidebar></app-sidebar>
+      <div class="route-content"><router-outlet></router-outlet></div>
+    </main>
+  </div>
+</ng-container>

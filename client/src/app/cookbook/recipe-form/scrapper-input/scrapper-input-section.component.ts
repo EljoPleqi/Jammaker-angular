@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  OnInit,
-  OnDestroy,
-  Output,
-  Input,
-} from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { PostUrlService } from 'src/app/shared/services/post-url.service';
 import { NgForm, FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -17,7 +10,7 @@ import { GetUserService } from 'src/app/shared/services/get-user.service';
   templateUrl: './scrapper-input-section.component.html',
   styleUrls: ['../recipe-form.component.scss'],
 })
-export class ScrapperInputSectionComponent implements OnInit, OnDestroy {
+export class ScrapperInputSectionComponent implements OnInit {
   @Output() spinner = new EventEmitter<boolean>();
   @Input() isMeal: boolean = false;
   isLoading: boolean = true;
@@ -66,9 +59,5 @@ export class ScrapperInputSectionComponent implements OnInit, OnDestroy {
           }`,
         ]);
       });
-  }
-
-  ngOnDestroy() {
-    // this.scrapperSub.unsubscribe();
   }
 }

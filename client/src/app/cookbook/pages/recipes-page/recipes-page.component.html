@@ -1,35 +1,52 @@
-<div class="recipes-page">
-  <div class="recipes-page-control-center">
-    <button (click)="displayFavorites()">
-      <fa-icon [icon]="faHeart" class="favorites"></fa-icon>
-      Favorities
-    </button>
+<ng-container *ngIf="userResponse$ | async as userData">
+  <div class="recipes-page">
+    <div class="recipes-page-control-center">
+      <button (click)="displayFavorites()">
+        <fa-icon [icon]="faHeart" class="favorites"></fa-icon>
+        Favorities
+      </button>
 
-    <select name="" id="" [(ngModel)]="displayType" class="category">
-      <option [value]="option" *ngFor="let option of options">
-        {{ option }}
-      </option>
-    </select>
-  </div>
+      <select name="" id="" [(ngModel)]="displayType" class="category">
+        <option [value]="option" *ngFor="let option of options">
+          {{ option }}
+        </option>
+      </select>
+    </div>
 
-  <div class="recipes-page-main" [ngSwitch]="displayType">
-    <div *ngSwitchCase="'All Meals'" class="recipes-grid">
-      <app-recipe-card
-        *ngFor="let recipe of showFavorites ? favoriteMeals : meals"
-        [recipe]="recipe"
-      ></app-recipe-card>
-    </div>
-    <div *ngSwitchCase="'All Condiments'" class="recipes-grid">
-      <app-recipe-card
-        *ngFor="let recipe of showFavorites ? favoriteCondiments : condiments"
-        [recipe]="recipe"
-      ></app-recipe-card>
-    </div>
-    <div *ngSwitchDefault class="recipes-grid">
-      <app-recipe-card
-        *ngFor="let recipe of showFavorites ? favoriteRecipes : recipes"
-        [recipe]="recipe"
-      ></app-recipe-card>
+    <div class="recipes-page-main" [ngSwitch]="displayType">
+      <div *ngSwitchCase="'All Meals'" class="recipes-grid">
+        <app-recipe-card
+          *ngFor="
+            let recipe of showFavorites
+              ? filterRecipes(userData.recipes)
+              : userData.recipes
+          "
+          [recipe]="recipe"
+        ></app-recipe-card>
+      </div>
+      <div *ngSwitchCase="'All Condiments'" class="recipes-grid">
+        <app-recipe-card
+          *ngFor="
+            let recipe of showFavorites
+              ? filterRecipes(userData.condiments)
+              : condiments
+          "
+          [recipe]="recipe"
+        ></app-recipe-card>
+      </div>
+      <div *ngSwitchDefault class="recipes-grid">
+        <div
+          *ngFor="
+            let recipe of showFavorites
+              ? filterRecipes(
+                  getUserRecipes(userData.recipes, userData.condiments)
+                )
+              : getUserRecipes(userData.recipes, userData.condiments)
+          "
+        >
+          <app-recipe-card [recipe]="recipe"></app-recipe-card>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+</ng-container>

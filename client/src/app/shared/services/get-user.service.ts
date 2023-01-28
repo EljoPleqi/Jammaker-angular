@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../interfaces/user';
 import { Condiment, Recipe } from '../interfaces/recipe.model';
-import { UserResponse } from '../interfaces/user_response';
+import { UserResponse } from '../interfaces/user';
 import { BehaviorSubject, EMPTY, empty, map } from 'rxjs';
 
 @Injectable({
