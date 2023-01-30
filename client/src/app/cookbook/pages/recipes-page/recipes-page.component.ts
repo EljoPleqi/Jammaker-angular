@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { Observable, Subscription } from 'rxjs';
 import { Condiment, Recipe } from 'src/app/shared/interfaces/recipe.model';
 import { User, UserResponse } from 'src/app/shared/interfaces/user';
@@ -37,11 +37,7 @@ export class RecipesPageComponent implements OnInit {
     this.showFavorites = !this.showFavorites;
   }
 
-  getUserRecipes = (
-    meals: Recipe[],
-    condiments: Condiment[]
-  ): (Recipe | Condiment)[] => [...(meals as []), ...(condiments as [])];
+  getUserRecipes = (meals: Recipe[], condiments: Condiment[]): (Recipe | Condiment)[] => [...(meals as []), ...(condiments as [])];
 
-  filterRecipes = (recipes: (Recipe | Condiment)[]) =>
-    recipes.filter((recipe) => (recipe.favorite ? recipe : null));
+  filterRecipes = (recipes: (Recipe | Condiment)[]) => recipes.filter((recipe) => (recipe.favorite ? recipe : null));
 }

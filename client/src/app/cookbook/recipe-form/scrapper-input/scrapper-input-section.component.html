@@ -2,18 +2,13 @@
   <label for="select" id="label">Music Genre</label>
   <form [formGroup]="scrapperData" class="scrapper-form">
     <div class="input-meta-details">
-      <select name="genre" id="" class="genre-select">
-        <option value="" *ngFor="let genre of genres">
+      <select name="genre" id="" formControlName="genre" class="genre-select" (change)="changeGenre()">
+        <option [ngValue]="genre" *ngFor="let genre of genres">
           {{ genre }}
         </option>
       </select>
     </div>
-    <input
-      type="text"
-      formControlName="url"
-      placeholder="Paste your link form your favorite site"
-      class="input-array"
-    />
+    <input type="text" formControlName="url" placeholder="Paste your link form your favorite site" class="input-array" />
     <button (click)="onSubmit()" class="btn submit">Create Recipe</button>
   </form>
 </div>

@@ -26,3 +26,21 @@
     }
   }
 }
+.btn {
+  cursor: pointer;
+  &.favorite {
+    &:hover {
+      .icon {
+        color: var(--jammaker-red);
+      }
+    }
+    .icon {
+      &.hearted {
+        color: var(--jammaker-red);
+        &:hover {
+          color: #000;
+        }
+      }
+    }
+  }
+}

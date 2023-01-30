@@ -1,8 +1,8 @@
 <ng-container *ngIf="userResponse$ | async as userData">
   <div class="recipes-page">
     <div class="recipes-page-control-center">
-      <button (click)="displayFavorites()">
-        <fa-icon [icon]="faHeart" class="favorites"></fa-icon>
+      <button (click)="displayFavorites()" class="btn favorite">
+        <fa-icon [icon]="faHeart" class="icon" [class.hearted]="showFavorites"></fa-icon>
         Favorities
       </button>
 
@@ -16,31 +16,18 @@
     <div class="recipes-page-main" [ngSwitch]="displayType">
       <div *ngSwitchCase="'All Meals'" class="recipes-grid">
         <app-recipe-card
-          *ngFor="
-            let recipe of showFavorites
-              ? filterRecipes(userData.recipes)
-              : userData.recipes
-          "
+          *ngFor="let recipe of showFavorites ? filterRecipes(userData.recipes) : userData.recipes"
           [recipe]="recipe"
         ></app-recipe-card>
       </div>
       <div *ngSwitchCase="'All Condiments'" class="recipes-grid">
-        <app-recipe-card
-          *ngFor="
-            let recipe of showFavorites
-              ? filterRecipes(userData.condiments)
-              : condiments
-          "
-          [recipe]="recipe"
-        ></app-recipe-card>
+        <app-recipe-card *ngFor="let recipe of showFavorites ? filterRecipes(userData.condiments) : condiments" [recipe]="recipe"></app-recipe-card>
       </div>
       <div *ngSwitchDefault class="recipes-grid">
         <div
           *ngFor="
             let recipe of showFavorites
-              ? filterRecipes(
-                  getUserRecipes(userData.recipes, userData.condiments)
-                )
+              ? filterRecipes(getUserRecipes(userData.recipes, userData.condiments))
               : getUserRecipes(userData.recipes, userData.condiments)
           "
         >
