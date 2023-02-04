@@ -6,7 +6,6 @@ class Recipe < ApplicationRecord
   has_many :condiments, through: :flavour_enhancers
   has_one :playlist, dependent: :destroy
   scope :favorited, -> { where(favorite: true) }
-  validates :genre, inclusion: ["pop", 'punk', 'rock', 'hiphop', 'chill', "indie_alt"]
 
   def self.scraper(recipe)
     # 1. We get the HTML page content

@@ -11,6 +11,9 @@ class Api::V1::RecipesController < ApplicationController
     @recipe = Recipe.scraper(@recipe)
     @recipe.user = @current_user
     @recipe.save
+    p @recipe.errors.full_messages
+
+
     @instructions = Instruction.parse(@recipe.steps)
     @instructions.pop
     @instructions.each do |instruction|
@@ -23,7 +26,7 @@ class Api::V1::RecipesController < ApplicationController
     end
 
     create_playlist(@recipe)
-
+    p @recipe
     render json: {
       id: @recipe.id,
       playlistId: @recipe.playlist["spotify_playlist_id"]
@@ -139,11 +142,14 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def fetch_genre_url(genre)
+    genres = genre.split('%20')
+    genre = genres[rand(genres.length)]
     "https://api.spotify.com/v1/search?q=#{genre}&type=playlist"
   end
 
   def fetch_playlist_response(recipe)
     hdrs = return_header
+    p fetch_genre_url(recipe.genre)
     JSON.parse(RestClient.get(fetch_genre_url(recipe.genre), hdrs))
   end
 
