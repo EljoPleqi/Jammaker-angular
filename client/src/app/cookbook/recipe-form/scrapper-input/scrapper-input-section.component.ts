@@ -17,7 +17,7 @@ export class ScrapperInputSectionComponent implements OnInit {
 
   userId: number | undefined;
   playlist: string = '';
-  genres: string[] = ['rock', 'pop', 'blues', 'bossanova', 'brazil', 'breakbeat', 'british', 'folk', 'forro', 'french', 'funk', 'indie', 'indie-pop'];
+  genres: string[] = [];
 
   scrapperSub: Subscription = new Subscription();
   scrapperData: FormGroup;
@@ -25,7 +25,7 @@ export class ScrapperInputSectionComponent implements OnInit {
   constructor(private route: Router, private recipeService: PostUrlService, private fetchUser: GetUserService) {
     this.scrapperData = new FormGroup({
       url: new FormControl(''),
-      genre: new FormControl({ value: this.genres[0], disabled: !this.isMeal }),
+      genre: new FormControl({ value: this.genres.join('-$'), disabled: !this.isMeal }),
     });
   }
 
@@ -36,8 +36,10 @@ export class ScrapperInputSectionComponent implements OnInit {
     });
   }
 
-  changeGenre() {
-    console.log(this.scrapperData.get('genre')?.value);
+  addMoodTag(event: any) {
+    console.log(event.target.value);
+    this.genres.push(event.target.value);
+    console.log(this.genres);
   }
 
   onSubmit() {

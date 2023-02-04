@@ -1,15 +1,20 @@
 <div *ngIf="!isLoading; else loading">
-  <label for="select" id="label">Music Genre</label>
   <form [formGroup]="scrapperData" class="scrapper-form">
-    <div class="input-meta-details">
-      <select name="genre" id="" formControlName="genre" class="genre-select" (change)="changeGenre()">
-        <option [ngValue]="genre" *ngFor="let genre of genres">
-          {{ genre }}
-        </option>
-      </select>
+    <div class="input-meta-details w-25">
+      <label for="tags-input">Mood Tags</label>
+      <input type="text" name="tags-input" placeholder="Add mood tags..." id="" s class="input-array" />
     </div>
-    <input type="text" formControlName="url" placeholder="Paste your link form your favorite site" class="input-array" />
-    <button (click)="onSubmit()" class="btn submit">Create Recipe</button>
+    <div class="input-meta-details w-75">
+      <label for="tags-input">Recipe URL</label>
+      <input
+        type="text"
+        formControlName="url"
+        placeholder="Paste your link form your favorite site..."
+        class="input-array"
+        (keyup.enter)="addMoodTag($event)"
+      />
+    </div>
+    <button type="button" (click)="onSubmit()" class="btn submit">Create Recipe</button>
   </form>
 </div>
 
