@@ -44,6 +44,6 @@ class Api::V1::UsersController < ApplicationController
     end
 
     # Redirect to Front End app homepage
-    redirect_to "http://localhost:4200/cookbook/#{@user.id}", allow_other_host: true
+    redirect_to "http://localhost:4500/cookbook/#{@user.id}", allow_other_host: true
   end
 end

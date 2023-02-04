@@ -1,0 +1,10 @@
+@container (max-width: 768px) {
+  .recipes-page {
+    padding: 0;
+  }
+}
+
+. recipes-page {
+  container-type: fixed;
+  padding: 0 20px;
+}

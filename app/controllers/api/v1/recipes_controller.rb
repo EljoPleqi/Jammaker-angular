@@ -139,26 +139,18 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def fetch_genre_url(genre)
-    # * get the categories
-    "https://api.spotify.com/v1/browse/categories/0JQ5DAqbMKFEC4WFtoNRpw"
+    "https://api.spotify.com/v1/search?q=#{genre}&type=playlist"
   end
 
   def fetch_playlist_response(recipe)
     hdrs = return_header
-    playlist_response = fetch_genre_url(recipe.genre)
-    if RestClient::Request.new({
-                                 url: "#{playlist_response}/playlists",
-                                 method: "GET",
-                                 headers: hdrs
-                               }).execute.code == 404
-      playlist_response = fetch_genre_url(recipe)
-    end
-    JSON.parse(RestClient.get("#{playlist_response}/playlists", hdrs))
+    JSON.parse(RestClient.get(fetch_genre_url(recipe.genre), hdrs))
   end
 
   def fetch_song(recipe)
     hdrs = return_header
     playlist_response = fetch_playlist_response(recipe)
+    
     playlist_url = playlist_response['playlists']['items'][rand(playlist_response.length) - 1]['href']
     # * get the song url from the playlist
     total_songs = JSON.parse(RestClient.get("#{playlist_url}/tracks?", hdrs))
