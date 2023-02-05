@@ -1,4 +1,4 @@
-<div *ngIf="!isLoading; else loading" class="recipe-form-page">
+<div class="recipe-form-page">
   <div class="recipe-form-control-center">
     <button class="btn-toogle-scrapper" (click)="onIsScraping()">
       <fa-icon [icon]="!scrape ? faQrcode : faPenToSquare"></fa-icon>
@@ -14,7 +14,7 @@
     </form>
   </div>
   <div class="recipe-form-container">
-    <div>
+    <div *ngIf="!isLoading; else loading">
       <form [formGroup]="isMeal ? recipeForm : condimentForm" class="recipe-form" (submit)="onSubmit()" *ngIf="!scrape; else scrapeView">
         <div class="form-row">
           <label for="title" class="text-[#3d3829]">Title (required)</label>
@@ -46,6 +46,8 @@
               type="text"
               name=""
               id=""
+              formControlName="moodTags"
+              [(ngModel)]="moodTag"
               [(ngModel)]="moodTag"
               placeholder="Add your mood tags here"
               class="input-array"
@@ -113,12 +115,10 @@
 </div>
 
 <ng-template #scrapeView>
-  <div class="scrapper-form">
-    <app-scrapper-input-section [isMeal]="isMeal"></app-scrapper-input-section>
-  </div>
+  <app-scrapper-input-section [isMeal]="isMeal"></app-scrapper-input-section>
 </ng-template>
 <ng-template #loading>
-  <div class="flex-col-gap4 center">
+  <div class="flex-col-gap4 center py-4">
     <span class="loader"></span>
     <span>Please hold tight your recipe is in the oven</span>
   </div>

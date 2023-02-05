@@ -40,11 +40,10 @@
     align-items: center;
   }
   .recipe-form {
-    padding: 2.5rem;
+    padding: 2.5rem 4rem;
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    width: 65rem;
     .row-meta-details {
       display: flex;
       justify-content: space-between;
@@ -91,7 +90,6 @@
   padding: 0.5rem;
   border-radius: 6px;
   background-color: rgba($color: #efece6, $alpha: 0.7);
-  width: 100%;
 
   &::placeholder {
     color: var(--jammaker-brown);
@@ -105,8 +103,6 @@
   display: flex;
   padding: 2rem;
   gap: 1rem;
-  flex-grow: 0;
-  width: 70rem;
 }
 .genre-select {
   background-color: var(--jammaker-yellow);

@@ -10,6 +10,7 @@ class Api::V1::RecipesController < ApplicationController
     @recipe = Recipe.new(recipes_params)
     @recipe = Recipe.scraper(@recipe)
     @recipe.user = @current_user
+    raise
     @recipe.save
     @instructions = Instruction.parse(@recipe.steps)
     @instructions.pop
