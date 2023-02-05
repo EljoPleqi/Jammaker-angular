@@ -17,7 +17,7 @@ export class ScrapperInputSectionComponent implements OnInit, OnDestroy {
 
   isLoading: boolean = true;
 
-  userId: number | undefined;
+  userId?: number;
   url: string = '';
   genres: string[] = [];
   moodTag: string = '';
