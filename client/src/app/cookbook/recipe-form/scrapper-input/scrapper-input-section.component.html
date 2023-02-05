@@ -1,6 +1,6 @@
 <ng-container *ngIf="!isLoading; else loading">
   <div class="scrapper-form">
-    <div class="input-meta-details w-25">
+    <div class="input-meta-details">
       <label for="tags-input">Mood Tags (max 3)</label>
       <div class="mood-tags">
         <span *ngFor="let tag of genres" class="chip">{{ tag }}</span>
@@ -16,7 +16,7 @@
         [attr.disabled]="genres.length >= 3"
       />
     </div>
-    <div class="input-meta-details w-75">
+    <div class="input-meta-details">
       <label for="tags-input">Recipe URL</label>
       <input type="text" placeholder="Paste your link form your favorite site..." class="input-array" [(ngModel)]="url" />
     </div>
@@ -25,7 +25,7 @@
 </ng-container>
 
 <ng-template #loading>
-  <div class="flex-col-gap4 center">
+  <div class="flex-col-gap4 center py-4">
     <span class="loader"></span>
     <span>Please hold tight your recipe is in the oven</span>
   </div>

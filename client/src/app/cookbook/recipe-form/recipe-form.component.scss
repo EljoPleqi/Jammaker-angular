@@ -68,10 +68,11 @@
 
 .btn {
   border-radius: 6px;
-  width: 20%;
   padding: 0.5rem;
+  height: 2.5rem;
+  margin-top: 2.5rem;
   color: white;
-  place-self: end;
+
   &.array {
     background-color: var(--jammaker-yellow);
     color: var(--jammaker-brown);
@@ -100,8 +101,9 @@
   padding: 1rem 2rem;
 }
 .scrapper-form {
-  display: flex;
+  display: grid;
   padding: 2rem;
+  grid-template-columns: 1fr 2.3fr 0.7fr;
   gap: 1rem;
 }
 .genre-select {
