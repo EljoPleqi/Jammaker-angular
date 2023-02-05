@@ -20,12 +20,10 @@ export class PlaylistComponent implements OnInit {
   faClock = faClock;
   loaded: boolean = false;
 
-  constructor(
-    private newPlaylist: NewPlaylistService,
-    private getPlaylistData: GetPlaylistDataService
-  ) {}
+  constructor(private newPlaylist: NewPlaylistService, private getPlaylistData: GetPlaylistDataService) {}
 
   ngOnInit(): void {
+    console.log(this.recipeData);
     this.playlistId = this.recipeData.playlistId;
     this.getPlaylistData
       .onGetData(this.recipeData.playlistId)

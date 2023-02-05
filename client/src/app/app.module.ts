@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { ChipsModule } from 'primeng/chips';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -22,26 +23,24 @@ import { PlaylistComponent } from './cookbook/recipe/playlist/playlist.component
 import { AutoFocusDirective } from './shared/auto-focus.directive';
 import { NavbarComponent } from './cookbook/navbar/navbar.component';
 
+const declarations = [
+  AppComponent,
+  HomeComponent,
+  CookbookComponent,
+  ScrapperInputSectionComponent,
+  RecipeComponent,
+  IngredientsPanelComponent,
+  PlaylistComponent,
+  SidebarComponent,
+  RecipesPageComponent,
+  RecipeCardComponent,
+  InstructionCardComponent,
+  RecipeFormComponent,
+  AutoFocusDirective,
+  NavbarComponent,
+];
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    CookbookComponent,
-    ScrapperInputSectionComponent,
-    RecipeComponent,
-    IngredientsPanelComponent,
-    PlaylistComponent,
-
-    SidebarComponent,
-    RecipesPageComponent,
-    RecipeCardComponent,
-    InstructionCardComponent,
-
-    RecipeFormComponent,
-
-    AutoFocusDirective,
-    NavbarComponent,
-  ],
+  declarations: declarations,
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -51,6 +50,7 @@ import { NavbarComponent } from './cookbook/navbar/navbar.component';
     FontAwesomeModule,
     BrowserAnimationsModule,
     NgxDropzoneModule,
+    ChipsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

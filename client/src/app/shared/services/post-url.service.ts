@@ -10,6 +10,7 @@ export class PostUrlService {
   constructor(private http: HttpClient) {}
 
   postUrl(recipeData: RecipeScrapped, isMeal: boolean) {
+    console.log(recipeData);
     return this.http.post<RecipeData>(
       `http://localhost:3000/api/v1/${isMeal ? 'recipes' : 'condiments'}`,
       { data: recipeData },

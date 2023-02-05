@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { faBars, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
 import { ToggleSidebarService } from 'src/app/shared/services/toggle-sidebar.service';
@@ -10,7 +10,7 @@ import { GetUserService } from '../../shared/services/get-user.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   isLoading: boolean = true;
 
   @Input() user: User | undefined;
@@ -28,7 +28,6 @@ export class NavbarComponent implements OnInit {
       this.isLoading = false;
     });
   }
-  ngOnInit(): void {}
 
   toggleSidebar() {
     this.toggleSidebarService.toggleSidebar();
