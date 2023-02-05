@@ -1,20 +1,8 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  Validators,
-} from '@angular/forms';
-import {
-  NewCondimentData,
-  NewRecipeData,
-} from 'src/app/shared/interfaces/recipe.model';
+import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { NewCondimentData, NewRecipeData } from 'src/app/shared/interfaces/recipe.model';
 import { Router } from '@angular/router';
-import {
-  faCamera,
-  faQrcode,
-  faPenToSquare,
-} from '@fortawesome/free-solid-svg-icons';
+import { faCamera, faQrcode, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { Subscription } from 'rxjs';
 import { GetUserService } from 'src/app/shared/services/get-user.service';
 import { RecipeApiService } from '../recipe/api/recipe-api.service';
@@ -43,14 +31,8 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
   faQrcode = faQrcode;
   faPenToSquare = faPenToSquare;
 
-  genres: string[] = [
-    'rock',
-    'pop',
-    'uk pop',
-    'modern rock',
-    'elector pop',
-    'indie pop',
-  ];
+  genres: string[] = [];
+  moodTag: string = '';
 
   types: string[] = ['Meal', 'Condiment'];
 
@@ -72,7 +54,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
     instructions: this.fb.array([new FormControl(null, Validators.required)]),
     ingredients: this.fb.array([new FormControl(null, Validators.required)]),
     category: [''],
-    genre: ['rock'],
+    genre: [''],
     tags: [''],
   });
 
@@ -102,40 +84,30 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
   onAddIngredient() {
     const control = new FormControl(null, Validators.required);
 
-    this.isMeal
-      ? (<FormArray>this.recipeForm.get('ingredients')).push(control)
-      : (<FormArray>this.condimentForm.get('ingredients')).push(control);
+    this.isMeal ? (<FormArray>this.recipeForm.get('ingredients')).push(control) : (<FormArray>this.condimentForm.get('ingredients')).push(control);
   }
   onAddInstruction() {
     const control = new FormControl(null, Validators.required);
-    this.isMeal
-      ? (<FormArray>this.recipeForm.get('instructions')).push(control)
-      : (<FormArray>this.condimentForm.get('instructions')).push(control);
+    this.isMeal ? (<FormArray>this.recipeForm.get('instructions')).push(control) : (<FormArray>this.condimentForm.get('instructions')).push(control);
+  }
+
+  addMoodTag() {
+    this.genres.push(this.moodTag);
+    this.moodTag = '';
   }
 
   onSubmit() {
-    this.ingredients = this.recipeForm.controls.ingredients.controls.map(
-      (data): string => data.value + ''
-    );
+    this.ingredients = this.recipeForm.controls.ingredients.controls.map((data): string => data.value + '');
 
-    this.instructions = this.recipeForm.controls.instructions.controls.map(
-      (data): string => data.value + ''
-    );
+    this.instructions = this.recipeForm.controls.instructions.controls.map((data): string => data.value + '');
 
-    const formData: NewRecipeData | NewCondimentData = this.makeFormData(
-      this.isMeal
-    );
+    const formData: NewRecipeData | NewCondimentData = this.makeFormData(this.isMeal);
     this.isLoading = true;
-    this.recipeApiService
-      .postUserRecipe(formData, this.isMeal)
-      .subscribe((data) => {
-        this.isLoading = false;
+    this.recipeApiService.postUserRecipe(formData, this.isMeal).subscribe((data) => {
+      this.isLoading = false;
 
-        this.router.navigate([
-          `/cookbook/${this.userId}/${this.isMeal ? 'recipes' : 'condiments'}`,
-          `${data.id}`,
-        ]);
-      });
+      this.router.navigate([`/cookbook/${this.userId}/${this.isMeal ? 'recipes' : 'condiments'}`, `${data.id}`]);
+    });
   }
 
   private makeFormData = (isMeal: boolean): NewRecipeData | NewCondimentData =>
@@ -146,7 +118,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
           image: this.recipeForm.controls.image?.value,
           servings: Number(this.recipeForm.controls.servings.value),
           category: this.recipeForm.controls.category.value,
-          genre: this.recipeForm.controls.genre.value,
+          genre: this.genres.join('%20'),
           ingredients: this.ingredients.join('-$'),
           instructions: this.instructions.join('-$'),
           favorite: false,
@@ -160,9 +132,7 @@ export class RecipeFormComponent implements OnInit, OnDestroy {
         };
 
   getControls = (arrayName: string) =>
-    this.isMeal
-      ? (<FormArray>this.recipeForm.get(`${arrayName}`)).controls
-      : (<FormArray>this.condimentForm.get(`${arrayName}`)).controls;
+    this.isMeal ? (<FormArray>this.recipeForm.get(`${arrayName}`)).controls : (<FormArray>this.condimentForm.get(`${arrayName}`)).controls;
 
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();
