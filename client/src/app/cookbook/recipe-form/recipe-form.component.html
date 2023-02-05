@@ -56,59 +56,61 @@
             />
           </div>
         </div>
-
-        <div formArrayName="instructions" class="form-row">
-          <label for="instructions" class=""
-            >Instructions <span> ({{ getControls("instructions").length }})</span></label
-          >
-          <div class="flex w-full" *ngFor="let instruction of getControls('instructions'); let i = index">
-            <input
-              type="textarea"
-              name="instructions"
-              [formControlName]="i"
-              placeholder="After each instruction please click the button"
-              id=""
-              class="input-array"
-            />
+        <div class="flex flex-col gap-8">
+          <div formArrayName="instructions" class="form-row">
+            <label for="instructions" class=""
+              >Instructions <span> ({{ getControls("instructions").length }})</span></label
+            >
+            <div class="flex w-full" *ngFor="let instruction of getControls('instructions'); let i = index">
+              <input
+                type="text"
+                name="instructions"
+                [formControlName]="i"
+                placeholder="After each instruction please click the button"
+                id=""
+                class="input-array w-full"
+              />
+            </div>
+            <button
+              type="button"
+              (click)="onAddInstruction()"
+              [disabled]="isMeal ? recipeForm.controls.instructions.pristine : condimentForm.controls.instructions.pristine"
+              class="btn array w-25 place-self-end"
+            >
+              Add Instructions
+            </button>
           </div>
-          <button
-            type="button"
-            (click)="onAddInstruction()"
-            [disabled]="isMeal ? recipeForm.controls.instructions.pristine : condimentForm.controls.instructions.pristine"
-            class="btn array"
-          >
-            Add Instructions
-          </button>
+          <div formArrayName="ingredients" class="form-row">
+            <label for="ingredients"
+              >Ingredients <span> ({{ getControls("ingredients").length }})</span></label
+            >
+            <div *ngFor="let ingredient of getControls('ingredients'); let i = index">
+              <input
+                type="text"
+                name="ingredients"
+                [formControlName]="i"
+                placeholder="After each ingredient please click the button"
+                id=""
+                class="input-array w-full"
+              />
+            </div>
+            <button
+              type="button"
+              (click)="onAddIngredient()"
+              class="btn array w-25 place-self-end"
+              [disabled]="isMeal ? recipeForm.controls.ingredients.pristine : condimentForm.controls.ingredients.pristine"
+            >
+              Add Ingredients
+            </button>
+          </div>
         </div>
 
-        <div formArrayName="ingredients" class="form-row">
-          <label for="ingredients"
-            >Ingredients <span> ({{ getControls("ingredients").length }})</span></label
-          >
-          <div *ngFor="let ingredient of getControls('ingredients'); let i = index">
-            <input
-              type="textarea"
-              name="ingredients"
-              [formControlName]="i"
-              placeholder="After each ingredient please click the button"
-              id=""
-              class="input-array"
-            />
-          </div>
-          <button
-            type="button"
-            (click)="onAddIngredient()"
-            class="btn array"
-            [disabled]="isMeal ? recipeForm.controls.ingredients.pristine : condimentForm.controls.ingredients.pristine"
-          >
-            Add Ingredients
+        <div class="divider">
+          <button type="submit" class="btn submit w-25 place-self-end">
+            <fa-icon [icon]="faPlus" class="pr-1"></fa-icon>
+            Save Recipe
           </button>
         </div>
-        <div class="divider"></div>
-        <button type="submit" class="btn submit">
-          <fa-icon [icon]="faPlus" class="pr-1"></fa-icon>
-          Save Recipe
-        </button>
       </form>
     </div>
   </div>

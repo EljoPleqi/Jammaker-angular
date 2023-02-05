@@ -38,12 +38,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 2.5rem 4rem;
   }
   .recipe-form {
-    padding: 2.5rem 4rem;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 4rem;
     .row-meta-details {
       display: flex;
       justify-content: space-between;
@@ -57,10 +57,8 @@
 
     .divider {
       border-top: dashed 2px var(--jammaker-brown);
-      width: 100%;
       display: flex;
       flex-direction: column;
-      opacity: 0.5;
       margin-bottom: 0.5rem;
     }
   }
@@ -70,7 +68,7 @@
   border-radius: 6px;
   padding: 0.5rem;
   height: 2.5rem;
-  margin-top: 2.5rem;
+
   color: white;
 
   &.array {
@@ -78,6 +76,7 @@
     color: var(--jammaker-brown);
   }
   &.submit {
+    margin-top: 2.5rem;
     background-color: var(--jammaker-green);
     color: white;
   }
