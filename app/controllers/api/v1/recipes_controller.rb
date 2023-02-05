@@ -11,9 +11,6 @@ class Api::V1::RecipesController < ApplicationController
     @recipe = Recipe.scraper(@recipe)
     @recipe.user = @current_user
     @recipe.save
-    p @recipe.errors.full_messages
-
-
     @instructions = Instruction.parse(@recipe.steps)
     @instructions.pop
     @instructions.each do |instruction|
@@ -26,7 +23,7 @@ class Api::V1::RecipesController < ApplicationController
     end
 
     create_playlist(@recipe)
-    p @recipe
+
     render json: {
       id: @recipe.id,
       playlistId: @recipe.playlist["spotify_playlist_id"]
@@ -156,7 +153,6 @@ class Api::V1::RecipesController < ApplicationController
   def fetch_song(recipe)
     hdrs = return_header
     playlist_response = fetch_playlist_response(recipe)
-    
     playlist_url = playlist_response['playlists']['items'][rand(playlist_response.length) - 1]['href']
     # * get the song url from the playlist
     total_songs = JSON.parse(RestClient.get("#{playlist_url}/tracks?", hdrs))
