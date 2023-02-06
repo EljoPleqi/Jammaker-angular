@@ -1,8 +1,35 @@
 .sidebar {
-  display: none;
+  display: flex;
+  position: absolute;
+  width: 0rem;
+  transition: width 0.3s ease-in-out;
+  z-index: 9999;
+  .sidebar-item {
+    display: none;
+  }
+
+  &.open {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--jammaker-cream);
+    height: 100dvh;
+
+    width: 15rem;
+    .sidebar-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      p {
+        display: block;
+      }
+    }
+  }
 }
+
 @media screen and (min-width: 600px) {
   .sidebar {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -39,7 +66,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-
         gap: 0.5rem;
         p {
           display: block;
