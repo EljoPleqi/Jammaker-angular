@@ -1,7 +1,7 @@
 <div class="recipe-card" (click)="onOpenRecipe()">
   <img src="{{ recipe.url }}" alt="recipe-image" class="recipe-image" />
-  <div class="flex flex-col items-start gap-2 justify-center">
-    <p class="text-[#263a44] font-medium">{{ recipe.title }}</p>
+  <div class="card-details">
+    <p class="recipe-title">{{ recipe.title }}</p>
     <div class="category-tag">
       <p class="">{{ recipe.category }}</p>
     </div>

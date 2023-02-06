@@ -8,21 +8,22 @@
 .nav-control-center {
   display: flex;
   align-items: center;
-  padding: 2rem 1.5rem;
+  padding: 1rem 0.5rem;
   gap: 4rem;
-  .jammaker-logo {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--jammaker-brown);
-  }
-  .menu-icon {
-    font-size: 1.5rem;
-    color: var(--jammaker-brown);
-    cursor: pointer;
-    &:hover,
-    &:active {
-      color: var(--jammaker-orange);
-    }
+}
+
+.jammaker-logo {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--jammaker-brown);
+}
+.menu-icon {
+  font-size: 1.5rem;
+  color: var(--jammaker-brown);
+  cursor: pointer;
+  &:hover,
+  &:active {
+    color: var(--jammaker-orange);
   }
 }
 .searchbar-container {
@@ -49,7 +50,7 @@
   gap: 1rem;
   padding: 2rem 1.5rem;
   .user-name {
-    display: inline-block;
+    display: none;
   }
   .user-avatar {
     height: 3rem;
@@ -88,6 +89,11 @@
       display: none;
     }
   }
+  .jammaker-logo {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--jammaker-brown);
+  }
 }
 
 @media screen and (min-width: 800px) and (max-width: 1023px) {
@@ -95,10 +101,11 @@
     display: flex;
 
     .searchbar {
-      width: 20rem;
+      width: 18rem;
     }
   }
   .user-details {
+    padding: 2rem 1.5rem;
     .user-name {
       display: none;
     }

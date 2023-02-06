@@ -1,25 +1,71 @@
 .recipe-card {
   display: flex;
-  height: 8rem;
+  flex-direction: column;
   background-color: white;
   gap: 1rem;
   cursor: pointer;
   .recipe-image {
-    height: 100%;
     display: flex;
     align-items: center;
     justify-self: center;
     object-fit: cover;
-    width: 8rem;
-    height: 8rem;
+    width: 100%;
   }
-  .category-tag {
-    border-radius: 6px;
-    background-color: var(--jammaker-orange);
-    font-size: 0.875rem;
-    padding: 0.25rem 0.75rem;
-    p {
-      color: white;
+  .card-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-grow: 0;
+    gap: 0.5rem;
+    padding: 0rem 1rem 1rem 1rem;
+    .recipe-title {
+      font-weight: 500;
+      color: var(--jammaker-brown);
+    }
+    .category-tag {
+      border-radius: 6px;
+      background-color: var(--jammaker-orange);
+      font-size: 0.875rem;
+      padding: 0.25rem 0.75rem;
+      p {
+        color: white;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .recipe-card {
+    display: flex;
+    flex-direction: row;
+    height: 8rem;
+    background-color: white;
+    gap: 1rem;
+    cursor: pointer;
+    .recipe-image {
+      display: flex;
+      align-items: center;
+      justify-self: center;
+      object-fit: cover;
+      width: 8rem;
+      height: 8rem;
+    }
+    .card-details {
+      align-items: flex-start;
+      justify-content: center;
+      .recipe-title {
+        font-weight: 500;
+        color: var(--jammaker-brown);
+      }
+      .category-tag {
+        border-radius: 6px;
+        background-color: var(--jammaker-orange);
+        font-size: 0.875rem;
+        padding: 0.25rem 0.75rem;
+        p {
+          color: white;
+        }
+      }
     }
   }
 }

@@ -1,11 +1,11 @@
 .recipes-page {
   height: 100%;
-  margin: 0rem 3rem;
-
+  margin: 0rem 2rem;
   .recipes-page-control-center {
     display: flex;
     justify-content: space-between;
     padding: 2rem 0rem;
+    gap: 0.5rem;
     .category {
       background-color: transparent;
     }
@@ -17,15 +17,39 @@
     padding: 1rem 0rem 0rem;
     height: 100%;
     border-bottom: none;
-
     .recipes-grid {
       display: grid;
       padding: 0 1rem;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 1fr;
       gap: 1rem;
     }
   }
 }
+
+// @media screen and (min-width: 600px) {
+//   .recipes-page-control-center {
+//     display: flex;
+//     justify-content: space-between;
+//     padding: 2rem 0rem;
+//     .category {
+//       background-color: transparent;
+//     }
+//   }
+//   .recipes-page-main {
+//     container-type: inline-size;
+//     overflow: auto;
+//     border: var(--jammaker-brown) 2px dashed;
+//     padding: 1rem 0rem 0rem;
+//     height: 100%;
+//     border-bottom: none;
+//     .recipes-grid {
+//       display: grid;
+//       padding: 0 1rem;
+
+//       gap: 1rem;
+//     }
+//   }
+// }
 .btn {
   cursor: pointer;
   &.favorite {
@@ -44,15 +68,25 @@
     }
   }
 }
-
-@container (max-width: 1090px) {
-  .recipes-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
+@media screen and (min-width: 1200px) {
+  .recipes-page-main {
+    .recipes-grid {
+      grid-template-columns: repeat(3, 1fr) !important;
+    }
   }
 }
 
-@container (max-width: 765px) {
-  .recipes-grid {
-    grid-template-columns: repeat(1, 1fr) !important;
+@media screen and (min-width: 785px) and (max-width: 1199px) {
+  .recipes-page-main {
+    .recipes-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .recipes-page {
+    height: 100%;
+    margin: 0rem 3rem;
   }
 }
