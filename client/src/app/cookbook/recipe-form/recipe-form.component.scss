@@ -20,7 +20,6 @@
         color: var(--jammaker-brown);
       }
     }
-
     .type-selector {
       display: flex;
       align-items: center;
@@ -68,7 +67,7 @@
   border-radius: 6px;
   padding: 0.5rem;
   height: 2.5rem;
-
+  // line-height: 100%;
   color: white;
 
   &.array {
@@ -101,7 +100,6 @@
 }
 .scrapper-form {
   display: grid;
-  padding: 2rem;
   grid-template-columns: 1fr 2.3fr 0.7fr;
   gap: 1rem;
 }
