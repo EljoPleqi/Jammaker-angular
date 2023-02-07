@@ -1,8 +1,7 @@
 .sidebar {
   display: flex;
   position: absolute;
-  width: 0rem;
-  transition: width 0.3s ease-in-out;
+  transform: translate(calc(-110% - 1px)) 0.5s ease-in-out;
   z-index: 9999;
   .sidebar-item {
     display: none;
@@ -13,8 +12,8 @@
     flex-direction: column;
     background-color: var(--jammaker-cream);
     height: 100dvh;
-
-    width: 15rem;
+    translate: translate(0);
+    width: 100%;
     .sidebar-item {
       display: flex;
       justify-content: center;

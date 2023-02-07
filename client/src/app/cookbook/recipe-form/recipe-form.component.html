@@ -75,7 +75,7 @@
               type="button"
               (click)="onAddInstruction()"
               [disabled]="isMeal ? recipeForm.controls.instructions.pristine : condimentForm.controls.instructions.pristine"
-              class="btn array w-25 place-self-end"
+              class="btn array"
             >
               Add Instructions
             </button>
@@ -97,7 +97,7 @@
             <button
               type="button"
               (click)="onAddIngredient()"
-              class="btn array w-25 place-self-end"
+              class="btn array"
               [disabled]="isMeal ? recipeForm.controls.ingredients.pristine : condimentForm.controls.ingredients.pristine"
             >
               Add Ingredients
@@ -106,7 +106,7 @@
         </div>
 
         <div class="divider">
-          <button type="submit" class="btn submit w-25 place-self-end">
+          <button type="submit" class="btn submit">
             <fa-icon [icon]="faPlus" class="pr-1"></fa-icon>
             Save Recipe
           </button>
